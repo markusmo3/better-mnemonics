@@ -1,0 +1,39 @@
+<idea-plugin url="https://github.com/acejump/AceJump">
+  <name>BetterMnemonics</name>
+  <id>io.github.markusmo3.bm.BetterMnemonics</id>
+
+  <description><![CDATA[
+    this is for better mnemonics yeaaaah! EVEN MOAR CHARACTERS!]]>
+  </description>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <category>Navigation</category>
+  <vendor url="https://github.com/markusmo3/mnemonic-actions">mnemonic-actions</vendor>
+
+  <application-components>
+    <component>
+      <implementation-class>io.github.markusmo3.bm.BMManager</implementation-class>
+    </component>
+  </application-components>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="io.github.markusmo3.bm.config.BMActionsSchema"/>
+    <applicationConfigurable parentId="tools" displayName="Better Mnemonics"
+      id="preferences.BMActionsConfigurable"
+      instance="io.github.markusmo3.bm.config.BMActionsConfigurable"/>
+    <schemeExporter
+      name="Better Mnemonics XML"
+      schemeClass="io.github.markusmo3.bm.config.BMActionsSchemaState"
+      implementationClass="com.intellij.application.options.schemes.SerializableSchemeExporter"/>
+  </extensions>
+
+  <actions>
+    <action id="io.github.markusmo3.bm.actions.OpenBMXmlAction"
+      class="io.github.markusmo3.bm.actions.OpenBMXmlAction">
+    </action>
+    <action id="io.github.markusmo3.bm.actions.ReloadBMXmlAction"
+      class="io.github.markusmo3.bm.actions.ReloadBMXmlAction">
+    </action>
+  </actions>
+</idea-plugin>

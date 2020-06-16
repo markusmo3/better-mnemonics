@@ -1,0 +1,1099 @@
+<application>
+  <component name="io.github.markusmo3.bm.config.BMActionsSchema">
+    <BMNode actionId="ROOT">
+      <BMNode actionId="GROUP" keyStroke="alt pressed DEAD_CIRCUMFLEX" customText="mo3s Mnemonics">
+        <BMNode actionId="GROUP" keyStroke="pressed B" customText="Build">
+          <BMNode actionId="CompileDirty" keyStroke="pressed B" />
+          <BMNode actionId="MakeModule" keyStroke="pressed M" />
+          <BMNode actionId="CompileProject" keyStroke="pressed R" />
+          <BMNode actionId="CleanGradleProject" keyStroke="pressed C" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="pressed C" customText="Compile" />
+        <BMNode actionId="GROUP" keyStroke="pressed R" customText="Refactor">
+          <BMNode actionId="SurroundWith" />
+          <BMNode actionId="RenameElement" keyStroke="pressed R" />
+          <BMNode actionId="RenameFile" keyStroke="pressed F2" />
+          <BMNode actionId="Move" keyStroke="shift pressed M" />
+          <BMNode actionId="Inline" keyStroke="pressed I" />
+          <BMNode actionId="ChangeSignature" keyStroke="pressed S" />
+          <BMNode actionId="EditPropertyValue" keyStroke="pressed E" />
+          <BMNode actionId="MakeStatic" keyStroke="shift pressed S" />
+          <BMNode actionId="SafeDelete" keyStroke="pressed DELETE" />
+          <BMNode actionId="InvertBoolean" keyStroke="shift pressed I" />
+          <BMNode actionId="SEPARATOR" customText="Extract" />
+          <BMNode actionId="IntroduceVariable" keyStroke="pressed V" />
+          <BMNode actionId="IntroduceConstant" keyStroke="pressed C" />
+          <BMNode actionId="IntroduceProperty" keyStroke="pressed Y" />
+          <BMNode actionId="IntroduceParameter" keyStroke="pressed P" />
+          <BMNode actionId="ExtractMethod" keyStroke="pressed M" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="pressed V" customText="VCS">
+          <BMNode actionId="ChangesView.ApplyPatch" keyStroke="pressed A" />
+          <BMNode actionId="ChangesView.ApplyPatchFromClipboard" keyStroke="shift pressed A" />
+          <BMNode actionId="Vcs.UpdateProject" keyStroke="pressed U" />
+          <BMNode actionId="CheckinProject" keyStroke="pressed C" />
+          <BMNode actionId="Vcs.Push" keyStroke="pressed P" />
+          <BMNode actionId="Subversion.BrowseSVNRepository" keyStroke="shift pressed S" />
+          <BMNode actionId="ChangesView.Shelve" keyStroke="pressed K" />
+          <BMNode actionId="Vcs.ShowTabbedFileHistory" keyStroke="pressed H" />
+          <BMNode actionId="Vcs.ShowHistoryForBlock" keyStroke="shift pressed H" />
+          <BMNode actionId="Vcs.RollbackChangedLines" keyStroke="pressed R" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="pressed W" customText="Window">
+          <BMNode actionId="Unsplit" keyStroke="pressed U" />
+          <BMNode actionId="MinimizeCurrentWindow" keyStroke="pressed M" />
+          <BMNode actionId="CloseAllNotifications" keyStroke="shift pressed B" customText="Close All Notifications" />
+          <BMNode actionId="ShowProcessWindow" keyStroke="shift pressed B" customText="Show Background Tasks" />
+          <BMNode actionId="SplitVertically" keyStroke="pressed V" />
+          <BMNode actionId="SplitHorizontally" keyStroke="pressed H" />
+          <BMNode actionId="NextSplitter" keyStroke="pressed J" />
+          <BMNode actionId="PrevSplitter" keyStroke="pressed K" />
+          <BMNode actionId="JumpToLastWindow" keyStroke="pressed L" />
+          <BMNode actionId="MaximizeToolWindow" keyStroke="pressed M" />
+          <BMNode actionId="CloseAllEditorsButActive" keyStroke="pressed O" />
+          <BMNode actionId="CloseContent" keyStroke="pressed C" />
+          <BMNode actionId="NextProjectWindow" keyStroke="shift pressed J" />
+          <BMNode actionId="PreviousProjectWindow" keyStroke="shift pressed K" />
+          <BMNode actionId="ActivateNavBar" keyStroke="pressed N" />
+          <BMNode actionId="SEPARATOR" customText="asd" />
+        </BMNode>
+      </BMNode>
+      <BMNode actionId="GROUP" keyStroke="typed 1" customText="Main menu">
+        <BMNode actionId="GROUP" keyStroke="typed 1" customText="File">
+          <BMNode actionId="GROUP" keyStroke="typed 1" customText="New">
+            <BMNode actionId="NewProject" keyStroke="typed 1" />
+            <BMNode actionId="ImportProject" keyStroke="typed 2" />
+            <BMNode actionId="GROUP" keyStroke="typed 3" customText="Project from Version Control" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="NewModule" keyStroke="typed 4" />
+            <BMNode actionId="ImportModule" keyStroke="typed 5" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="AddNewPropertyFile" keyStroke="typed 6" />
+            <BMNode actionId="NewPropertyAction" keyStroke="typed 7" />
+            <BMNode actionId="NewClass" keyStroke="typed 8" />
+            <BMNode actionId="NewModuleInGroup" keyStroke="typed 9" />
+            <BMNode actionId="Kotlin.NewFile" keyStroke="typed 0" />
+            <BMNode actionId="Groovy.NewClass" keyStroke="typed q" />
+            <BMNode actionId="Android.CreateResourceDirectory" keyStroke="typed w" />
+            <BMNode actionId="Android.CreateSampleDataDirectory" keyStroke="typed e" />
+            <BMNode actionId="NewFile" keyStroke="typed r" />
+            <BMNode actionId="NewScratchFile" keyStroke="shift ctrl alt pressed INSERT" />
+            <BMNode actionId="NewDir" keyStroke="typed t" />
+            <BMNode actionId="NewFxmlFile" keyStroke="typed z" />
+            <BMNode actionId="NewAndroidImageAsset" keyStroke="typed u" />
+            <BMNode actionId="NewAndroidVectorAsset" keyStroke="typed i" />
+            <BMNode actionId="LegacyNewAndroidComponent" keyStroke="typed o" />
+            <BMNode actionId="NewPackageInfo" keyStroke="typed p" />
+            <BMNode actionId="NewModuleInfo" keyStroke="typed a" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="NewHtmlFile" keyStroke="typed s" />
+            <BMNode actionId="Kotlin.NewScript" keyStroke="typed d" />
+            <BMNode actionId="CreateEditorConfigFile" keyStroke="typed f" />
+            <BMNode actionId="GROUP" keyStroke="typed g" customText="Swing UI Designer">
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="NewForm" keyStroke="typed 1" />
+              <BMNode actionId="NewDialog" keyStroke="typed 2" />
+              <BMNode actionId="NewFormSnapshot" keyStroke="typed 3" />
+            </BMNode>
+            <BMNode actionId="CreateResourceBundle" keyStroke="typed h" />
+            <BMNode actionId="GROUP" keyStroke="typed j" customText="XML Configuration File" />
+            <BMNode actionId="Groovy.NewScript" keyStroke="typed k" />
+            <BMNode actionId="Gant.NewScript" keyStroke="typed l" />
+            <BMNode actionId="GROUP" keyStroke="typed y" customText="Plugin DevKit">
+              <BMNode actionId="NewAction" keyStroke="typed 1" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="NewApplicationService" keyStroke="typed 2" />
+              <BMNode actionId="NewProjectService" keyStroke="typed 3" />
+              <BMNode actionId="NewModuleService" keyStroke="typed 4" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="DevKit.NewTheme" keyStroke="typed 5" />
+            </BMNode>
+          </BMNode>
+          <BMNode actionId="NewDummyProject" keyStroke="typed 2" />
+          <BMNode actionId="OpenFile" keyStroke="typed 3" />
+          <BMNode actionId="AttachProject" keyStroke="typed 4" />
+          <BMNode actionId="GROUP" keyStroke="typed 5" customText="Open Recent">
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ManageRecentProjects" keyStroke="typed 1" />
+          </BMNode>
+          <BMNode actionId="CloseProject" keyStroke="typed 6" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Android.LinkExternalCppProject" keyStroke="typed 7" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ShowSettings" keyStroke="ctrl alt pressed S" />
+          <BMNode actionId="ShowProjectStructureSettings" keyStroke="shift ctrl alt pressed S" />
+          <BMNode actionId="GROUP" keyStroke="typed 8" customText="Other Settings">
+            <BMNode actionId="TemplateProjectProperties" keyStroke="typed 1" />
+            <BMNode actionId="RunConfigurationTemplatesForNewProjects" keyStroke="typed 2" />
+            <BMNode actionId="TemplateProjectStructure" keyStroke="typed 3" />
+            <BMNode actionId="StartupWizard" keyStroke="typed 4" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ImportSettings" keyStroke="typed 9" />
+          <BMNode actionId="ExportSettings" keyStroke="typed 0" />
+          <BMNode actionId="ConfigureIcs" keyStroke="typed q" />
+          <BMNode actionId="SaveAsNewFormat" keyStroke="typed w" />
+          <BMNode actionId="ExportToEclipse" keyStroke="typed e" />
+          <BMNode actionId="Android.ExportProjectZip" keyStroke="typed r" />
+          <BMNode actionId="ConvertModuleGroupsToQualifiedNames" keyStroke="typed t" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Android.SyncProject" keyStroke="typed z" />
+          <BMNode actionId="Android.ReImportGradleProject" keyStroke="typed u" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SaveAll" keyStroke="ctrl pressed S" />
+          <BMNode actionId="Synchronize" keyStroke="ctrl alt pressed Y" />
+          <BMNode actionId="InvalidateCaches" keyStroke="typed i" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ExportToHTML" keyStroke="typed o" />
+          <BMNode actionId="Print" keyStroke="typed p" />
+          <BMNode actionId="GROUP" keyStroke="typed a" customText="Add to Favorites" />
+          <BMNode actionId="ChangeFileEncodingAction" keyStroke="typed s" />
+          <BMNode actionId="RemoveBom" keyStroke="typed d" />
+          <BMNode actionId="AssociateWithFileType" keyStroke="typed f" />
+          <BMNode actionId="GROUP" keyStroke="typed g" customText="Line Separators">
+            <BMNode actionId="ConvertToWindowsLineSeparators" keyStroke="typed 1" />
+            <BMNode actionId="ConvertToUnixLineSeparators" keyStroke="typed 2" />
+            <BMNode actionId="ConvertToMacLineSeparators" keyStroke="typed 3" />
+          </BMNode>
+          <BMNode actionId="ChangeTemplateDataLanguage" keyStroke="typed h" />
+          <BMNode actionId="ToggleReadOnlyAttribute" keyStroke="typed j" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="TogglePowerSave" keyStroke="typed k" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Exit" keyStroke="typed l" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 2" customText="Edit">
+          <BMNode actionId="$Undo" keyStroke="ctrl pressed Z" />
+          <BMNode actionId="$Redo" keyStroke="shift ctrl pressed Z" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="$Cut" keyStroke="ctrl pressed X" />
+          <BMNode actionId="$Copy" keyStroke="ctrl pressed C" />
+          <BMNode actionId="CopyPaths" keyStroke="shift ctrl pressed C" />
+          <BMNode actionId="CopyAsPlainText" keyStroke="typed 1" />
+          <BMNode actionId="CopyAsRichText" keyStroke="typed 2" />
+          <BMNode actionId="CopyReference" keyStroke="shift ctrl alt pressed C" />
+          <BMNode actionId="CopyTBXReference" keyStroke="typed 3" />
+          <BMNode actionId="$Paste" keyStroke="ctrl pressed V" />
+          <BMNode actionId="PasteMultiple" keyStroke="shift ctrl pressed V" />
+          <BMNode actionId="EditorPasteSimple" keyStroke="shift ctrl alt pressed V" />
+          <BMNode actionId="$Delete" keyStroke="pressed DELETE" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 4" customText="Find">
+            <BMNode actionId="Find" keyStroke="ctrl pressed F" />
+            <BMNode actionId="Replace" keyStroke="ctrl pressed R" />
+            <BMNode actionId="FindNext" keyStroke="pressed F3" />
+            <BMNode actionId="FindPrevious" keyStroke="shift pressed F3" />
+            <BMNode actionId="FindWordAtCaret" keyStroke="ctrl pressed F3" />
+            <BMNode actionId="SelectAllOccurrences" keyStroke="shift ctrl alt pressed J" />
+            <BMNode actionId="SelectNextOccurrence" keyStroke="alt pressed J" />
+            <BMNode actionId="UnselectPreviousOccurrence" keyStroke="shift alt pressed J" />
+            <BMNode actionId="GotoNextElementUnderCaretUsage" keyStroke="typed 1" />
+            <BMNode actionId="GotoPrevElementUnderCaretUsage" keyStroke="typed 2" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="FindInPath" keyStroke="shift ctrl pressed F" />
+            <BMNode actionId="ReplaceInPath" keyStroke="shift ctrl pressed R" />
+            <BMNode actionId="StructuralSearchPlugin.StructuralSearchAction" keyStroke="typed 3" />
+            <BMNode actionId="StructuralSearchPlugin.StructuralReplaceAction" keyStroke="typed 4" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="FindUsages" keyStroke="alt pressed F7" />
+            <BMNode actionId="ShowSettingsAndFindUsages" keyStroke="shift ctrl alt pressed F7" />
+            <BMNode actionId="ShowUsages" keyStroke="ctrl alt pressed F7" />
+            <BMNode actionId="FindUsagesInFile" keyStroke="ctrl pressed F7" />
+            <BMNode actionId="HighlightUsagesInFile" keyStroke="shift ctrl pressed F7" />
+            <BMNode actionId="GROUP" keyStroke="typed 5" customText="Recent Find Usages" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="XPathView.Actions.Evaluate" keyStroke="ctrl alt pressed X" />
+            <BMNode actionId="XPathView.Actions.FindByExpression" keyStroke="ctrl alt pressed X" />
+          </BMNode>
+          <BMNode actionId="EditorToggleColumnMode" keyStroke="shift alt pressed INSERT" />
+          <BMNode actionId="$SelectAll" keyStroke="ctrl pressed A" />
+          <BMNode actionId="EditorSelectWord" keyStroke="ctrl pressed W" />
+          <BMNode actionId="EditorUnSelectWord" keyStroke="shift ctrl pressed W" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EditorCompleteStatement" keyStroke="shift ctrl pressed ENTER" />
+          <BMNode actionId="EditorJoinLines" keyStroke="shift ctrl pressed J" />
+          <BMNode actionId="FillParagraph" keyStroke="typed 5" />
+          <BMNode actionId="EditorDuplicate" keyStroke="ctrl pressed D" />
+          <BMNode actionId="EditorIndentSelection" keyStroke="pressed TAB" />
+          <BMNode actionId="EditorUnindentSelection" keyStroke="shift pressed TAB" />
+          <BMNode actionId="EditorToggleCase" keyStroke="shift ctrl pressed U" />
+          <BMNode actionId="GROUP" keyStroke="typed 6" customText="Convert Indents">
+            <BMNode actionId="ConvertIndentsToSpaces" keyStroke="typed 1" />
+            <BMNode actionId="ConvertIndentsToTabs" keyStroke="typed 2" />
+          </BMNode>
+          <BMNode actionId="NextTemplateParameter" keyStroke="pressed TAB" />
+          <BMNode actionId="PrevTemplateParameter" keyStroke="shift pressed TAB" />
+          <BMNode actionId="GROUP" keyStroke="typed 7" customText="Macros">
+            <BMNode actionId="PlaybackLastMacro" keyStroke="typed 1" />
+            <BMNode actionId="StartStopMacroRecording" keyStroke="typed 2" />
+            <BMNode actionId="EditMacros" keyStroke="typed 3" />
+            <BMNode actionId="PlaySavedMacrosAction" keyStroke="typed 4" />
+            <BMNode actionId="SEPARATOR" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EmojiAndSymbols" keyStroke="typed 8" />
+          <BMNode actionId="EscapeEntities" keyStroke="typed 9" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 3" customText="View">
+          <BMNode actionId="GROUP" keyStroke="typed 1" customText="Tool Windows" />
+          <BMNode actionId="GROUP" keyStroke="typed 2" customText="Appearance">
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="TogglePresentationMode" keyStroke="typed 1" />
+            <BMNode actionId="ToggleDistractionFreeMode" keyStroke="typed 2" />
+            <BMNode actionId="ToggleFullScreen" keyStroke="typed 3" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ViewToolBar" keyStroke="typed 4" />
+            <BMNode actionId="ViewToolButtons" keyStroke="typed 5" />
+            <BMNode actionId="ViewStatusBar" keyStroke="typed 6" />
+            <BMNode actionId="ViewNavigationBar" keyStroke="typed 7" />
+            <BMNode actionId="ViewMainMenu" keyStroke="typed 8" />
+            <BMNode actionId="ViewInplaceComments" keyStroke="shift alt pressed BACK_SLASH" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="QuickImplementations" keyStroke="shift ctrl pressed I" />
+          <BMNode actionId="ShowSiblings" keyStroke="typed 3" />
+          <BMNode actionId="QuickJavaDoc" keyStroke="ctrl pressed Q" />
+          <BMNode actionId="ByteCodeDecompiler" keyStroke="typed 4" />
+          <BMNode actionId="ByteCodeViewer" keyStroke="typed 5" />
+          <BMNode actionId="ExternalJavaDoc" keyStroke="shift pressed F1" />
+          <BMNode actionId="ParameterInfo" keyStroke="ctrl pressed P" />
+          <BMNode actionId="ExpressionTypeInfo" keyStroke="shift ctrl pressed P" />
+          <BMNode actionId="EditorContextInfo" keyStroke="alt pressed Q" />
+          <BMNode actionId="ShowErrorDescription" keyStroke="ctrl pressed F1" />
+          <BMNode actionId="XPathView.Actions.ShowPath" keyStroke="ctrl alt pressed X" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EditSource" keyStroke="pressed F4" />
+          <BMNode actionId="ViewSource" keyStroke="ctrl pressed ENTER" />
+          <BMNode actionId="GROUP" keyStroke="typed 6" customText="Open in Browser" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="RecentFiles" keyStroke="ctrl pressed E" />
+          <BMNode actionId="SwitcherRecentEditedChangedToggleCheckBox" keyStroke="ctrl pressed E" />
+          <BMNode actionId="RecentChangedFiles" keyStroke="typed 7" />
+          <BMNode actionId="RecentLocations" keyStroke="shift ctrl pressed E" />
+          <BMNode actionId="RecentChanges" keyStroke="shift alt pressed C" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="CompareTwoFiles" keyStroke="ctrl pressed D" />
+          <BMNode actionId="CompareFileWithEditor" keyStroke="typed 8" />
+          <BMNode actionId="CompareClipboardWithSelection" keyStroke="typed 9" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="QuickChangeScheme" keyStroke="ctrl pressed BACK_QUOTE" />
+          <BMNode actionId="GROUP" keyStroke="typed 0" customText="Active Editor">
+            <BMNode actionId="EditorToggleUseSoftWraps" keyStroke="typed 1" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="EditorToggleShowWhitespaces" keyStroke="typed 2" />
+            <BMNode actionId="EditorToggleShowLineNumbers" keyStroke="typed 3" />
+            <BMNode actionId="EditorToggleShowGutterIcons" keyStroke="typed 4" />
+            <BMNode actionId="EditorToggleShowIndentLines" keyStroke="typed 5" />
+            <BMNode actionId="EditorToggleShowBreadcrumbs" keyStroke="typed 6" />
+            <BMNode actionId="ViewImportPopups" keyStroke="typed 7" />
+          </BMNode>
+          <BMNode actionId="ToggleFocusMode" keyStroke="typed q" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed w" customText="Bidi Text Base Direction">
+            <BMNode actionId="EditorSetContentBasedBidiTextDirection" keyStroke="typed 1" />
+            <BMNode actionId="EditorSetLtrBidiTextDirection" keyStroke="typed 2" />
+            <BMNode actionId="EditorSetRtlBidiTextDirection" keyStroke="typed 3" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 4" customText="Navigate">
+          <BMNode actionId="GotoClass" keyStroke="ctrl pressed N" />
+          <BMNode actionId="GotoFile" keyStroke="shift ctrl pressed N" />
+          <BMNode actionId="GotoSymbol" keyStroke="shift ctrl alt pressed N" />
+          <BMNode actionId="GotoCustomRegion" keyStroke="ctrl alt pressed PERIOD" />
+          <BMNode actionId="GotoLine" keyStroke="ctrl pressed G" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Back" keyStroke="ctrl alt pressed LEFT" />
+          <BMNode actionId="Forward" keyStroke="ctrl alt pressed RIGHT" />
+          <BMNode actionId="JumpToLastChange" keyStroke="shift ctrl pressed BACK_SPACE" />
+          <BMNode actionId="JumpToNextChange" keyStroke="typed 1" />
+          <BMNode actionId="GROUP" keyStroke="typed 2" customText="Bookmarks">
+            <BMNode actionId="ToggleBookmark" keyStroke="pressed F11" />
+            <BMNode actionId="ToggleBookmarkWithMnemonic" keyStroke="ctrl pressed F11" />
+            <BMNode actionId="ShowBookmarks" keyStroke="shift pressed F11" />
+            <BMNode actionId="GotoNextBookmark" keyStroke="typed 1" />
+            <BMNode actionId="GotoPreviousBookmark" keyStroke="typed 2" />
+            <BMNode actionId="SEPARATOR" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SelectIn" keyStroke="alt pressed F1" />
+          <BMNode actionId="ShowNavBar" keyStroke="alt pressed HOME" />
+          <BMNode actionId="GotoDeclaration" keyStroke="ctrl pressed B" />
+          <BMNode actionId="GotoImplementation" keyStroke="ctrl alt pressed B" />
+          <BMNode actionId="GotoTypeDeclaration" keyStroke="shift ctrl pressed B" />
+          <BMNode actionId="GotoSuperMethod" keyStroke="ctrl pressed U" />
+          <BMNode actionId="GotoTest" keyStroke="shift ctrl pressed T" />
+          <BMNode actionId="GotoRelated" keyStroke="ctrl alt pressed HOME" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="FileStructurePopup" keyStroke="ctrl pressed F12" />
+          <BMNode actionId="ShowFilePath" keyStroke="ctrl alt pressed F12" />
+          <BMNode actionId="TypeHierarchy" keyStroke="ctrl pressed H" />
+          <BMNode actionId="MethodHierarchy" keyStroke="shift ctrl pressed H" />
+          <BMNode actionId="CallHierarchy" keyStroke="ctrl alt pressed H" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GotoNextError" keyStroke="pressed F2" />
+          <BMNode actionId="GotoPreviousError" keyStroke="shift pressed F2" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EmmetNextEditPoint" keyStroke="shift alt pressed CLOSE_BRACKET" />
+          <BMNode actionId="EmmetPreviousEditPoint" keyStroke="shift alt pressed OPEN_BRACKET" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="PreviousOccurence" keyStroke="ctrl alt pressed UP" />
+          <BMNode actionId="NextOccurence" keyStroke="ctrl alt pressed DOWN" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="VcsShowNextChangeMarker" keyStroke="shift ctrl alt pressed DOWN" />
+          <BMNode actionId="VcsShowPrevChangeMarker" keyStroke="shift ctrl alt pressed UP" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="MethodDown" keyStroke="alt pressed DOWN" />
+          <BMNode actionId="MethodUp" keyStroke="alt pressed UP" />
+          <BMNode actionId="SEPARATOR" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 5" customText="Code">
+          <BMNode actionId="OverrideMethods" keyStroke="ctrl pressed O" />
+          <BMNode actionId="ImplementMethods" keyStroke="ctrl pressed I" />
+          <BMNode actionId="DelegateMethods" keyStroke="typed 1" />
+          <BMNode actionId="Generate" keyStroke="alt pressed INSERT" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SurroundWith" keyStroke="ctrl alt pressed T" />
+          <BMNode actionId="Unwrap" keyStroke="shift ctrl pressed DELETE" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 2" customText="Completion">
+            <BMNode actionId="CodeCompletion" keyStroke="ctrl pressed SPACE" />
+            <BMNode actionId="SmartTypeCompletion" keyStroke="shift ctrl pressed SPACE" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="HippieCompletion" keyStroke="alt pressed SLASH" />
+            <BMNode actionId="HippieBackwardCompletion" keyStroke="shift alt pressed SLASH" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 3" customText="Folding">
+            <BMNode actionId="ExpandRegion" keyStroke="ctrl pressed ADD" />
+            <BMNode actionId="CollapseRegion" keyStroke="ctrl pressed SUBTRACT" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ExpandRegionRecursively" keyStroke="ctrl alt pressed ADD" />
+            <BMNode actionId="CollapseRegionRecursively" keyStroke="ctrl alt pressed SUBTRACT" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ExpandAllRegions" keyStroke="shift ctrl pressed ADD" />
+            <BMNode actionId="CollapseAllRegions" keyStroke="shift ctrl pressed SUBTRACT" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed 1" customText="Expand to level">
+              <BMNode actionId="ExpandToLevel1" keyStroke="ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandToLevel2" keyStroke="ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandToLevel3" keyStroke="ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandToLevel4" keyStroke="ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandToLevel5" keyStroke="ctrl pressed MULTIPLY" />
+            </BMNode>
+            <BMNode actionId="GROUP" keyStroke="typed 2" customText="Expand all to level">
+              <BMNode actionId="ExpandAllToLevel1" keyStroke="shift ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandAllToLevel2" keyStroke="shift ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandAllToLevel3" keyStroke="shift ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandAllToLevel4" keyStroke="shift ctrl pressed MULTIPLY" />
+              <BMNode actionId="ExpandAllToLevel5" keyStroke="shift ctrl pressed MULTIPLY" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ExpandDocComments" keyStroke="typed 3" />
+            <BMNode actionId="CollapseDocComments" keyStroke="typed 4" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="CollapseSelection" keyStroke="ctrl pressed PERIOD" />
+            <BMNode actionId="CollapseBlock" keyStroke="shift ctrl pressed PERIOD" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="InsertLiveTemplate" keyStroke="ctrl pressed J" />
+          <BMNode actionId="SurroundWithLiveTemplate" keyStroke="ctrl alt pressed J" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="CommentByLineComment" keyStroke="ctrl pressed SLASH" />
+          <BMNode actionId="CommentByBlockComment" keyStroke="shift ctrl pressed SLASH" />
+          <BMNode actionId="ReformatCode" keyStroke="ctrl alt pressed L" />
+          <BMNode actionId="ShowReformatFileDialog" keyStroke="shift ctrl alt pressed L" />
+          <BMNode actionId="AutoIndentLines" keyStroke="ctrl alt pressed I" />
+          <BMNode actionId="OptimizeImports" keyStroke="ctrl alt pressed O" />
+          <BMNode actionId="RearrangeCode" keyStroke="typed 4" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="MoveStatementDown" keyStroke="shift ctrl pressed DOWN" />
+          <BMNode actionId="MoveStatementUp" keyStroke="shift ctrl pressed UP" />
+          <BMNode actionId="MoveElementLeft" keyStroke="shift ctrl alt pressed LEFT" />
+          <BMNode actionId="MoveElementRight" keyStroke="shift ctrl alt pressed RIGHT" />
+          <BMNode actionId="MoveLineDown" keyStroke="shift alt pressed DOWN" />
+          <BMNode actionId="MoveLineUp" keyStroke="shift alt pressed UP" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GenerateModuleDescriptors" keyStroke="typed 5" />
+          <BMNode actionId="UpdateCopyright" keyStroke="typed 6" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ConvertJavaToKotlin" keyStroke="shift ctrl alt pressed K" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 6" customText="Analyze">
+          <BMNode actionId="InspectCode" keyStroke="typed 1" />
+          <BMNode actionId="CodeCleanup" keyStroke="typed 2" />
+          <BMNode actionId="SilentCodeCleanup" keyStroke="typed 3" />
+          <BMNode actionId="RunInspection" keyStroke="shift ctrl alt pressed I" />
+          <BMNode actionId="PopupHector" keyStroke="shift ctrl alt pressed H" />
+          <BMNode actionId="ViewOfflineInspection" keyStroke="typed 4" />
+          <BMNode actionId="InferNullity" keyStroke="typed 5" />
+          <BMNode actionId="InferAnnotations" keyStroke="typed 6" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SwitchCoverage" keyStroke="ctrl alt pressed F6" />
+          <BMNode actionId="GenerateCoverageReport" keyStroke="typed 7" />
+          <BMNode actionId="HideCoverage" keyStroke="typed 8" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ShowPackageDeps" keyStroke="typed 9" />
+          <BMNode actionId="ShowBackwardPackageDeps" keyStroke="typed 0" />
+          <BMNode actionId="ShowDependenciesOnTarget" keyStroke="typed q" />
+          <BMNode actionId="ShowModulesDependencies" keyStroke="typed w" />
+          <BMNode actionId="ShowPackageCycles" keyStroke="typed e" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SliceBackward" keyStroke="typed r" />
+          <BMNode actionId="SliceForward" keyStroke="typed t" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Unscramble" keyStroke="typed z" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 7" customText="Refactor">
+          <BMNode actionId="Refactorings.QuickListPopupAction" keyStroke="shift ctrl alt pressed T" />
+          <BMNode actionId="RenameElement" keyStroke="shift pressed F6" />
+          <BMNode actionId="RenameFile" keyStroke="typed 1" />
+          <BMNode actionId="ChangeSignature" keyStroke="ctrl pressed F6" />
+          <BMNode actionId="EditPropertyValue" keyStroke="alt pressed F6" />
+          <BMNode actionId="ChangeTypeSignature" keyStroke="shift ctrl pressed F6" />
+          <BMNode actionId="MakeStatic" keyStroke="typed 2" />
+          <BMNode actionId="ConvertToInstanceMethod" keyStroke="typed 3" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Move" keyStroke="pressed F6" />
+          <BMNode actionId="CopyElement" keyStroke="pressed F5" />
+          <BMNode actionId="SafeDelete" keyStroke="alt pressed DELETE" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 4" customText="Extract">
+            <BMNode actionId="IntroduceVariable" keyStroke="ctrl alt pressed V" />
+            <BMNode actionId="IntroduceConstant" keyStroke="ctrl alt pressed C" />
+            <BMNode actionId="IntroduceField" keyStroke="ctrl alt pressed F" />
+            <BMNode actionId="IntroduceProperty" keyStroke="ctrl alt pressed F" />
+            <BMNode actionId="IntroduceParameter" keyStroke="ctrl alt pressed P" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="refactoring.introduce.property" keyStroke="ctrl alt pressed V" />
+            <BMNode actionId="refactoring.extract.dependency" keyStroke="ctrl alt pressed M" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="IntroduceFunctionalParameter" keyStroke="shift ctrl alt pressed P" />
+            <BMNode actionId="IntroduceFunctionalVariable" keyStroke="typed 1" />
+            <BMNode actionId="IntroduceParameterObject" keyStroke="typed 2" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ExtractMethod" keyStroke="ctrl alt pressed M" />
+            <BMNode actionId="ExtractFunction" keyStroke="ctrl alt pressed M" />
+            <BMNode actionId="ExtractFunctionToScope" keyStroke="shift ctrl alt pressed M" />
+            <BMNode actionId="IntroduceTypeParameter" keyStroke="typed 3" />
+            <BMNode actionId="IntroduceTypeAlias" keyStroke="shift ctrl alt pressed A" />
+            <BMNode actionId="ReplaceMethodWithMethodObject" keyStroke="typed 4" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ExtractClass" keyStroke="typed 5" />
+            <BMNode actionId="ExtractInclude" keyStroke="typed 6" />
+            <BMNode actionId="ExtractInterface" keyStroke="typed 7" />
+            <BMNode actionId="ExtractSuperclass" keyStroke="typed 8" />
+            <BMNode actionId="ExtractModule" keyStroke="typed 9" />
+            <BMNode actionId="AndroidExtractStyleAction" keyStroke="typed 0" />
+            <BMNode actionId="AndroidExtractAsIncludeAction" keyStroke="typed q" />
+          </BMNode>
+          <BMNode actionId="Inline" keyStroke="ctrl alt pressed N" />
+          <BMNode actionId="MethodDuplicates" keyStroke="typed 5" />
+          <BMNode actionId="InvertBoolean" keyStroke="typed 6" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="MembersPullUp" keyStroke="typed 7" />
+          <BMNode actionId="MemberPushDown" keyStroke="typed 8" />
+          <BMNode actionId="TurnRefsToSuper" keyStroke="typed 9" />
+          <BMNode actionId="InheritanceToDelegation" keyStroke="typed 0" />
+          <BMNode actionId="RemoveMiddleman" keyStroke="typed q" />
+          <BMNode actionId="WrapReturnValue" keyStroke="typed w" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EncapsulateFields" keyStroke="typed e" />
+          <BMNode actionId="ReplaceTempWithQuery" keyStroke="typed r" />
+          <BMNode actionId="ReplaceConstructorWithFactory" keyStroke="typed t" />
+          <BMNode actionId="ReplaceConstructorWithBuilder" keyStroke="typed z" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Generify" keyStroke="typed u" />
+          <BMNode actionId="Migrate" keyStroke="typed i" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="I18nize" keyStroke="typed o" />
+          <BMNode actionId="ConvertGroovyToJava" keyStroke="typed p" />
+          <BMNode actionId="ConvertToCompileStatic" keyStroke="typed a" />
+          <BMNode actionId="AndroidModularizeAction" keyStroke="typed s" />
+          <BMNode actionId="AndroidUnusedResourceAction" keyStroke="typed d" />
+          <BMNode actionId="AndroidMigrateToAppCompatAction" keyStroke="typed f" />
+          <BMNode actionId="AndroidMigrateToAndroidxAction" keyStroke="typed g" />
+          <BMNode actionId="AndroidMigrateToResourceNamespacesAction" keyStroke="typed h" />
+          <BMNode actionId="AndroidInlineStyleReferenceAction" keyStroke="typed j" />
+          <BMNode actionId="AndroidFindStyleApplicationsAction" keyStroke="typed k" />
+          <BMNode actionId="AndroidAddRTLSupport" keyStroke="typed l" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 8" customText="Build">
+          <BMNode actionId="CompileDirty" keyStroke="ctrl pressed F9" />
+          <BMNode actionId="MakeModule" keyStroke="typed 1" />
+          <BMNode actionId="Compile" keyStroke="shift ctrl pressed F9" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="CompileProject" keyStroke="typed 2" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GenerateAntBuild" keyStroke="typed 3" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="BuildArtifact" keyStroke="typed 4" />
+          <BMNode actionId="GROUP" keyStroke="typed 5" customText="Groovy Resources">
+            <BMNode actionId="Groovy.CheckResources.Make" keyStroke="typed 1" />
+            <BMNode actionId="Groovy.CheckResources.Rebuild" keyStroke="typed 2" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EditBuildTypes" keyStroke="typed 6" />
+          <BMNode actionId="EditFlavors" keyStroke="typed 7" />
+          <BMNode actionId="EditLibraryAndDependencies" keyStroke="typed 8" />
+          <BMNode actionId="SelectBuildVariant" keyStroke="typed 9" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Android.BuildApk" keyStroke="typed 0" />
+          <BMNode actionId="Android.BuildBundle" keyStroke="typed q" />
+          <BMNode actionId="Android.GenerateSignedApk" keyStroke="typed w" />
+          <BMNode actionId="Android.AnalyzeApk" keyStroke="typed e" />
+          <BMNode actionId="RunTargetAction" keyStroke="shift ctrl pressed F10" />
+          <BMNode actionId="MakeJarAction" keyStroke="typed r" />
+          <BMNode actionId="MakeAllJarsAction" keyStroke="typed t" />
+          <BMNode actionId="CleanGradleProject" keyStroke="typed z" />
+          <BMNode actionId="RefreshLinkedCppProjects" keyStroke="typed u" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 9" customText="Run">
+          <BMNode actionId="Run" keyStroke="shift pressed F10" />
+          <BMNode actionId="Debug" keyStroke="shift pressed F9" />
+          <BMNode actionId="Coverage" keyStroke="typed 1" />
+          <BMNode actionId="Android Profiler" keyStroke="typed 2" />
+          <BMNode actionId="ChooseRunConfiguration" keyStroke="shift alt pressed F10" />
+          <BMNode actionId="ChooseDebugConfiguration" keyStroke="shift alt pressed F9" />
+          <BMNode actionId="Android.ChooseProfileConfiguration" keyStroke="typed 3" />
+          <BMNode actionId="XDebugger.AttachToProcess" keyStroke="ctrl alt pressed F5" />
+          <BMNode actionId="editRunConfigurations" keyStroke="typed 4" />
+          <BMNode actionId="GROUP" keyStroke="typed 5" customText="Test History" />
+          <BMNode actionId="ImportTestsFromFile" keyStroke="typed 6" />
+          <BMNode actionId="Stop" keyStroke="ctrl pressed F2" />
+          <BMNode actionId="StopBackgroundProcesses" keyStroke="shift ctrl pressed F2" />
+          <BMNode actionId="ShowLiveRunConfigurations" keyStroke="typed 7" />
+          <BMNode actionId="ShowDiscoveredTests" keyStroke="typed 8" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="UpdateRunningApplication" keyStroke="ctrl pressed F10" />
+          <BMNode actionId="Hotswap" keyStroke="typed 9" />
+          <BMNode actionId="Android.RestartActivity" keyStroke="typed 0" />
+          <BMNode actionId="StepOver" keyStroke="pressed F8" />
+          <BMNode actionId="ForceStepOver" keyStroke="shift alt pressed F8" />
+          <BMNode actionId="StepInto" keyStroke="pressed F7" />
+          <BMNode actionId="ForceStepInto" keyStroke="shift alt pressed F7" />
+          <BMNode actionId="SmartStepInto" keyStroke="shift pressed F7" />
+          <BMNode actionId="StepOut" keyStroke="shift pressed F8" />
+          <BMNode actionId="Debugger.StepOutOfBlock" keyStroke="typed q" />
+          <BMNode actionId="RunToCursor" keyStroke="alt pressed F9" />
+          <BMNode actionId="ForceRunToCursor" keyStroke="ctrl alt pressed F9" />
+          <BMNode actionId="Debugger.PopFrame" keyStroke="typed w" />
+          <BMNode actionId="Debugger.ForceEarlyReturn" keyStroke="typed e" />
+          <BMNode actionId="Debugger.ThrowException" keyStroke="typed r" />
+          <BMNode actionId="Pause" keyStroke="typed t" />
+          <BMNode actionId="Resume" keyStroke="pressed F9" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="EvaluateExpression" keyStroke="alt pressed F8" />
+          <BMNode actionId="QuickEvaluateExpression" keyStroke="ctrl alt pressed F8" />
+          <BMNode actionId="ShowExecutionPoint" keyStroke="alt pressed F10" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Debugger.RestoreBreakpoint" keyStroke="typed z" />
+          <BMNode actionId="ToggleLineBreakpoint" keyStroke="ctrl pressed F8" />
+          <BMNode actionId="ToggleMethodBreakpoint" keyStroke="typed u" />
+          <BMNode actionId="ToggleFieldBreakpoint" keyStroke="typed i" />
+          <BMNode actionId="ToggleTemporaryLineBreakpoint" keyStroke="shift ctrl alt pressed F8" />
+          <BMNode actionId="ToggleBreakpointEnabled" keyStroke="typed o" />
+          <BMNode actionId="ViewBreakpoints" keyStroke="shift ctrl pressed F8" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="DumpThreads" keyStroke="typed p" />
+          <BMNode actionId="AndroidConnectDebuggerAction" keyStroke="typed a" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed 0" customText="Tools">
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Android.RunAndroidAvdManager" keyStroke="typed 1" />
+          <BMNode actionId="Android.RunAndroidSdkManager" keyStroke="typed 2" />
+          <BMNode actionId="Android.GenerateSourcesAction" keyStroke="typed 3" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Android.RunLayoutInspector" keyStroke="typed 4" />
+          <BMNode actionId="Android.ShowThemeEditor" keyStroke="typed 5" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 6" customText="Tasks &amp; Contexts">
+            <BMNode actionId="tasks.switch" keyStroke="shift alt pressed T" />
+            <BMNode actionId="tasks.goto" keyStroke="shift alt pressed N" />
+            <BMNode actionId="tasks.close" keyStroke="shift alt pressed W" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="tasks.edit" keyStroke="typed 1" />
+            <BMNode actionId="tasks.create.changelist" keyStroke="typed 2" />
+            <BMNode actionId="tasks.show.task.description" keyStroke="typed 3" />
+            <BMNode actionId="tasks.open.in.browser" keyStroke="shift alt pressed B" />
+            <BMNode actionId="tasks.analyze.stacktrace" keyStroke="typed 4" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="tasks.configure.servers" keyStroke="typed 5" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="context.save" keyStroke="shift alt pressed S" />
+            <BMNode actionId="context.load" keyStroke="shift alt pressed L" />
+            <BMNode actionId="context.clear" keyStroke="shift alt pressed X" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="SaveAsTemplate" keyStroke="typed 7" />
+          <BMNode actionId="SaveFileAsTemplate" keyStroke="typed 8" />
+          <BMNode actionId="SaveProjectAsTemplateAction" keyStroke="typed 9" />
+          <BMNode actionId="ManageProjectTemplates" keyStroke="typed 0" />
+          <BMNode actionId="GenerateJavadoc" keyStroke="typed q" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="IdeScriptingConsole" keyStroke="typed w" />
+          <BMNode actionId="PsiViewer" keyStroke="typed e" />
+          <BMNode actionId="PsiViewerForContext" keyStroke="typed r" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="CreateLauncherScript" keyStroke="typed t" />
+          <BMNode actionId="CreateDesktopEntry" keyStroke="typed z" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed u" customText="Internal Actions">
+            <BMNode actionId="GROUP" keyStroke="typed 1" customText="Exceptions">
+              <BMNode actionId="DropAnError" keyStroke="typed 1" />
+              <BMNode actionId="DropAnErrorWithAttachments" keyStroke="typed 2" />
+              <BMNode actionId="DropPluginError" keyStroke="typed 3" />
+              <BMNode actionId="DropAnOutOfMemoryError" keyStroke="typed 4" />
+              <BMNode actionId="DebugListen" keyStroke="typed 5" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ReloadProjectAction" keyStroke="typed 2" />
+            <BMNode actionId="ShowMainMenu" keyStroke="typed 3" />
+            <BMNode actionId="DumbMode" keyStroke="typed 4" />
+            <BMNode actionId="DisablePCE" keyStroke="typed 5" />
+            <BMNode actionId="GROUP" keyStroke="typed 6" customText="Performance">
+              <BMNode actionId="LaggingMode" keyStroke="typed 1" />
+              <BMNode actionId="TypingLatencyReport" keyStroke="typed 2" />
+              <BMNode actionId="RetypeFile" keyStroke="typed 3" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed 7" customText="UI">
+              <BMNode actionId="NotificationTestAction" keyStroke="typed 1" />
+              <BMNode actionId="TestMessageBoxAction" keyStroke="typed 2" />
+              <BMNode actionId="ComponentPanelTestAction" keyStroke="typed 3" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="EditorRenderingBenchmarkAction" keyStroke="typed 4" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="GROUP" keyStroke="typed 5" customText="Focus and modality testing">
+                <BMNode actionId="CheckMessagesButtonsOrderAction" keyStroke="typed 1" />
+                <BMNode actionId="ShowDelayedMessageInternalAction" keyStroke="typed 2" />
+                <BMNode actionId="ManualMacMessagesTest" keyStroke="typed 3" />
+                <BMNode actionId="MacMessagesSequencesTest" keyStroke="typed 4" />
+              </BMNode>
+              <BMNode actionId="FocusDebugger" keyStroke="typed 6" />
+              <BMNode actionId="DumpFocusableComponentHierarchyAction" keyStroke="typed 7" />
+              <BMNode actionId="FocusTracer" keyStroke="shift ctrl pressed F11" />
+              <BMNode actionId="UiInspector" keyStroke="typed 8" />
+              <BMNode actionId="UiDropper" keyStroke="typed 9" />
+              <BMNode actionId="HidpiInfo" keyStroke="typed 0" />
+              <BMNode actionId="GrayFilterConfig" keyStroke="typed q" />
+              <BMNode actionId="TextGrayFilterConfig" keyStroke="typed w" />
+              <BMNode actionId="ShowSplash" keyStroke="typed e" />
+              <BMNode actionId="ShowAboutPopupInDebugModeAction" keyStroke="typed r" />
+              <BMNode actionId="ValidationTest" keyStroke="typed t" />
+              <BMNode actionId="MacMessagesTest" keyStroke="typed z" />
+              <BMNode actionId="ColorBlindnessTest" keyStroke="typed u" />
+              <BMNode actionId="TreeExpandAll" keyStroke="typed i" />
+              <BMNode actionId="UIDefaults" keyStroke="typed o" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="AddTestProcessAction" keyStroke="typed p" />
+              <BMNode actionId="AddTestProcessActionIndefinte" keyStroke="typed a" />
+              <BMNode actionId="AddManyTestProcesses" keyStroke="typed s" />
+              <BMNode actionId="WriteActionUnderProgress" keyStroke="typed d" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="TestGestureAction" keyStroke="typed f" />
+              <BMNode actionId="TestDndAction" keyStroke="typed g" />
+              <BMNode actionId="AnimatorTestAction" keyStroke="typed h" />
+              <BMNode actionId="PositionTrackerTestAction" keyStroke="typed j" />
+              <BMNode actionId="ShowProgressTestDialogAction" keyStroke="typed k" />
+              <BMNode actionId="ShowSouthPanelTestDialogAction" keyStroke="typed l" />
+              <BMNode actionId="TestTextFieldAction" keyStroke="typed y" />
+              <BMNode actionId="ShowNotificationIconsDialogAction" keyStroke="typed x" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="DebugMigLayoutAction" keyStroke="typed c" />
+              <BMNode actionId="ShowcaseUiDslAction" keyStroke="typed v" />
+            </BMNode>
+            <BMNode actionId="GROUP" keyStroke="typed 8" customText="Top Anomalies" />
+            <BMNode actionId="ImageDuplicates" keyStroke="typed 9" />
+            <BMNode actionId="ShowNonRetinaImages" keyStroke="typed 0" />
+            <BMNode actionId="ShowUpdateDialogAction" keyStroke="typed q" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ShowRegistry" keyStroke="typed w" />
+            <BMNode actionId="SwitchBootJdk" keyStroke="typed e" />
+            <BMNode actionId="SwitchBootRuntime" keyStroke="typed r" />
+            <BMNode actionId="UiDebugger" keyStroke="typed t" />
+            <BMNode actionId="ShowExperiments" keyStroke="typed z" />
+            <BMNode actionId="DumpLookupElementWeights" keyStroke="typed u" />
+            <BMNode actionId="GROUP" keyStroke="typed i" customText="Feature Usages Statistics">
+              <BMNode actionId="SendEventLogStatistics" keyStroke="typed 1" />
+              <BMNode actionId="CleanupEventLogStatistics" keyStroke="typed 2" />
+              <BMNode actionId="AddTestGroupToLocalWhitelistAction" keyStroke="typed 3" />
+              <BMNode actionId="RecordStateCollectors" keyStroke="typed 4" />
+              <BMNode actionId="TestParseEventLogWhitelistAction" keyStroke="typed 5" />
+            </BMNode>
+            <BMNode actionId="GROUP" keyStroke="typed o" customText="PMM Utils">
+              <BMNode actionId="ApplyFixedWindowSize" keyStroke="typed 1" />
+              <BMNode actionId="ConfigureDefaultSize" keyStroke="typed 2" />
+            </BMNode>
+            <BMNode actionId="ShowEditorHighlighterTokens" keyStroke="typed p" />
+            <BMNode actionId="GROUP" keyStroke="typed a" customText="Heap Analysis">
+              <BMNode actionId="UserInvokedFullAnalysis" keyStroke="typed 1" />
+              <BMNode actionId="SilentHeapDumpSnapshot" keyStroke="typed 2" />
+            </BMNode>
+            <BMNode actionId="PluginStartupCostAction" keyStroke="typed s" />
+            <BMNode actionId="CompletionQualityStats" keyStroke="typed d" />
+            <BMNode actionId="ShowControlFlowAction" keyStroke="typed f" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Merge3Files" keyStroke="typed g" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="DecodeBytesAction" keyStroke="typed h" />
+            <BMNode actionId="GROUP" keyStroke="typed j" customText="Dump">
+              <BMNode actionId="DumpExtensions" keyStroke="typed 1" />
+              <BMNode actionId="DumpInspectionDescriptions" keyStroke="typed 2" />
+              <BMNode actionId="DumpIntentionsDescriptions" keyStroke="typed 3" />
+              <BMNode actionId="DumpConfigurationTypes" keyStroke="typed 4" />
+              <BMNode actionId="DumpDirectoryIndex" keyStroke="typed 5" />
+              <BMNode actionId="ScanSourceCommentsAction" keyStroke="typed 6" />
+              <BMNode actionId="DumpScreenConfiguration" keyStroke="typed 7" />
+              <BMNode actionId="DumpCleanTestData" keyStroke="typed 8" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed k" customText="Cached Value Profiler">
+              <BMNode actionId="TurnOnOffCachedValueProfilerAction" keyStroke="typed 1" />
+              <BMNode actionId="DumpCachedValueProfilerInfoAction" keyStroke="typed 2" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed l" customText="VFS">
+              <BMNode actionId="VirtualFileInfo" keyStroke="typed 1" />
+              <BMNode actionId="MarkFileDirty" keyStroke="typed 2" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="CheckVfsSanity" keyStroke="typed 3" />
+              <BMNode actionId="LoadAllContent" keyStroke="typed 4" />
+              <BMNode actionId="LoadAllVFSContent" keyStroke="typed 5" />
+              <BMNode actionId="ComputeVFStatistics" keyStroke="typed 6" />
+              <BMNode actionId="DumpVfsInfoForExcludedFiles" keyStroke="typed 7" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="PruneEmptyDirectories" keyStroke="typed 8" />
+              <BMNode actionId="FixLineSeparators" keyStroke="typed 9" />
+              <BMNode actionId="SEPARATOR" />
+              <BMNode actionId="ValidateLocalHistory" keyStroke="typed 0" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed y" customText="Java">
+              <BMNode actionId="GenerateVisitorByHierarchy" keyStroke="typed 1" />
+              <BMNode actionId="UsedIconsListing" keyStroke="typed 2" />
+              <BMNode actionId="ExpressionStatistics" keyStroke="typed 3" />
+              <BMNode actionId="StaticIconFields" keyStroke="typed 4" />
+            </BMNode>
+            <BMNode actionId="DumpUastLog" keyStroke="typed x" />
+            <BMNode actionId="GROUP" keyStroke="typed c" customText="Tasks">
+              <BMNode actionId="show.certificate" keyStroke="typed 1" />
+              <BMNode actionId="deadlock.with.certificate.dialog" keyStroke="typed 2" />
+            </BMNode>
+            <BMNode actionId="DumpGroovyControlFlowAction" keyStroke="typed v" />
+            <BMNode actionId="GROUP" keyStroke="typed b" customText="DevKit">
+              <BMNode actionId="ToggleHighlightingMarkup" keyStroke="typed 1" />
+              <BMNode actionId="ShuffleNamesAction" keyStroke="typed 2" />
+              <BMNode actionId="ShowSerializedXml" keyStroke="typed 3" />
+              <BMNode actionId="GenerateDomModel" keyStroke="typed 4" />
+              <BMNode actionId="ShowHelpPageById" keyStroke="typed 5" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="DumbModeTremble" keyStroke="typed n" />
+            <BMNode actionId="GROUP" keyStroke="typed m" customText="Kotlin">
+              <BMNode actionId="GROUP" keyStroke="typed 1" customText="Benchmark completion">
+                <BMNode actionId="TopLevelCompletionBenchmarkAction" keyStroke="typed 1" />
+                <BMNode actionId="LocalCompletionBenchmarkAction" keyStroke="typed 2" />
+              </BMNode>
+              <BMNode actionId="HighlightingBenchmarkAction" keyStroke="typed 2" />
+              <BMNode actionId="CacheResetOnProcessCanceledToggleAction" keyStroke="typed 3" />
+              <BMNode actionId="CheckComponentsUsageSearchAction" keyStroke="typed 4" />
+              <BMNode actionId="FindImplicitNothingAction" keyStroke="typed 5" />
+              <BMNode actionId="PrintOutNotPropertyMatches" keyStroke="typed 6" />
+              <BMNode actionId="StoredExceptionsThrowToggleAction" keyStroke="typed 7" />
+              <BMNode actionId="CopyAsDiagnosticTest" keyStroke="typed 8" />
+              <BMNode actionId="KotlinFormattingSettingsStatusAction" keyStroke="typed 9" />
+              <BMNode actionId="CreateIncrementalCompilationBackup" keyStroke="typed 0" />
+              <BMNode actionId="ReactivePostOpenProjectActionsAction" keyStroke="typed q" />
+            </BMNode>
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed 1" customText="Android">
+              <BMNode actionId="Android.CleanImportProject" keyStroke="typed 1" />
+              <BMNode actionId="Android.StopGradleDaemons" keyStroke="typed 2" />
+              <BMNode actionId="Android.GetAdbAction" keyStroke="typed 3" />
+              <BMNode actionId="Android.TerminateAdbAction" keyStroke="typed 4" />
+              <BMNode actionId="Android.GenerateLayoutTestSkeletonAction" keyStroke="typed 5" />
+              <BMNode actionId="StatisticsViewer" keyStroke="typed 6" />
+              <BMNode actionId="Android.EditFlags" keyStroke="typed 7" />
+              <BMNode actionId="Android.ShowRoomSchema" keyStroke="typed 8" />
+              <BMNode actionId="Android.SwingProfiler" keyStroke="typed 9" />
+            </BMNode>
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed i" customText="XML Actions">
+            <BMNode actionId="ValidateXml" keyStroke="typed 1" />
+            <BMNode actionId="AddAntBuildFile" keyStroke="typed 2" />
+            <BMNode actionId="GenerateDTD" keyStroke="typed 3" />
+            <BMNode actionId="ConvertSchemaAction" keyStroke="typed 4" />
+            <BMNode actionId="XSD2Document" keyStroke="typed 5" />
+            <BMNode actionId="Document2XSD" keyStroke="typed 6" />
+            <BMNode actionId="SEPARATOR" />
+          </BMNode>
+          <BMNode actionId="JShell.Console" keyStroke="typed o" />
+          <BMNode actionId="VimPluginToggle" keyStroke="typed p" />
+          <BMNode actionId="Groovy.Doc.Generating" keyStroke="typed a" />
+          <BMNode actionId="Groovy.Shell" keyStroke="typed s" />
+          <BMNode actionId="GROUP" keyStroke="typed d" customText="Grails/Griffon">
+            <BMNode actionId="Mvc.Upgrade" keyStroke="typed 1" />
+            <BMNode actionId="Mvc.RunTarget" keyStroke="ctrl alt pressed G" />
+          </BMNode>
+          <BMNode actionId="Groovy.Console" keyStroke="typed f" />
+          <BMNode actionId="GROUP" keyStroke="typed g" customText="Kotlin">
+            <BMNode actionId="KotlinConfigureUpdates" keyStroke="typed 1" />
+            <BMNode actionId="DecompileKotlinToJava" keyStroke="typed 2" />
+            <BMNode actionId="KotlinCodeMigrationToggle" keyStroke="typed 3" />
+            <BMNode actionId="KotlinConsoleREPL" keyStroke="typed 4" />
+            <BMNode actionId="ConfigureKotlinInProject" keyStroke="typed 5" />
+            <BMNode actionId="ConfigureKotlinJsInProject" keyStroke="typed 6" />
+            <BMNode actionId="ShowKotlinBytecode" keyStroke="typed 7" />
+          </BMNode>
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed q" customText="VCS">
+          <BMNode actionId="GROUP" keyStroke="typed 1" customText="Local History">
+            <BMNode actionId="LocalHistory.ShowHistory" keyStroke="typed 1" />
+            <BMNode actionId="LocalHistory.ShowSelectionHistory" keyStroke="typed 2" />
+            <BMNode actionId="LocalHistory.PutLabel" keyStroke="typed 3" />
+          </BMNode>
+          <BMNode actionId="Start.Use.Vcs" keyStroke="typed 2" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Vcs.QuickListPopupAction" keyStroke="alt pressed BACK_QUOTE" />
+          <BMNode actionId="CheckinProject" keyStroke="ctrl pressed K" />
+          <BMNode actionId="Vcs.UpdateProject" keyStroke="ctrl pressed T" />
+          <BMNode actionId="Vcs.IntegrateProject" keyStroke="typed 3" />
+          <BMNode actionId="Subversion.CleanupProject" keyStroke="typed 4" />
+          <BMNode actionId="Vcs.RefreshStatuses" keyStroke="typed 5" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 6" customText="Mercurial">
+            <BMNode actionId="CheckinFiles" keyStroke="typed 1" />
+            <BMNode actionId="ChangesView.AddUnversioned" keyStroke="ctrl alt pressed A" />
+            <BMNode actionId="ChangesView.Revert" keyStroke="ctrl alt pressed Z" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Compare.SameVersion" keyStroke="typed 2" />
+            <BMNode actionId="Compare.Selected" keyStroke="typed 3" />
+            <BMNode actionId="hg4idea.CompareWithBranch" keyStroke="typed 4" />
+            <BMNode actionId="Vcs.ShowTabbedFileHistory" keyStroke="typed 5" />
+            <BMNode actionId="Vcs.ShowHistoryForBlock" keyStroke="typed 6" />
+            <BMNode actionId="Annotate" keyStroke="typed 7" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="hg4idea.pull" keyStroke="typed 8" />
+            <BMNode actionId="Vcs.Push" keyStroke="shift ctrl pressed K" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="hg4idea.run.conflict.resolver" keyStroke="typed 9" />
+            <BMNode actionId="hg4idea.merge.files" keyStroke="typed 0" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="hg4idea.branches" keyStroke="typed q" />
+            <BMNode actionId="hg4idea.tag" keyStroke="typed w" />
+            <BMNode actionId="hg4idea.updateTo" keyStroke="typed e" />
+            <BMNode actionId="hg4idea.resolve.mark" keyStroke="typed r" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="hg4idea.Graft.Continue" keyStroke="typed t" />
+            <BMNode actionId="hg4idea.Rebase.Abort" keyStroke="typed z" />
+            <BMNode actionId="hg4idea.Rebase.Continue" keyStroke="typed u" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="hg4idea.mq.ShowUnAppliedPatches" keyStroke="typed i" />
+            <BMNode actionId="ChangesView.Browse" keyStroke="typed o" />
+            <BMNode actionId="SEPARATOR" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 7" customText="Git">
+            <BMNode actionId="CheckinFiles" keyStroke="typed 1" />
+            <BMNode actionId="Git.Add" keyStroke="ctrl alt pressed A" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Annotate" keyStroke="typed 2" />
+            <BMNode actionId="Show.Current.Revision" keyStroke="typed 3" />
+            <BMNode actionId="Compare.SameVersion" keyStroke="typed 4" />
+            <BMNode actionId="Compare.Selected" keyStroke="typed 5" />
+            <BMNode actionId="Git.CompareWithBranch" keyStroke="typed 6" />
+            <BMNode actionId="Vcs.ShowTabbedFileHistory" keyStroke="typed 7" />
+            <BMNode actionId="Vcs.ShowHistoryForBlock" keyStroke="typed 8" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ChangesView.Revert" keyStroke="ctrl alt pressed Z" />
+            <BMNode actionId="Git.ResolveConflicts" keyStroke="typed 9" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Git.Branches" keyStroke="shift ctrl pressed BACK_QUOTE" />
+            <BMNode actionId="Git.Tag" keyStroke="typed 0" />
+            <BMNode actionId="Git.Merge" keyStroke="typed q" />
+            <BMNode actionId="Git.Stash" keyStroke="typed w" />
+            <BMNode actionId="Git.Unstash" keyStroke="typed e" />
+            <BMNode actionId="Git.Reset" keyStroke="typed r" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Git.Configure.Remotes" keyStroke="typed t" />
+            <BMNode actionId="Git.Clone" keyStroke="typed z" />
+            <BMNode actionId="Git.Fetch" keyStroke="typed u" />
+            <BMNode actionId="Git.Pull" keyStroke="typed i" />
+            <BMNode actionId="Vcs.Push" keyStroke="shift ctrl pressed K" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Git.Rebase" keyStroke="typed o" />
+            <BMNode actionId="Git.Rebase.Abort" keyStroke="typed p" />
+            <BMNode actionId="Git.Merge.Abort" keyStroke="typed a" />
+            <BMNode actionId="Git.CherryPick.Abort" keyStroke="typed s" />
+            <BMNode actionId="Git.Rebase.Continue" keyStroke="typed d" />
+            <BMNode actionId="Git.Rebase.Skip" keyStroke="typed f" />
+            <BMNode actionId="Git.Cleanup.Branches" keyStroke="typed g" />
+            <BMNode actionId="GROUP" keyStroke="typed h" customText="Rebase my GitHub fork" />
+            <BMNode actionId="GROUP" keyStroke="typed j" customText="Create Pull Request" />
+            <BMNode actionId="GROUP" keyStroke="typed k" customText="View Pull Requests" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 8" customText="Subversion">
+            <BMNode actionId="Subversion.Share" keyStroke="typed 1" />
+            <BMNode actionId="Subversion.Create.External" keyStroke="typed 2" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ChangesView.AddUnversioned" keyStroke="ctrl alt pressed A" />
+            <BMNode actionId="GROUP" keyStroke="typed 3" customText="Ignore" />
+            <BMNode actionId="CheckinFiles" keyStroke="typed 4" />
+            <BMNode actionId="UpdateFiles" keyStroke="typed 5" />
+            <BMNode actionId="IntegrateFiles" keyStroke="typed 6" />
+            <BMNode actionId="CheckStatusForFiles" keyStroke="typed 7" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Subversion.ShowProperties" keyStroke="typed 8" />
+            <BMNode actionId="Subversion.SetProperty" keyStroke="typed 9" />
+            <BMNode actionId="ChangesView.Revert" keyStroke="ctrl alt pressed Z" />
+            <BMNode actionId="Subversion.Resolve" keyStroke="typed 0" />
+            <BMNode actionId="Subversion.MarkResolved" keyStroke="typed q" />
+            <BMNode actionId="Subversion.MarkTreeResolved" keyStroke="typed w" />
+            <BMNode actionId="Subversion.Clenaup" keyStroke="typed e" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Show.Current.Revision" keyStroke="typed r" />
+            <BMNode actionId="Compare.SameVersion" keyStroke="typed t" />
+            <BMNode actionId="Compare.LastVersion" keyStroke="typed z" />
+            <BMNode actionId="Compare.Selected" keyStroke="typed u" />
+            <BMNode actionId="Subversion.CompareWithBranch" keyStroke="typed i" />
+            <BMNode actionId="Vcs.ShowTabbedFileHistory" keyStroke="typed o" />
+            <BMNode actionId="Vcs.ShowHistoryForBlock" keyStroke="typed p" />
+            <BMNode actionId="Annotate" keyStroke="typed a" />
+            <BMNode actionId="Subversion.Copy" keyStroke="typed s" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="Subversion.Lock" keyStroke="typed d" />
+            <BMNode actionId="Subversion.Unlock" keyStroke="typed f" />
+            <BMNode actionId="Subversion.Relocate" keyStroke="typed g" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ChangesView.Browse" keyStroke="typed h" />
+            <BMNode actionId="SEPARATOR" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ChangesView.CreatePatch" keyStroke="typed 9" />
+          <BMNode actionId="ChangesView.ApplyPatch" keyStroke="typed 0" />
+          <BMNode actionId="ChangesView.ApplyPatchFromClipboard" keyStroke="typed q" />
+          <BMNode actionId="ChangesView.Shelve" keyStroke="typed w" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed e" customText="Checkout from Version Control" />
+          <BMNode actionId="GROUP" keyStroke="typed r" customText="Import into Version Control">
+            <BMNode actionId="Subversion.ImportToSVNRepository" keyStroke="typed 1" />
+            <BMNode actionId="Subversion.ShareWholeProject" keyStroke="typed 2" />
+            <BMNode actionId="Git.Init" keyStroke="typed 3" />
+            <BMNode actionId="Hg.Init" keyStroke="typed 4" />
+            <BMNode actionId="Github.Share" keyStroke="typed 5" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed t" customText="Browse VCS Repository">
+            <BMNode actionId="Subversion.BrowseSVNRepository" keyStroke="typed 1" />
+            <BMNode actionId="Git.Log" keyStroke="typed 2" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed z" customText="Sync Settings">
+            <BMNode actionId="MergeSettings" keyStroke="typed 1" />
+            <BMNode actionId="ResetToTheirsSettings" keyStroke="typed 2" />
+            <BMNode actionId="ResetToMySettings" keyStroke="typed 3" />
+          </BMNode>
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed w" customText="Window">
+          <BMNode actionId="MinimizeCurrentWindow" keyStroke="typed 1" />
+          <BMNode actionId="ZoomCurrentWindow" keyStroke="typed 2" />
+          <BMNode actionId="StoreDefaultLayout" keyStroke="typed 3" />
+          <BMNode actionId="RestoreDefaultLayout" keyStroke="shift pressed F12" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="GROUP" keyStroke="typed 4" customText="Active Tool Window">
+            <BMNode actionId="HideActiveWindow" keyStroke="shift pressed ESCAPE" />
+            <BMNode actionId="HideSideWindows" keyStroke="typed 1" />
+            <BMNode actionId="HideAllWindows" keyStroke="shift ctrl pressed F12" />
+            <BMNode actionId="PinToolwindowTab" keyStroke="typed 2" />
+            <BMNode actionId="CloseActiveTab" keyStroke="shift ctrl pressed F4" />
+            <BMNode actionId="JumpToLastWindow" keyStroke="pressed F12" />
+            <BMNode actionId="MaximizeToolWindow" keyStroke="shift ctrl pressed QUOTE" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="GROUP" keyStroke="typed 3" customText="View Mode" />
+            <BMNode actionId="GROUP" keyStroke="typed 4" customText="Move to" />
+            <BMNode actionId="ToggleContentUiTypeMode" keyStroke="typed 5" />
+            <BMNode actionId="ShowContent" keyStroke="alt pressed DOWN" />
+            <BMNode actionId="GROUP" keyStroke="typed 6" customText="Resize">
+              <BMNode actionId="ResizeToolWindowLeft" keyStroke="shift ctrl pressed LEFT" />
+              <BMNode actionId="ResizeToolWindowRight" keyStroke="shift ctrl pressed RIGHT" />
+              <BMNode actionId="ResizeToolWindowUp" keyStroke="shift ctrl pressed UP" />
+              <BMNode actionId="ResizeToolWindowDown" keyStroke="shift ctrl pressed DOWN" />
+            </BMNode>
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 5" customText="Editor Tabs">
+            <BMNode actionId="NextTab" keyStroke="alt pressed RIGHT" />
+            <BMNode actionId="PreviousTab" keyStroke="alt pressed LEFT" />
+            <BMNode actionId="PinActiveEditorTab" keyStroke="typed 1" />
+            <BMNode actionId="TabList" keyStroke="typed 2" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="CloseContent" keyStroke="ctrl pressed F4" />
+            <BMNode actionId="CloseAllEditorsButActive" keyStroke="typed 3" />
+            <BMNode actionId="CloseAllEditors" keyStroke="typed 4" />
+            <BMNode actionId="CloseAllUnmodifiedEditors" keyStroke="typed 5" />
+            <BMNode actionId="CloseAllUnpinnedEditors" keyStroke="typed 6" />
+            <BMNode actionId="CloseAllToTheLeft" keyStroke="typed 7" />
+            <BMNode actionId="CloseAllToTheRight" keyStroke="typed 8" />
+            <BMNode actionId="SEPARATOR" />
+            <BMNode actionId="ReopenClosedTab" keyStroke="typed 9" />
+            <BMNode actionId="SplitVertically" keyStroke="typed 0" />
+            <BMNode actionId="SplitHorizontally" keyStroke="typed q" />
+            <BMNode actionId="MoveTabRight" keyStroke="typed w" />
+            <BMNode actionId="MoveTabDown" keyStroke="typed e" />
+            <BMNode actionId="ChangeSplitOrientation" keyStroke="typed r" />
+            <BMNode actionId="Unsplit" keyStroke="typed t" />
+            <BMNode actionId="UnsplitAll" keyStroke="typed z" />
+            <BMNode actionId="NextSplitter" keyStroke="typed u" />
+            <BMNode actionId="PrevSplitter" keyStroke="typed i" />
+            <BMNode actionId="ConfigureEditorTabs" keyStroke="typed o" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 6" customText="Notifications">
+            <BMNode actionId="CloseFirstNotification" keyStroke="typed 1" />
+            <BMNode actionId="CloseAllNotifications" keyStroke="typed 2" />
+          </BMNode>
+          <BMNode actionId="GROUP" keyStroke="typed 7" customText="Background Tasks">
+            <BMNode actionId="ShowProcessWindow" keyStroke="typed 1" />
+            <BMNode actionId="AutoShowProcessWindow" keyStroke="typed 2" />
+          </BMNode>
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="NextProjectWindow" keyStroke="ctrl alt pressed CLOSE_BRACKET" />
+          <BMNode actionId="PreviousProjectWindow" keyStroke="ctrl alt pressed OPEN_BRACKET" />
+          <BMNode actionId="SEPARATOR" />
+        </BMNode>
+        <BMNode actionId="GROUP" keyStroke="typed e" customText="Help">
+          <BMNode actionId="GotoAction" keyStroke="shift ctrl pressed A" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="HelpTopics" keyStroke="typed 1" />
+          <BMNode actionId="OnlineDocAction" keyStroke="typed 2" />
+          <BMNode actionId="Help.KeymapReference" keyStroke="typed 3" />
+          <BMNode actionId="Help.JetBrainsTV" keyStroke="typed 4" />
+          <BMNode actionId="ShowTips" keyStroke="typed 5" />
+          <BMNode actionId="WhatsNewAction" keyStroke="typed 6" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="ProductivityGuide" keyStroke="typed 7" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="Performance.ActivityMonitor" keyStroke="typed 8" />
+          <BMNode actionId="TechnicalSupport" keyStroke="typed 9" />
+          <BMNode actionId="ReportProblem" keyStroke="typed 0" />
+          <BMNode actionId="SendFeedback" keyStroke="typed q" />
+          <BMNode actionId="ShowLog" keyStroke="typed w" />
+          <BMNode actionId="CollectTroubleshootingInformation" keyStroke="typed e" />
+          <BMNode actionId="CollectZippedLogs" keyStroke="typed r" />
+          <BMNode actionId="performancePlugin.ShowMemoryDialogAction" keyStroke="typed t" />
+          <BMNode actionId="EditCustomVmOptions" keyStroke="typed u" />
+          <BMNode actionId="LogDebugConfigure" keyStroke="typed i" />
+          <BMNode actionId="DataSharingOptions" keyStroke="typed o" />
+          <BMNode actionId="SEPARATOR" />
+          <BMNode actionId="CheckForUpdate" keyStroke="typed p" />
+          <BMNode actionId="About" keyStroke="typed a" />
+        </BMNode>
+        <BMNode actionId="ExternalSystem.ShowSettings" keyStroke="typed r" />
+        <BMNode actionId="GotoBookmark6" keyStroke="ctrl pressed 6" customText="ASD" />
+        <BMNode actionId="SEPARATOR" customText="123" />
+        <BMNode actionId="GotoAction" keyStroke="shift ctrl pressed A" />
+        <BMNode actionId="ShowSettings" keyStroke="ctrl alt pressed S" />
+        <BMNode actionId="EditCustomProperties" keyStroke="typed z" />
+      </BMNode>
+    </BMNode>
+  </component>
+</application>

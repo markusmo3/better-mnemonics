@@ -1,0 +1,276 @@
+package io.github.markusmo3.bm.popup
+
+import com.intellij.ide.DataManager
+import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.actionSystem.ex.ActionUtil
+import com.intellij.openapi.actionSystem.impl.ActionMenu
+import com.intellij.openapi.application.impl.LaterInvocator
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.popup.ListPopupStep
+import com.intellij.openapi.ui.popup.PopupStep
+import com.intellij.openapi.util.Condition
+import com.intellij.ui.popup.KeepingPopupOpenAction
+import com.intellij.ui.popup.WizardPopup
+import com.intellij.ui.popup.list.ListPopupImpl
+import com.intellij.util.ObjectUtils
+import com.intellij.util.containers.ContainerUtil
+import io.github.markusmo3.bm.config.BMActionsSchema
+import io.github.markusmo3.bm.config.BMNode
+import java.awt.Component
+import java.awt.event.ActionEvent
+import java.awt.event.InputEvent
+import java.awt.event.KeyEvent
+import java.util.function.Supplier
+import javax.swing.AbstractAction
+import javax.swing.JList
+import javax.swing.KeyStroke
+import javax.swing.ListCellRenderer
+import javax.swing.event.ListSelectionEvent
+
+class BMActionGroupPopup : ListPopupImpl {
+  private var myDisposeCallback: Runnable?
+  private val myComponent: Component?
+  private val myActionPlace: String
+
+  constructor(
+    project: Project?,
+    parent: BMActionGroupPopup,
+    listPopupStep: ListPopupStep<*>,
+    parentValue: Any?
+  ) : super(project, parent, listPopupStep, parentValue) {
+    myDisposeCallback = null
+    myComponent = null
+    myActionPlace = ActionPlaces.UNKNOWN
+    initSomeStuff()
+    setMaxRowCount(BMActionsSchema.getInstance().state.maxRowCount)
+  }
+
+  constructor(
+    aParent: WizardPopup?,
+    step: ListPopupStep<*>,
+    disposeCallback: Runnable?,
+    dataContext: DataContext,
+    actionPlace: String?,
+    parentValue: Any? = null
+  ) : super(
+    CommonDataKeys.PROJECT.getData(dataContext), aParent, step, parentValue
+  ) {
+    myDisposeCallback = disposeCallback
+    myComponent = PlatformDataKeys.CONTEXT_COMPONENT.getData(dataContext)
+    myActionPlace = actionPlace ?: ActionPlaces.UNKNOWN
+    initSomeStuff()
+    setMaxRowCount(BMActionsSchema.getInstance().state.maxRowCount)
+  }
+
+  private fun initSomeStuff() {
+    registerAction("handleActionToggle1", KeyEvent.VK_SPACE, 0, object : AbstractAction() {
+      override fun actionPerformed(e: ActionEvent) {
+        handleToggleAction()
+      }
+    })
+
+    addListSelectionListener { e: ListSelectionEvent ->
+      val list = e.source as JList<*>
+      val actionItem = list.selectedValue as BMActionItem? ?: return@addListSelectionListener
+      val presentation: Presentation = updateActionItem(actionItem)
+      ActionMenu.showDescriptionInStatusBar(true, myComponent, presentation.description)
+    }
+  }
+
+  constructor(
+    title: String?,
+    bmNode: BMNode,
+    dataContext: DataContext,
+    showDisabledActions: Boolean,
+    disposeCallback: Runnable?,
+    maxRowCount: Int,
+    preselectActionCondition: Condition<in AnAction?>?,
+    actionPlace: String?,
+    autoSelection: Boolean
+  ) : this(
+    null, createStep(
+      title,
+      bmNode,
+      dataContext,
+      showDisabledActions,
+      preselectActionCondition,
+      actionPlace,
+      autoSelection
+    ), disposeCallback, dataContext, actionPlace, maxRowCount
+  )
+
+  constructor(
+    bmNode: BMNode, dataContext: DataContext
+  ) : this(
+    bmNode.customText, bmNode, dataContext, true, null, 10, null, null, false
+  )
+
+  override fun process(aEvent: KeyEvent?) {
+    if (aEvent == null || aEvent.keyCode in PASSTHROUGH_KEYS && aEvent.modifiersEx == 0) {
+      return super.process(aEvent)
+    }
+
+    LOG.warn("processing $aEvent")
+    val eventKeyStroke = KeyStroke.getKeyStrokeForEvent(aEvent)
+    val bmStep = step as BMActionPopupStep
+    for (actionItem in bmStep.values) {
+      if (eventKeyStroke == actionItem.keyStroke) {
+        list.setSelectedValue(actionItem, true)
+        list.repaint()
+        handleSelect(true)
+        LOG.warn("selecting $actionItem")
+        break
+      }
+    }
+    aEvent?.consume()
+    // HACK: this sets the event source and somehow prevents the event from reaching the ListUI
+    //   and causing problems there...
+    super.process(aEvent)
+  }
+
+  fun handleFinalChoices(selectedValue: Any?, listStep: ListPopupStep<Any?>): Boolean {
+    return selectedValue == null || !listStep.hasSubstep(selectedValue) || !listStep.isSelectable(
+      selectedValue
+    )
+  }
+
+  private fun updateActionItem(actionItem: BMActionItem): Presentation {
+    val action: AnAction = actionItem.action
+    val presentation = Presentation()
+    presentation.description = action.templatePresentation.description
+
+    val actionEvent = AnActionEvent(
+      null,
+      DataManager.getInstance().getDataContext(myComponent),
+      myActionPlace,
+      presentation,
+      ActionManager.getInstance(),
+      0
+    )
+    actionEvent.setInjectedContext(action.isInInjectedContext)
+    ActionUtil.performDumbAwareUpdate(LaterInvocator.isInModalContext(), action, actionEvent, false)
+    return presentation
+  }
+
+  override fun handleSelect(handleFinalChoices: Boolean, e: InputEvent?) {
+    val selectedValue = list.selectedValue
+    val actionPopupStep = ObjectUtils.tryCast(listStep, BMActionPopupStep::class.java)
+    if (actionPopupStep != null) {
+      val dontClosePopupAction =
+        getActionByClass(selectedValue, actionPopupStep, KeepingPopupOpenAction::class.java)
+      if (dontClosePopupAction != null) {
+        actionPopupStep.performAction((dontClosePopupAction as AnAction?)!!, e?.modifiers ?: 0, e)
+        for (item in actionPopupStep.values) {
+          updateActionItem(item)
+        }
+        list.repaint()
+        return
+      }
+    }
+    super.handleSelect(handleFinalChoices, e)
+  }
+
+  private fun handleToggleAction() {
+    val selectedValues = list.selectedValues
+
+    val listStep = listStep
+    val actionPopupStep = ObjectUtils.tryCast(listStep, BMActionPopupStep::class.java) ?: return
+
+    val filtered = ContainerUtil.mapNotNull(selectedValues) { o: Any? ->
+      getActionByClass(
+        o, actionPopupStep, ToggleAction::class.java
+      )
+    }
+
+    for (action in filtered) {
+      actionPopupStep.performAction(action!!, 0)
+    }
+
+    for (item in actionPopupStep.values) {
+      updateActionItem(item)
+    }
+
+    list.repaint()
+  }
+
+  override fun dispose() {
+    if (myDisposeCallback != null) {
+      myDisposeCallback!!.run()
+    }
+    ActionMenu.showDescriptionInStatusBar(true, myComponent, null)
+    super.dispose()
+  }
+
+  override fun createPopup(
+    parent: WizardPopup?, step: PopupStep<*>, parentValue: Any?
+  ): WizardPopup {
+    if (parent is BMActionGroupPopup) {
+      return BMActionGroupPopup(project, parent, step as ListPopupStep<*>, parentValue)
+    }
+    return super.createPopup(parent, step, parentValue)
+  }
+
+  override fun getListElementRenderer(): ListCellRenderer<*> {
+    return BMPopupListElementRenderer<BMActionItem>(this)
+  }
+
+  companion object {
+
+    private val LOG = Logger.getInstance("#io.github.markusmo3.bm.BMActionGroupPopup")
+    private val PASSTHROUGH_KEYS = arrayOf(
+      KeyEvent.VK_LEFT,
+      KeyEvent.VK_RIGHT,
+      KeyEvent.VK_UP,
+      KeyEvent.VK_DOWN,
+      KeyEvent.VK_ENTER,
+      KeyEvent.VK_ESCAPE
+    )
+
+    private fun getComponentContextSupplier(component: Component?): Supplier<DataContext> {
+      return Supplier { DataManager.getInstance().getDataContext(component) }
+    }
+
+    private fun createStep(
+      title: String?,
+      bmNode: BMNode,
+      dataContext: DataContext,
+      showDisabledActions: Boolean,
+      preselectActionCondition: Condition<in AnAction?>?,
+      actionPlace: String?,
+      autoSelection: Boolean
+    ): ListPopupStep<*> {
+      val component = PlatformDataKeys.CONTEXT_COMPONENT.getData(dataContext)
+      LOG.assertTrue(component != null, "dataContext has no component for new ListPopupStep")
+      val items = getActionItems(bmNode, dataContext, showDisabledActions, actionPlace)
+      return BMActionPopupStep(
+        items,
+        title,
+        getComponentContextSupplier(component),
+        actionPlace,
+        preselectActionCondition,
+        autoSelection,
+        showDisabledActions
+      )
+    }
+
+    private fun getActionItems(
+      bmNode: BMNode, dataContext: DataContext, showDisabledActions: Boolean, actionPlace: String?
+    ): List<BMActionItem> {
+      val builder = BMActionStepBuilder(dataContext, showDisabledActions)
+      if (actionPlace != null) {
+        builder.setActionPlace(actionPlace)
+      }
+      builder.buildGroup(bmNode)
+      return builder.items
+    }
+
+    private fun <T> getActionByClass(
+      value: Any?, actionPopupStep: BMActionPopupStep, actionClass: Class<T>
+    ): T? {
+      val item = (if (value is BMActionItem) value else null) ?: return null
+      if (!actionPopupStep.isSelectable(item)) return null
+      return if (actionClass.isInstance(item.action)) actionClass.cast(item.action) else null
+    }
+  }
+}
