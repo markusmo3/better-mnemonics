@@ -69,10 +69,10 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
   }
 
   override fun doOKAction() {
-    if (treeSelectedActionIds?.size != 1) {
+    if (treeSelectedActionIds.isEmpty()) {
       return
     }
-    val actionId = treeSelectedActionIds?.first() as? String? ?: return
+    val actionId = treeSelectedActionIds.first() as? String? ?: return
     val actionManager = ActionManager.getInstance()
     val action = actionManager.getAction(actionId)
     if (action == null || action is ActionGroup || action is Separator) {
@@ -82,9 +82,9 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
     super.doOKAction()
   }
 
-  val treeSelectedActionIds: Set<Any>?
+  val treeSelectedActionIds: Set<Any>
     get() {
-      val paths = myTree.selectionPaths ?: return null
+      val paths = myTree.selectionPaths ?: return emptySet()
       val actions: MutableSet<Any> = HashSet()
       for (path in paths) {
         val node = path.lastPathComponent

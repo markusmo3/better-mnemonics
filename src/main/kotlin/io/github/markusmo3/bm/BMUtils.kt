@@ -2,6 +2,7 @@ package io.github.markusmo3.bm
 
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
+import com.intellij.openapi.keymap.impl.ui.ShortcutTextField
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
@@ -88,5 +89,24 @@ object BMUtils {
   fun openFileInEditor(project: Project, vFile: VirtualFile) {
     val openFileDescriptor = OpenFileDescriptor(project, vFile)
     openFileDescriptor.navigate(true)
+  }
+
+  @JvmStatic
+  fun ShortcutTextField.getKeyStrokeKt(): KeyStroke? {
+    val getKeyStrokeMethod = ShortcutTextField::class.java.getDeclaredMethod("getKeyStroke")
+    if (!getKeyStrokeMethod.isAccessible) {
+      getKeyStrokeMethod.isAccessible = true
+    }
+    return getKeyStrokeMethod.invoke(this) as KeyStroke?
+  }
+
+  @JvmStatic
+  fun ShortcutTextField?.setKeyStrokeKt(keyStroke: KeyStroke?) {
+    val setKeyStrokeMethod =
+      ShortcutTextField::class.java.getDeclaredMethod("setKeyStroke", KeyStroke::class.java)
+    if (!setKeyStrokeMethod.isAccessible) {
+      setKeyStrokeMethod.isAccessible = true
+    }
+    setKeyStrokeMethod.invoke(this, keyStroke) as KeyStroke?
   }
 }

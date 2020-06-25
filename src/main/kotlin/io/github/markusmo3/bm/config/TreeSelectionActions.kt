@@ -5,18 +5,14 @@ import com.intellij.ide.IdeBundle
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonShortcuts
-import com.intellij.openapi.keymap.KeymapUtil
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.util.ui.tree.TreeUtil
 import io.github.markusmo3.bm.BMUtils.toSortIndex
 import io.github.markusmo3.bm.config.BMNode.Companion.newGroup
 import io.github.markusmo3.bm.config.BMNode.Companion.newSeparator
-import java.awt.event.KeyEvent
 import javax.swing.Icon
 import javax.swing.JPanel
 import javax.swing.JTree
-import javax.swing.KeyStroke
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreePath
@@ -110,34 +106,56 @@ internal abstract class AddNodeAction constructor(
   myActionsTree: JTree, text: String? = null, description: String? = null, icon: Icon? = null
 ) : TreeSelectionAction(myActionsTree, text, description, icon) {
 
-  override fun actionPerformed(e: AnActionEvent) {
-    val expandedPaths = TreeUtil.collectExpandedPaths(myActionsTree)
-    val selectionPath: TreePath = myActionsTree.leadSelectionPath
-    val selectedNode = selectionPath.lastPathComponent as DefaultMutableTreeNode
-    val selectedBmNode = selectedNode.userObject as BMNode
-    val newBmNode = getNewBmNode() ?: return
-    if (selectedBmNode.isGroup() || selectedBmNode.isRoot()) {
-      selectedBmNode.children.add(0, newBmNode)
-      selectedNode.insert(BetterMutableTreeNode(newBmNode), 0)
-      expandedPaths.add(selectionPath)
+  open fun getNewBmNode(): BMNode? = null
+
+  open fun getNewBmNodes(): Set<BMNode> {
+    val newBmNode = getNewBmNode()
+    return if (newBmNode != null) {
+      setOf(newBmNode)
     } else {
-      val parentNode = selectedNode.parent as DefaultMutableTreeNode
-      val parentBmNode = parentNode.userObject as BMNode
-      val newIndex = parentNode.getIndex(selectedNode) + 1
-      parentBmNode.children.add(newIndex, newBmNode)
-      parentNode.insert(BetterMutableTreeNode(newBmNode), newIndex)
+      emptySet()
     }
-    (myActionsTree.model as DefaultTreeModel).reload()
-    TreeUtil.restoreExpandedPaths(myActionsTree, expandedPaths)
-    myActionsTree.setSelectionRow(myActionsTree.getRowForPath(selectionPath) + 1)
   }
 
-  abstract fun getNewBmNode(): BMNode?
+  override fun actionPerformed(e: AnActionEvent) {
+    val newBmNodes = getNewBmNodes()
+    addNodesToTree(newBmNodes, myActionsTree)
+  }
 
   override fun update(e: AnActionEvent) {
     super.update(e)
     if (e.presentation.isEnabled) {
       e.presentation.isEnabled = isSingleSelection()
+    }
+  }
+
+  companion object {
+    @JvmStatic
+    fun addNodesToTree(
+      newBmNodes: Set<BMNode>,
+      actionTree: JTree
+    ) {
+      val expandedPaths = TreeUtil.collectExpandedPaths(actionTree)
+      val selectionPath: TreePath = actionTree.leadSelectionPath
+      val selectedNode = selectionPath.lastPathComponent as DefaultMutableTreeNode
+      val selectedBmNode = selectedNode.userObject as BMNode
+      if (newBmNodes.isEmpty()) return
+      for (newBmNode in newBmNodes) {
+        if (selectedBmNode.isGroup() || selectedBmNode.isRoot()) {
+          selectedBmNode.children.add(0, newBmNode)
+          selectedNode.insert(BetterMutableTreeNode(newBmNode), 0)
+          expandedPaths.add(selectionPath)
+        } else {
+          val parentNode = selectedNode.parent as DefaultMutableTreeNode
+          val parentBmNode = parentNode.userObject as BMNode
+          val newIndex = parentNode.getIndex(selectedNode) + 1
+          parentBmNode.children.add(newIndex, newBmNode)
+          parentNode.insert(BetterMutableTreeNode(newBmNode), newIndex)
+        }
+      }
+      (actionTree.model as DefaultTreeModel).reload()
+      TreeUtil.restoreExpandedPaths(actionTree, expandedPaths)
+      actionTree.setSelectionRow(actionTree.getRowForPath(selectionPath) + newBmNodes.size)
     }
   }
 }
@@ -171,24 +189,26 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
 internal class AddActionAction(myActionsTree: JTree) : AddNodeAction(
   myActionsTree, IdeBundle.message("button.add.action"), null, AllIcons.General.Add
 ) {
-  override fun getNewBmNode(): BMNode? {
+  override fun getNewBmNodes(): Set<BMNode> {
     val dlg = BMFindAvailableActionsDialog()
     if (dlg.showAndGet()) {
-      val toAdd: Set<Any> = dlg.treeSelectedActionIds ?: return null
-      val first = toAdd.first()
-      if (first is AnAction) {
-        val id = ActionManager.getInstance().getId(first)
-        if (id != null) {
-          return BMNode.newAction(id, dlg.getKeyStroke(), dlg.getCustomText())
+      val toAddSet: Set<Any> = dlg.treeSelectedActionIds
+      return toAddSet.mapNotNull { toAdd: Any ->
+        if (toAdd is AnAction) {
+          val id = ActionManager.getInstance().getId(toAdd)
+          if (id != null) {
+            return@mapNotNull BMNode.newAction(id, dlg.getKeyStroke(), dlg.getCustomText())
+          }
+        } else if (toAdd is String) {
+          val action = ActionManager.getInstance().getAction(toAdd)
+          if (action != null) {
+            return@mapNotNull BMNode.newAction(toAdd, dlg.getKeyStroke(), dlg.getCustomText())
+          }
         }
-      } else if (first is String) {
-        val action = ActionManager.getInstance().getAction(first)
-        if (action != null) {
-          return BMNode.newAction(first, dlg.getKeyStroke(), dlg.getCustomText())
-        }
-      }
+        return@mapNotNull null
+      }.toSet()
     }
-    return null
+    return emptySet()
   }
 }
 
@@ -196,33 +216,25 @@ internal class RemoveNodeAction(myActionsTree: JTree, myPanel: JPanel) : TreeSel
   myActionsTree, IdeBundle.message("button.remove"), null, AllIcons.General.Remove
 ) {
 
-  init {
-    val shortcutSet = KeymapUtil.filterKeyStrokes(
-      CommonShortcuts.getDelete(),
-      KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0),
-      KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0)
-    )
-    shortcutSet?.let { registerCustomShortcutSet(it, myPanel) }
-  }
+  override fun displayTextInToolbar(): Boolean = true
 
   override fun actionPerformed(e: AnActionEvent) {
+    val selectedRowIndex = myActionsTree.minSelectionRow
     val expandedPaths = TreeUtil.collectExpandedPaths(myActionsTree)
     val selectionPaths: Array<TreePath>? = myActionsTree.selectionPaths
     if (selectionPaths != null) {
-      var lastSelectedRow = 0
       for (path in selectionPaths) {
         val selectedNode = path.lastPathComponent as DefaultMutableTreeNode
         val selectedBmNode = selectedNode.userObject as BMNode
         val parentNode = selectedNode.parent as DefaultMutableTreeNode
         val parentBmNode = parentNode.userObject as BMNode
-        lastSelectedRow = myActionsTree.getRowForPath(path)
         selectedNode.removeFromParent()
         parentBmNode.remove(selectedBmNode)
       }
       (myActionsTree.model as DefaultTreeModel).reload()
-      myActionsTree.setSelectionRow(lastSelectedRow)
     }
     TreeUtil.restoreExpandedPaths(myActionsTree, expandedPaths)
+    myActionsTree.setSelectionRow(selectedRowIndex)
   }
 
 }
@@ -230,6 +242,8 @@ internal class RemoveNodeAction(myActionsTree: JTree, myPanel: JPanel) : TreeSel
 internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, IdeBundle.message("button.edit"), null, AllIcons.Actions.Edit
 ) {
+
+  override fun displayTextInToolbar(): Boolean = true
 
   override fun actionPerformed(e: AnActionEvent) {
     val selectedNode =
