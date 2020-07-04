@@ -2,6 +2,8 @@ package io.github.markusmo3.bm.popup
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.ex.ActionUtil
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.ui.popup.*
 import com.intellij.openapi.util.Condition
 import com.intellij.util.ObjectUtils
@@ -107,19 +109,23 @@ open class BMActionPopupStep(
 
   @JvmOverloads
   fun performAction(action: AnAction, modifiers: Int, inputEvent: InputEvent? = null) {
-    val dataContext = myContext.get()
-    val event = AnActionEvent(
-      inputEvent,
-      dataContext,
-      myActionPlace,
-      action.templatePresentation.clone(),
-      ActionManager.getInstance(),
-      modifiers
-    )
-    event.setInjectedContext(action.isInInjectedContext)
-    if (ActionUtil.lastUpdateAndCheckDumb(action, event, false)) {
-      ActionUtil.performActionDumbAwareWithCallbacks(action, event, dataContext)
-    }
+    // HACK: need to invoke the action later because otherwise the inputEvent gets passed to the
+    //  next action and causes interference
+    ApplicationManager.getApplication().invokeLater({
+      val dataContext = myContext.get()
+      val event = AnActionEvent(
+        inputEvent,
+        dataContext,
+        myActionPlace,
+        action.templatePresentation.clone(),
+        ActionManager.getInstance(),
+        modifiers
+      )
+      event.setInjectedContext(action.isInInjectedContext)
+      if (ActionUtil.lastUpdateAndCheckDumb(action, event, false)) {
+        ActionUtil.performActionDumbAwareWithCallbacks(action, event, dataContext)
+      }
+    }, ModalityState.defaultModalityState())
   }
 
   override fun getFinalRunnable(): Runnable? {

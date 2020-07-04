@@ -20,18 +20,13 @@ intellij {
     version = "2019.2"
     updateSinceUntilBuild = false
 //    setPlugins("IdeaVIM:0.57")
-//    publishPlugin {
-//        username publishUsername
-//                token publishToken
-//    }
 }
 
 tasks {
-//    registerAdditionalTasks()
-//    publishPlugin {
-//        token(project.property("publishPluginToken"))
-//        channels("beta")
-//    }
+    publishPlugin {
+        token(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
+        channels("beta")
+    }
     compileJava {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
@@ -41,7 +36,6 @@ tasks {
         targetCompatibility = "1.8"
     }
     compileKotlin {
-//        dependsOn(generateGrammarSource)
         kotlinOptions {
             jvmTarget = "1.8"
         }

@@ -1,2 +1,2 @@
-rootProject.name = "mnemonic-actions"
+rootProject.name = "better-mnemonics"
 

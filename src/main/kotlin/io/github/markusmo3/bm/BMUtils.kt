@@ -6,6 +6,8 @@ import com.intellij.openapi.keymap.impl.ui.ShortcutTextField
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
+import java.awt.Color
+import java.awt.color.ColorSpace
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.awt.im.InputContext
@@ -108,5 +110,19 @@ object BMUtils {
       setKeyStrokeMethod.isAccessible = true
     }
     setKeyStrokeMethod.invoke(this, keyStroke) as KeyStroke?
+  }
+
+  fun Color.blend(that: Color, ratio: Double = 0.5): Color {
+    val cRatio = ratio.coerceIn(0.0, 1.0).toFloat()
+    val iRatio = (1.0 - cRatio).toFloat()
+
+    val thisComps = this.getRGBComponents(null)
+    val thatComps = that.getRGBComponents(null)
+    thisComps[0] = (thisComps[0] * iRatio + thatComps[0] * cRatio)
+    thisComps[1] = (thisComps[1] * iRatio + thatComps[1] * cRatio)
+    thisComps[2] = (thisComps[2] * iRatio + thatComps[2] * cRatio)
+    thisComps[3] = (thisComps[3] * iRatio + thatComps[3] * cRatio)
+
+    return Color(ColorSpace.getInstance(ColorSpace.CS_sRGB), thisComps, thisComps[3])
   }
 }

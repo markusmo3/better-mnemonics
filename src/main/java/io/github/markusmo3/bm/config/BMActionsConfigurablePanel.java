@@ -52,7 +52,7 @@ public class BMActionsConfigurablePanel {
   private Tree myChooserActionsTree;
   private JTextField customTextTextfield;
   private JButton addToTheLeftButton;
-  private ShortcutTextField shortcutTextField;
+  private BMKeyStrokeTextfield shortcutTextField;
 
   private BMActionsSchemaState mySelectedSchemaState;
 
@@ -96,17 +96,7 @@ public class BMActionsConfigurablePanel {
   }
 
   private void createUIComponents() {
-    shortcutTextField = null;
-    try {
-      Constructor<ShortcutTextField> firstConstructor = ShortcutTextField.class.getDeclaredConstructor(boolean.class);
-      if (!firstConstructor.isAccessible()) {
-        firstConstructor.setAccessible(true);
-      }
-      shortcutTextField = firstConstructor.newInstance(true);
-      shortcutTextField.setColumns(13);
-    } catch (ReflectiveOperationException e) {
-      e.printStackTrace();
-    }
+    shortcutTextField = new BMKeyStrokeTextfield();
   }
 
   private void doRightOKAction() {
@@ -118,7 +108,7 @@ public class BMActionsConfigurablePanel {
     if (customText.isEmpty()) {
       customText = null;
     }
-    KeyStroke keyStroke = BMUtils.getKeyStrokeKt(shortcutTextField);
+    KeyStroke keyStroke = shortcutTextField.getKeyStroke();
 
     String finalCustomText = customText;
     Set<BMNode> actionSet = Arrays.stream(selectionPaths)
@@ -165,7 +155,7 @@ public class BMActionsConfigurablePanel {
 //        new AddActionAction(myActionsTree),
         new AddGroupAction(myActionsTree),
         new AddSeparatorAction(myActionsTree),
-        new RemoveNodeAction(myActionsTree, myLeftRootPanel),
+        new RemoveNodeAction(myActionsTree),
         new EditNodeAction(myActionsTree),
         new Separator(),
         new MoveAction(myActionsTree, 1),
@@ -241,7 +231,7 @@ public class BMActionsConfigurablePanel {
     return myRoot;
   }
 
-  public void apply() throws ConfigurationException {
+  public void apply() {
     BMActionsSchema.getInstance().loadState(mySelectedSchemaState.deepCopy());
   }
 

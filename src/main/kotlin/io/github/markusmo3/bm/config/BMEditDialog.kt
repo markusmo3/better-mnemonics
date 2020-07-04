@@ -1,11 +1,8 @@
 package io.github.markusmo3.bm.config
 
-import com.intellij.openapi.keymap.impl.ui.ShortcutTextField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.GridBag
-import io.github.markusmo3.bm.BMUtils.getKeyStrokeKt
-import io.github.markusmo3.bm.BMUtils.setKeyStrokeKt
 import java.awt.GridBagLayout
 import javax.swing.JComponent
 import javax.swing.JLabel
@@ -13,7 +10,9 @@ import javax.swing.JPanel
 import javax.swing.KeyStroke
 
 internal class BMEditDialog(
-  private val isShortcutEditingEnabled: Boolean, private val oldBmNode: BMNode?
+  private val isShortcutEditingEnabled: Boolean,
+  private val isGlobalShortcutEditingEnabled: Boolean,
+  private val oldBmNode: BMNode?
 ) : DialogWrapper(false) {
 
   init {
@@ -24,7 +23,7 @@ internal class BMEditDialog(
   private lateinit var myPanel: BMEditPanel
 
   override fun createCenterPanel(): JComponent? {
-    myPanel = BMEditPanel(isShortcutEditingEnabled, oldBmNode)
+    myPanel = BMEditPanel(isShortcutEditingEnabled, isGlobalShortcutEditingEnabled, oldBmNode)
     return myPanel
   }
 
@@ -37,7 +36,7 @@ internal class BMEditDialog(
   }
 
   override fun getPreferredFocusedComponent(): JComponent? {
-    if (myPanel.isShortcutEditingEnabled) {
+    if (isShortcutEditingEnabled) {
       return myPanel.myShortcutTextfield
     } else {
       return myPanel.myCustomTextTextfield
@@ -47,28 +46,27 @@ internal class BMEditDialog(
   fun getKeyStroke(): KeyStroke? {
     return myPanel.getKeyStroke()
   }
+
+  fun getGlobalKeyStroke(): KeyStroke? {
+    return myPanel.getGlobalKeyStroke()
+  }
 }
 
 internal class BMEditPanel(
-  internal val isShortcutEditingEnabled: Boolean, private val oldBmNode: BMNode?
+  isShortcutEditingEnabled: Boolean,
+  isGlobalShortcutEditingEnabled: Boolean,
+  oldBmNode: BMNode?
 ) : JPanel(GridBagLayout()) {
 
-  internal var myShortcutTextfield: ShortcutTextField? = null
+  internal var myShortcutTextfield: BMKeyStrokeTextfield = BMKeyStrokeTextfield()
   internal var myCustomTextTextfield: JBTextField = JBTextField()
+  internal var myGlobalShortcutTextfield: BMKeyStrokeTextfield = BMKeyStrokeTextfield()
 
   init {
-    if (isShortcutEditingEnabled) {
-      val firstConstructor = ShortcutTextField::class.java.declaredConstructors.first()
-      if (!firstConstructor.isAccessible) {
-        firstConstructor.isAccessible = true
-      }
-      myShortcutTextfield = firstConstructor.newInstance(true) as ShortcutTextField?
-      myShortcutTextfield?.columns = 13
-    }
-
     oldBmNode?.let {
       myCustomTextTextfield.text = it.customText
-      myShortcutTextfield?.setKeyStrokeKt(oldBmNode.keyStroke)
+      myShortcutTextfield.setKeyStroke(oldBmNode.keyStroke)
+      myGlobalShortcutTextfield.setKeyStroke(oldBmNode.globalKeyStroke)
     }
 
     val gridBag = GridBag().setDefaultAnchor(0, GridBag.EAST).setDefaultInsets(0, 0, 0, 0, 6)
@@ -80,6 +78,13 @@ internal class BMEditPanel(
     }
     this.add(createLabelFor(myCustomTextTextfield, "Custom Text"), gridBag.nextLine().next())
     this.add(myCustomTextTextfield, gridBag.next())
+    if (isGlobalShortcutEditingEnabled) {
+      this.add(
+        createLabelFor(myGlobalShortcutTextfield, "Global KeyStroke"),
+        gridBag.nextLine().next()
+      )
+      this.add(myGlobalShortcutTextfield, gridBag.next())
+    }
   }
 
   fun getCustomText(): String? {
@@ -91,7 +96,11 @@ internal class BMEditPanel(
   }
 
   fun getKeyStroke(): KeyStroke? {
-    return myShortcutTextfield?.getKeyStrokeKt()
+    return myShortcutTextfield.getKeyStroke()
+  }
+
+  fun getGlobalKeyStroke(): KeyStroke? {
+    return myGlobalShortcutTextfield.getKeyStroke()
   }
 
   fun createLabelFor(component: JComponent?, text: String?): JLabel {
@@ -99,5 +108,4 @@ internal class BMEditPanel(
     label.labelFor = component
     return label
   }
-
 }

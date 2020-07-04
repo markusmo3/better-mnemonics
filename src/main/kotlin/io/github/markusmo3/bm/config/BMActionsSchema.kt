@@ -3,10 +3,8 @@ package io.github.markusmo3.bm.config
 import com.intellij.configurationStore.SerializableScheme
 import com.intellij.ide.ui.customization.CustomActionsSchema
 import com.intellij.openapi.actionSystem.*
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.*
 import com.intellij.openapi.options.Scheme
 import com.intellij.util.xmlb.XmlSerializer
 import com.intellij.util.xmlb.annotations.Attribute
@@ -32,8 +30,7 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 
   private val keyboardChars: CharArray = "1234567890QWERTZUIOPASDFGHJKLYXCVBNM".toCharArray()
   internal var bmManager: BMManager? = null
-  private var state: BMActionsSchemaState =
-    BMActionsSchemaState()
+  private var state: BMActionsSchemaState = BMActionsSchemaState()
 
   override fun getState(): BMActionsSchemaState {
     return state
@@ -60,6 +57,17 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
       for (child in bmNode) {
         validateNode(child)
       }
+    } else if (bmNode.isSeparator()) {
+      if (bmNode.keyStroke != null) {
+        bmNode.keyStroke = null
+      }
+      if (bmNode.globalKeyStroke != null) {
+        bmNode.globalKeyStroke = null
+      }
+    } else if (bmNode.isAction()) {
+      if (bmNode.globalKeyStroke != null) {
+        bmNode.globalKeyStroke = null
+      }
     }
   }
 
@@ -80,6 +88,10 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
     val w3cDocument: Document = documentBuilder.parse(file)
     val document = DOMBuilder().build(w3cDocument)
     loadState(XmlSerializer.deserialize(document.rootElement, BMActionsSchemaState::class.java))
+  }
+
+  fun save() {
+    ApplicationManager.getApplication().stateStore.saveComponent(this)
   }
 
 //  fun importFromVimPlugin() {
@@ -146,8 +158,7 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
       if (keyStroke != null) {
         index[0]--
         return BMNode.newAction(
-          actionId,
-          keyStroke
+          actionId, keyStroke
         )
       } else {
         return BMNode.newAction(
@@ -159,15 +170,13 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 
   companion object {
     @JvmStatic
-    fun getInstance(): BMActionsSchema = ServiceManager.getService(
-      BMActionsSchema::class.java)
+    fun getInstance(): BMActionsSchema = ServiceManager.getService(BMActionsSchema::class.java)
   }
 }
 
 class BMActionsSchemaState : SerializableScheme, Scheme {
   @Property(surroundWithTag = false)
-  var root: BMNode =
-    BMNode.newRoot()
+  var root: BMNode = BMNode.newRoot()
 
   @get:Attribute
   var maxRowCount = 50
@@ -204,6 +213,7 @@ data class BMNode internal constructor(
   @Attribute var actionId: String? = null,
   @Attribute(converter = KeyStrokeConverter::class) var keyStroke: KeyStroke? = null,
   @Attribute var customText: String? = null,
+  @Attribute(converter = KeyStrokeConverter::class) var globalKeyStroke: KeyStroke? = null,
   @Property(surroundWithTag = false) @XCollection val children: MutableList<BMNode> = ArrayList()
 ) : MutableList<BMNode> by children {
 
@@ -220,6 +230,9 @@ data class BMNode internal constructor(
       null
     }
   }
+
+  val actionIdForKeymap: String
+    get() = bmActionIdForKeymapPrefix + actionId + "_" + customText
 
   constructor() : this(BMNodeType.UNDEFINED, "NO_ARG_CONSTRUCTOR_FOR_XML_SUPPORT", null)
 
@@ -257,6 +270,7 @@ data class BMNode internal constructor(
   }
 
   companion object {
+    const val bmActionIdForKeymapPrefix = "InvokeBMPopupAction_"
 
     @JvmStatic
     fun newRoot(): BMNode {
@@ -271,27 +285,21 @@ data class BMNode internal constructor(
     @JvmStatic
     fun newAction(actionId: String?, keyStroke: KeyStroke?, customText: String? = null): BMNode {
       return BMNode(
-        BMNodeType.ACTION,
-        actionId = actionId,
-        keyStroke = keyStroke,
-        customText = customText
+        BMNodeType.ACTION, actionId = actionId, keyStroke = keyStroke, customText = customText
       )
     }
 
     @JvmStatic
     fun newSeparator(customText: String?): BMNode {
       return BMNode(
-        BMNodeType.SEPARATOR,
-        customText = customText
+        BMNodeType.SEPARATOR, customText = customText
       )
     }
 
     @JvmStatic
     fun newGroup(keyStroke: KeyStroke?, customText: String?): BMNode {
       return BMNode(
-        BMNodeType.GROUP,
-        keyStroke = keyStroke,
-        customText = customText
+        BMNodeType.GROUP, keyStroke = keyStroke, customText = customText
       )
     }
   }

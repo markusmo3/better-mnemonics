@@ -109,11 +109,10 @@
               <text value="Add to the left"/>
             </properties>
           </component>
-          <component id="ed258" class="com.intellij.openapi.keymap.impl.ui.ShortcutTextField" binding="shortcutTextField" custom-create="true">
+          <component id="a6e79" class="io.github.markusmo3.bm.config.BMKeyStrokeTextfield" binding="shortcutTextField" custom-create="true">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
           </component>
           <component id="52acd" class="javax.swing.JLabel">
             <constraints>

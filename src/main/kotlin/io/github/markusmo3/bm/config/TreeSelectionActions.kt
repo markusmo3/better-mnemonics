@@ -11,7 +11,6 @@ import io.github.markusmo3.bm.BMUtils.toSortIndex
 import io.github.markusmo3.bm.config.BMNode.Companion.newGroup
 import io.github.markusmo3.bm.config.BMNode.Companion.newSeparator
 import javax.swing.Icon
-import javax.swing.JPanel
 import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
@@ -164,7 +163,7 @@ internal class AddSeparatorAction(myActionsTree: JTree) : AddNodeAction(
   myActionsTree, IdeBundle.message("button.add.separator"), null, AllIcons.General.SeparatorH
 ) {
   override fun getNewBmNode(): BMNode? {
-    val dlg = BMEditDialog(false, null)
+    val dlg = BMEditDialog(false, false, null)
     if (dlg.showAndGet()) {
       return newSeparator(dlg.getCustomText())
     }
@@ -176,9 +175,11 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
   myActionsTree, "Add &Group", null, AllIcons.ToolbarDecorator.AddFolder
 ) {
   override fun getNewBmNode(): BMNode? {
-    val dlg = BMEditDialog(true, null)
+    val dlg = BMEditDialog(true, true, null)
     if (dlg.showAndGet()) {
-      return newGroup(dlg.getKeyStroke(), dlg.getCustomText())
+      val newGroup = newGroup(dlg.getKeyStroke(), dlg.getCustomText())
+      newGroup.globalKeyStroke = dlg.getGlobalKeyStroke()
+      return newGroup
     }
     return null
   }
@@ -212,7 +213,7 @@ internal class AddActionAction(myActionsTree: JTree) : AddNodeAction(
   }
 }
 
-internal class RemoveNodeAction(myActionsTree: JTree, myPanel: JPanel) : TreeSelectionAction(
+internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, IdeBundle.message("button.remove"), null, AllIcons.General.Remove
 ) {
 
@@ -225,18 +226,17 @@ internal class RemoveNodeAction(myActionsTree: JTree, myPanel: JPanel) : TreeSel
     if (selectionPaths != null) {
       for (path in selectionPaths) {
         val selectedNode = path.lastPathComponent as DefaultMutableTreeNode
-        val selectedBmNode = selectedNode.userObject as BMNode
         val parentNode = selectedNode.parent as DefaultMutableTreeNode
         val parentBmNode = parentNode.userObject as BMNode
+        val index = parentNode.getIndex(selectedNode)
         selectedNode.removeFromParent()
-        parentBmNode.remove(selectedBmNode)
+        parentBmNode.removeAt(index)
       }
       (myActionsTree.model as DefaultTreeModel).reload()
     }
     TreeUtil.restoreExpandedPaths(myActionsTree, expandedPaths)
     myActionsTree.setSelectionRow(selectedRowIndex)
   }
-
 }
 
 internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
@@ -250,11 +250,7 @@ internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
       myActionsTree.leadSelectionPath?.lastPathComponent as? DefaultMutableTreeNode?
     val selectedBmNode = selectedNode?.userObject as? BMNode?
     if (selectedBmNode != null) {
-      val dlg = BMEditDialog(!selectedBmNode.isSeparator(), selectedBmNode)
-      if (dlg.showAndGet()) {
-        selectedBmNode.customText = dlg.getCustomText()
-        dlg.getKeyStroke()?.let { selectedBmNode.keyStroke = it }
-      }
+      editNode(selectedBmNode)
     }
   }
 
@@ -265,6 +261,16 @@ internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
     }
   }
 
+  companion object {
+    fun editNode(selectedBmNode: BMNode) {
+      val dlg = BMEditDialog(!selectedBmNode.isSeparator(), selectedBmNode.isGroup(), selectedBmNode)
+      if (dlg.showAndGet()) {
+        selectedBmNode.customText = dlg.getCustomText()
+        dlg.getKeyStroke()?.let { selectedBmNode.keyStroke = it }
+        selectedBmNode.globalKeyStroke = dlg.getGlobalKeyStroke()
+      }
+    }
+  }
 }
 
 internal class MoveLevelAction(myActionsTree: JTree, val dir: Int) : TreeSelectionAction(
@@ -298,9 +304,10 @@ internal class MoveLevelAction(myActionsTree: JTree, val dir: Int) : TreeSelecti
           val parentOfParentBmNode = grandParent.userObject as BMNode
           val parentBmNode = (node.parent as DefaultMutableTreeNode).userObject as BMNode
           val selectedBmNode = node.userObject as BMNode
-          grandParent.add(node)
+          val indexOfParentInGrandParent = parentOfParentBmNode.indexOf(parentBmNode) + 1
+          grandParent.insert(node, indexOfParentInGrandParent)
           parentBmNode.remove(selectedBmNode)
-          parentOfParentBmNode.add(selectedBmNode)
+          parentOfParentBmNode.add(indexOfParentInGrandParent, selectedBmNode)
 
           newSelectionPath = selectionPath.parentPath.parentPath.pathByAddingChild(node)
         }
@@ -322,8 +329,8 @@ internal class MoveLevelAction(myActionsTree: JTree, val dir: Int) : TreeSelecti
   }
 
   private fun isMoveLevelSupported(): Boolean {
-    val node =
-      myActionsTree.leadSelectionPath?.lastPathComponent as DefaultMutableTreeNode? ?: return false
+    val node = myActionsTree.leadSelectionPath?.lastPathComponent as DefaultMutableTreeNode?
+        ?: return false
     if (dir > 0) {
       return node.previousSibling != null && (node.previousSibling.userObject as BMNode).isGroup()
     } else {
@@ -339,30 +346,36 @@ internal class MoveAction(myActionsTree: JTree, val dir: Int) : TreeSelectionAct
 ) {
   override fun actionPerformed(e: AnActionEvent) {
     val expandedPaths = TreeUtil.collectExpandedPaths(myActionsTree)
-    val selectionPath = myActionsTree.leadSelectionPath
-    if (selectionPath != null) {
-      val node = selectionPath.lastPathComponent as DefaultMutableTreeNode
-      val parent = node.parent as DefaultMutableTreeNode
-      val (_, _, _, _, children) = parent.userObject as BMNode
-      val bmNode = node.userObject as BMNode
-      val indexOf = children.indexOf(bmNode)
-      children.remove(bmNode)
-      val adder = if (dir > 0) 1 else -1
-      val newIndex = (indexOf + adder).coerceIn(0, parent.childCount - 1)
-      children.add(newIndex, bmNode)
-      parent.insert(node, newIndex)
+    val selectionPaths = myActionsTree.selectionPaths
+    if (selectionPaths != null && selectionPaths.isNotEmpty()) {
+      for (selectionPath in selectionPaths) {
+        val node = selectionPath.lastPathComponent as DefaultMutableTreeNode
+        val parent = node.parent as DefaultMutableTreeNode
+        parent.getIndex(node)
+      }
+
+      selectionPaths.map {
+        val node = it.lastPathComponent as DefaultMutableTreeNode
+        val parent = node.parent as DefaultMutableTreeNode
+        Triple(node, parent, parent.getIndex(node))
+      }.sortedBy { if (dir > 0) -it.third else it.third }.forEach { (node, parent, indexOf) ->
+          val children = parent.userObject as BMNode
+          val bmNode = node.userObject as BMNode
+          children.remove(bmNode)
+          val adder = if (dir > 0) 1 else -1
+          val newIndex = (indexOf + adder).coerceIn(0, parent.childCount - 1)
+          children.add(newIndex, bmNode)
+          parent.insert(node, newIndex)
+        }
       (myActionsTree.model as DefaultTreeModel).reload()
       TreeUtil.restoreExpandedPaths(myActionsTree, expandedPaths)
-      myActionsTree.setSelectionRow(myActionsTree.getRowForPath(selectionPath))
+      myActionsTree.selectionPaths = selectionPaths
     }
   }
 
 
   override fun update(e: AnActionEvent) {
     super.update(e)
-    if (e.presentation.isEnabled) {
-      e.presentation.isEnabled = isSingleSelection()
-    }
     if (e.presentation.isEnabled) {
       e.presentation.isEnabled = isMoveSupported()
     }
@@ -372,21 +385,23 @@ internal class MoveAction(myActionsTree: JTree, val dir: Int) : TreeSelectionAct
     val selectionPaths = myActionsTree.selectionPaths
     if (selectionPaths != null) {
       var parent: DefaultMutableTreeNode? = null
-      for (treePath in selectionPaths) if (treePath.lastPathComponent != null) {
-        val node = treePath.lastPathComponent as DefaultMutableTreeNode
-        if (parent == null) {
-          parent = node.parent as DefaultMutableTreeNode
-        }
-        if (parent == null || parent !== node.parent) {
-          return false
-        }
-        if (dir > 0) {
-          if (parent.getIndex(node) == parent.childCount - 1) {
+      for (treePath in selectionPaths) {
+        if (treePath.lastPathComponent != null) {
+          val node = treePath.lastPathComponent as DefaultMutableTreeNode
+          if (parent == null) {
+            parent = node.parent as? DefaultMutableTreeNode
+          }
+          if (parent == null || parent !== node.parent) {
             return false
           }
-        } else {
-          if (parent.getIndex(node) == 0) {
-            return false
+          if (dir > 0) {
+            if (parent.getIndex(node) == parent.childCount - 1) {
+              return false
+            }
+          } else {
+            if (parent.getIndex(node) == 0) {
+              return false
+            }
           }
         }
       }

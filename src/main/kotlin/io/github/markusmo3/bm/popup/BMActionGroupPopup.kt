@@ -4,6 +4,7 @@ import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.ex.ActionUtil
 import com.intellij.openapi.actionSystem.impl.ActionMenu
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.impl.LaterInvocator
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -17,6 +18,7 @@ import com.intellij.util.ObjectUtils
 import com.intellij.util.containers.ContainerUtil
 import io.github.markusmo3.bm.config.BMActionsSchema
 import io.github.markusmo3.bm.config.BMNode
+import io.github.markusmo3.bm.config.EditNodeAction
 import java.awt.Component
 import java.awt.event.ActionEvent
 import java.awt.event.InputEvent
@@ -110,23 +112,36 @@ class BMActionGroupPopup : ListPopupImpl {
     if (aEvent == null || aEvent.keyCode in PASSTHROUGH_KEYS && aEvent.modifiersEx == 0) {
       return super.process(aEvent)
     }
+    if (aEvent.keyCode == KeyEvent.VK_F12 && aEvent.modifiersEx == 0) {
+      val selectedValue = list.selectedValue
+      if (selectedValue is BMActionItem) {
+        ApplicationManager.getApplication().invokeLater {
+          EditNodeAction.editNode(selectedValue.bmNode)
+          BMActionsSchema.getInstance().save()
+        }
+        aEvent.consume()
+        aEvent.source = list
+        closeOk(aEvent)
+      }
+    }
 
-    LOG.warn("processing $aEvent")
     val eventKeyStroke = KeyStroke.getKeyStrokeForEvent(aEvent)
     val bmStep = step as BMActionPopupStep
     for (actionItem in bmStep.values) {
       if (eventKeyStroke == actionItem.keyStroke) {
         list.setSelectedValue(actionItem, true)
         list.repaint()
-        handleSelect(true)
-        LOG.warn("selecting $actionItem")
+        aEvent.consume()
+        aEvent.source = list
+        handleSelect(true, aEvent)
         break
       }
     }
-    aEvent?.consume()
+    aEvent.consume()
+    aEvent.source = list
     // HACK: this sets the event source and somehow prevents the event from reaching the ListUI
     //   and causing problems there...
-    super.process(aEvent)
+//    super.process(aEvent)
   }
 
   fun handleFinalChoices(selectedValue: Any?, listStep: ListPopupStep<Any?>): Boolean {
