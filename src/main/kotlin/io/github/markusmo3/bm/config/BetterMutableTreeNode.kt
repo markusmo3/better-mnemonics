@@ -12,6 +12,6 @@ internal class BetterMutableTreeNode @JvmOverloads constructor(
   userObject: Any? = null, allowsChildren: Boolean = true
 ) : DefaultMutableTreeNode(userObject, allowsChildren) {
 
-  fun getChildrenVector(): Vector<TreeNode> = children
+  fun getChildrenVector(): Vector<TreeNode> = children as Vector<TreeNode>
 
 }

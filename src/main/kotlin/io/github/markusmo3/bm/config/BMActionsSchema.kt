@@ -1,7 +1,6 @@
 package io.github.markusmo3.bm.config
 
 import com.intellij.configurationStore.SerializableScheme
-import com.intellij.ide.ui.customization.CustomActionsSchema
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.*
@@ -17,7 +16,6 @@ import org.jdom.output.Format
 import org.jdom.output.XMLOutputter
 import org.w3c.dom.Document
 import java.io.ByteArrayInputStream
-import java.io.File
 import java.nio.charset.StandardCharsets
 import javax.swing.KeyStroke
 import javax.xml.parsers.DocumentBuilderFactory
@@ -73,21 +71,21 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 
   override fun noStateLoaded() {
     if (state.root.isEmpty()) {
-      val mainMenuAction =
-        CustomActionsSchema.getInstance().getCorrectedAction(IdeActions.GROUP_MAIN_MENU)
-      if (mainMenuAction != null) {
-        val wrap = mainMenuAction.toBMNode() ?: return
-        state.root.add(0, wrap)
-      }
+      val inputStream = javaClass.getResourceAsStream("/defaultBMActionsSchema.xml")
+      val factory = DocumentBuilderFactory.newInstance()
+      val documentBuilder = factory.newDocumentBuilder()
+      val w3cDocument: Document = documentBuilder.parse(inputStream)
+      val document = DOMBuilder().build(w3cDocument)
+      val rootBmNode = document.rootElement.getChild("component").getChild("BMNode")
+      state.root = XmlSerializer.deserialize(rootBmNode, BMNode::class.java)
+      bmManager?.reset()
+//      val mainMenuAction =
+//        CustomActionsSchema.getInstance().getCorrectedAction(IdeActions.GROUP_MAIN_MENU)
+//      if (mainMenuAction != null) {
+//        val wrap = mainMenuAction.toBMNode() ?: return
+//        state.root.add(0, wrap)
+//      }
     }
-  }
-
-  fun loadStateFromFile(file: File) {
-    val factory = DocumentBuilderFactory.newInstance()
-    val documentBuilder = factory.newDocumentBuilder()
-    val w3cDocument: Document = documentBuilder.parse(file)
-    val document = DOMBuilder().build(w3cDocument)
-    loadState(XmlSerializer.deserialize(document.rootElement, BMActionsSchemaState::class.java))
   }
 
   fun save() {
@@ -234,7 +232,7 @@ data class BMNode internal constructor(
   val actionIdForKeymap: String
     get() = bmActionIdForKeymapPrefix + actionId + "_" + customText
 
-  constructor() : this(BMNodeType.UNDEFINED, "NO_ARG_CONSTRUCTOR_FOR_XML_SUPPORT", null)
+  constructor() : this(BMNodeType.UNDEFINED)
 
   fun isAction(): Boolean {
     return type == BMNodeType.ACTION

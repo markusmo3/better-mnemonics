@@ -1,9 +1,9 @@
 group = "io.github.markusmo3"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 plugins {
     java
-    kotlin("jvm") version "1.3.41"
+    kotlin("jvm") version "1.3.72"
     id("org.jetbrains.intellij").version("0.4.9")
 }
 
