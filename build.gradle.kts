@@ -1,10 +1,10 @@
 group = "io.github.markusmo3"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 plugins {
     java
     kotlin("jvm") version "1.3.72"
-    id("org.jetbrains.intellij").version("0.4.9")
+    id("org.jetbrains.intellij").version("0.4.21")
 }
 
 dependencies {
@@ -18,6 +18,7 @@ repositories {
 
 intellij {
     version = "2019.2"
+    pluginName = "BetterMnemonics"
     updateSinceUntilBuild = false
 //    setPlugins("IdeaVIM:0.57")
 }
@@ -25,7 +26,7 @@ intellij {
 tasks {
     publishPlugin {
         token(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
-        channels("beta")
+//        channels("beta")
     }
     compileJava {
         sourceCompatibility = "1.8"

@@ -9,6 +9,7 @@
 
   <category>Navigation</category>
   <vendor url="https://github.com/markusmo3/better-mnemonics">better-mnemonics</vendor>
+  <idea-version since-build="192"/>
 
   <application-components>
     <component>
