@@ -45,7 +45,8 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
     myTree.isRootVisible = false
     myTree.cellRenderer = BMTreeCellRenderer()
 
-    myEditPanel = BMEditPanel(true, false, null)
+    myEditPanel = BMEditPanel(isShortcutEditingEnabled = true,
+            isGlobalShortcutEditingEnabled = false, oldBmNode = null)
     myEditPanel.border = BorderFactory.createEmptyBorder(0, 0, 5, 0)
     val panel = JPanel(BorderLayout())
     panel.add(myEditPanel, BorderLayout.SOUTH)

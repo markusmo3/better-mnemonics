@@ -1,37 +1,24 @@
 package io.github.markusmo3.bm.config;
 
 import com.intellij.icons.AllIcons.*;
-import com.intellij.openapi.actionSystem.ex.QuickList;
-import com.intellij.openapi.actionSystem.ex.QuickListsManager;
-import com.intellij.openapi.fileTypes.StdFileTypes;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.ui.tree.TreeUtil;
-import io.github.markusmo3.bm.BMUtils;
-import io.github.markusmo3.bm.actions.OpenBMXmlAction;
-import io.github.markusmo3.bm.actions.ReloadBMXmlAction;
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.*;
-
-import java.util.stream.Collectors;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.swing.tree.*;
-
 import com.intellij.ide.ui.customization.*;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ex.*;
 import com.intellij.openapi.actionSystem.impl.*;
 import com.intellij.openapi.keymap.impl.ui.*;
-import com.intellij.openapi.options.*;
 import com.intellij.openapi.project.*;
 import com.intellij.openapi.util.text.*;
 import com.intellij.packageDependencies.ui.*;
 import com.intellij.ui.*;
+import com.intellij.ui.treeStructure.*;
+import io.github.markusmo3.bm.actions.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+import java.util.*;
+import java.util.stream.*;
+import javax.swing.*;
+import javax.swing.tree.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -249,7 +236,7 @@ public class BMActionsConfigurablePanel {
         .equals(mySelectedSchemaState.getXmlString());
   }
 
-  private DefaultMutableTreeNode createTreeNode(BMNode bmNode) {
+  private static DefaultMutableTreeNode createTreeNode(BMNode bmNode) {
     BetterMutableTreeNode treeNode = new BetterMutableTreeNode(bmNode);
     if (bmNode.isGroup()) {
       for (BMNode child : bmNode.getChildren()) {

@@ -216,16 +216,21 @@ data class BMNode internal constructor(
 ) : MutableList<BMNode> by children {
 
   val action: AnAction? by lazy {
-    if (type == BMNodeType.GROUP) {
-      val group = DefaultActionGroup(customText, true)
-      group.addAll(children.mapNotNull { it.action })
-      group
-    } else if (type == BMNodeType.SEPARATOR) {
-      Separator(customText)
-    } else if (type == BMNodeType.ACTION) {
-      ActionManager.getInstance().getAction(actionId!!)
-    } else {
-      null
+    when (type) {
+      BMNodeType.GROUP -> {
+        val group = DefaultActionGroup(customText, true)
+        group.addAll(children.mapNotNull { it.action })
+        group
+      }
+      BMNodeType.SEPARATOR -> {
+        Separator(customText)
+      }
+      BMNodeType.ACTION -> {
+        ActionManager.getInstance().getAction(actionId!!)
+      }
+      else -> {
+        null
+      }
     }
   }
 

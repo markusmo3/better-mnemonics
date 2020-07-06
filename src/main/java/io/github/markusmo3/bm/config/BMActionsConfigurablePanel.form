@@ -106,20 +106,22 @@
               <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Add to the left"/>
+              <text resource-bundle="BMResources" key="addToTheLeft"/>
             </properties>
           </component>
           <component id="a6e79" class="io.github.markusmo3.bm.config.BMKeyStrokeTextfield" binding="shortcutTextField" custom-create="true">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
+            <properties/>
           </component>
           <component id="52acd" class="javax.swing.JLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="KeyStroke"/>
+              <labelFor value=""/>
+              <text resource-bundle="BMResources" key="keystroke"/>
             </properties>
           </component>
           <component id="9afd5" class="javax.swing.JLabel">
@@ -127,7 +129,8 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Custom Text"/>
+              <labelFor value="34e68"/>
+              <text resource-bundle="BMResources" key="customText"/>
             </properties>
           </component>
         </children>

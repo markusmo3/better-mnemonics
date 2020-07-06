@@ -140,8 +140,8 @@ class BMActionStepBuilder(
         }
       }
       if (!enabled) {
-        icon = disabledIcon ?: IconLoader.getDisabledIcon(icon)
-        selectedIcon = disabledIcon ?: IconLoader.getDisabledIcon(selectedIcon)
+        icon = disabledIcon ?: icon?.let { IconLoader.getDisabledIcon(it) }
+        selectedIcon = disabledIcon ?: selectedIcon?.let { IconLoader.getDisabledIcon(it) }
       }
       if (myMaxIconWidth != -1 && myMaxIconHeight != -1) {
         if (icon != null) icon = SizedIcon(icon, myMaxIconWidth, myMaxIconHeight)

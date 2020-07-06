@@ -1,20 +1,7 @@
 package io.github.markusmo3.bm.popup
 
-import com.intellij.icons.AllIcons
-import com.intellij.openapi.actionSystem.ShortcutProvider
-import com.intellij.openapi.keymap.KeymapUtil
-import com.intellij.openapi.ui.popup.ListPopupStep
-import com.intellij.openapi.ui.popup.util.BaseListPopupStep
-import com.intellij.openapi.util.Comparing
-import com.intellij.ui.ColorUtil
 import com.intellij.ui.popup.list.ListPopupImpl
 import com.intellij.ui.popup.list.PopupListElementRenderer
-import com.intellij.util.ArrayUtil
-import com.intellij.util.ui.JBUI
-import com.intellij.util.ui.UIUtil
-import java.awt.BorderLayout
-import java.awt.Dimension
-import javax.swing.*
 
 class BMPopupListElementRenderer<E>(myPopup: ListPopupImpl)
     : PopupListElementRenderer<E>(myPopup) {

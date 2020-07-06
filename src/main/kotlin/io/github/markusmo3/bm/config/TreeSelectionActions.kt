@@ -2,7 +2,6 @@ package io.github.markusmo3.bm.config
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.IdeBundle
-import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
@@ -163,7 +162,8 @@ internal class AddSeparatorAction(myActionsTree: JTree) : AddNodeAction(
   myActionsTree, IdeBundle.message("button.add.separator"), null, AllIcons.General.SeparatorH
 ) {
   override fun getNewBmNode(): BMNode? {
-    val dlg = BMEditDialog(false, false, null)
+    val dlg = BMEditDialog(isShortcutEditingEnabled = false, isGlobalShortcutEditingEnabled = false,
+            oldBmNode = null)
     if (dlg.showAndGet()) {
       return newSeparator(dlg.getCustomText())
     }
@@ -175,7 +175,8 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
   myActionsTree, "Add &Group", null, AllIcons.ToolbarDecorator.AddFolder
 ) {
   override fun getNewBmNode(): BMNode? {
-    val dlg = BMEditDialog(true, true, null)
+    val dlg = BMEditDialog(isShortcutEditingEnabled = true, isGlobalShortcutEditingEnabled = true,
+            oldBmNode = null)
     if (dlg.showAndGet()) {
       val newGroup = newGroup(dlg.getKeyStroke(), dlg.getCustomText())
       newGroup.globalKeyStroke = dlg.getGlobalKeyStroke()
@@ -187,31 +188,31 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
   override fun isRootSelectable(): Boolean = true
 }
 
-internal class AddActionAction(myActionsTree: JTree) : AddNodeAction(
-  myActionsTree, IdeBundle.message("button.add.action"), null, AllIcons.General.Add
-) {
-  override fun getNewBmNodes(): Set<BMNode> {
-    val dlg = BMFindAvailableActionsDialog()
-    if (dlg.showAndGet()) {
-      val toAddSet: Set<Any> = dlg.treeSelectedActionIds
-      return toAddSet.mapNotNull { toAdd: Any ->
-        if (toAdd is AnAction) {
-          val id = ActionManager.getInstance().getId(toAdd)
-          if (id != null) {
-            return@mapNotNull BMNode.newAction(id, dlg.getKeyStroke(), dlg.getCustomText())
-          }
-        } else if (toAdd is String) {
-          val action = ActionManager.getInstance().getAction(toAdd)
-          if (action != null) {
-            return@mapNotNull BMNode.newAction(toAdd, dlg.getKeyStroke(), dlg.getCustomText())
-          }
-        }
-        return@mapNotNull null
-      }.toSet()
-    }
-    return emptySet()
-  }
-}
+//internal class AddActionAction(myActionsTree: JTree) : AddNodeAction(
+//  myActionsTree, IdeBundle.message("button.add.action"), null, AllIcons.General.Add
+//) {
+//  override fun getNewBmNodes(): Set<BMNode> {
+//    val dlg = BMFindAvailableActionsDialog()
+//    if (dlg.showAndGet()) {
+//      val toAddSet: Set<Any> = dlg.treeSelectedActionIds
+//      return toAddSet.mapNotNull { toAdd: Any ->
+//        if (toAdd is AnAction) {
+//          val id = ActionManager.getInstance().getId(toAdd)
+//          if (id != null) {
+//            return@mapNotNull BMNode.newAction(id, dlg.getKeyStroke(), dlg.getCustomText())
+//          }
+//        } else if (toAdd is String) {
+//          val action = ActionManager.getInstance().getAction(toAdd)
+//          if (action != null) {
+//            return@mapNotNull BMNode.newAction(toAdd, dlg.getKeyStroke(), dlg.getCustomText())
+//          }
+//        }
+//        return@mapNotNull null
+//      }.toSet()
+//    }
+//    return emptySet()
+//  }
+//}
 
 internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, IdeBundle.message("button.remove"), null, AllIcons.General.Remove
@@ -273,7 +274,7 @@ internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   }
 }
 
-internal class MoveLevelAction(myActionsTree: JTree, val dir: Int) : TreeSelectionAction(
+internal class MoveLevelAction(myActionsTree: JTree, private val dir: Int) : TreeSelectionAction(
   myActionsTree,
   text = if (dir > 0) "Move &Right" else "Move &Left",
   icon = if (dir > 0) AllIcons.General.ArrowRight else AllIcons.General.ArrowLeft
@@ -331,15 +332,15 @@ internal class MoveLevelAction(myActionsTree: JTree, val dir: Int) : TreeSelecti
   private fun isMoveLevelSupported(): Boolean {
     val node = myActionsTree.leadSelectionPath?.lastPathComponent as DefaultMutableTreeNode?
         ?: return false
-    if (dir > 0) {
-      return node.previousSibling != null && (node.previousSibling.userObject as BMNode).isGroup()
+    return if (dir > 0) {
+      node.previousSibling != null && (node.previousSibling.userObject as BMNode).isGroup()
     } else {
-      return (node.parent?.parent as? DefaultMutableTreeNode) != null
+      (node.parent?.parent as? DefaultMutableTreeNode) != null
     }
   }
 }
 
-internal class MoveAction(myActionsTree: JTree, val dir: Int) : TreeSelectionAction(
+internal class MoveAction(myActionsTree: JTree, private val dir: Int) : TreeSelectionAction(
   myActionsTree,
   text = if (dir > 0) IdeBundle.message("button.move.down") else IdeBundle.message("button.move.up"),
   icon = if (dir > 0) AllIcons.Actions.MoveDown else AllIcons.Actions.MoveUp

@@ -10,9 +10,6 @@ import org.jdom.output.XMLOutputter
 import org.w3c.dom.Document
 import javax.xml.parsers.DocumentBuilderFactory
 
-internal class BMActionsSchemaTest {
-}
-
 fun main() {
     val schema = BMActionsSchema()
     schema.noStateLoaded()
@@ -37,6 +34,5 @@ private fun toXmlString(schema: BMActionsSchemaState): String? {
     val serialized = XmlSerializer.serialize(schema)
     val xmlOutputter = XMLOutputter()
     xmlOutputter.format = Format.getPrettyFormat()
-    val str = xmlOutputter.outputString(serialized)
-    return str
+    return xmlOutputter.outputString(serialized)
 }

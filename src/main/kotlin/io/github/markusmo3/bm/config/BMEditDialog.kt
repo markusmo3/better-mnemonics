@@ -36,10 +36,10 @@ internal class BMEditDialog(
   }
 
   override fun getPreferredFocusedComponent(): JComponent? {
-    if (isShortcutEditingEnabled) {
-      return myPanel.myShortcutTextfield
+    return if (isShortcutEditingEnabled) {
+      myPanel.myShortcutTextfield
     } else {
-      return myPanel.myCustomTextTextfield
+      myPanel.myCustomTextTextfield
     }
   }
 
@@ -88,10 +88,10 @@ internal class BMEditPanel(
   }
 
   fun getCustomText(): String? {
-    if (myCustomTextTextfield.text.isBlank()) {
-      return null
+    return if (myCustomTextTextfield.text.isBlank()) {
+      null
     } else {
-      return myCustomTextTextfield.text
+      myCustomTextTextfield.text
     }
   }
 
@@ -103,7 +103,7 @@ internal class BMEditPanel(
     return myGlobalShortcutTextfield.getKeyStroke()
   }
 
-  fun createLabelFor(component: JComponent?, text: String?): JLabel {
+  private fun createLabelFor(component: JComponent?, text: String?): JLabel {
     val label = JLabel(text)
     label.labelFor = component
     return label

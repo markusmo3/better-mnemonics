@@ -3,6 +3,7 @@ package io.github.markusmo3.bm.config
 import com.intellij.openapi.options.Configurable.NoScroll
 import com.intellij.openapi.options.ConfigurationException
 import com.intellij.openapi.options.SearchableConfigurable
+import io.github.markusmo3.bm.BMRes
 import javax.swing.JComponent
 
 class BMActionsConfigurable : SearchableConfigurable, NoScroll {
@@ -16,7 +17,7 @@ class BMActionsConfigurable : SearchableConfigurable, NoScroll {
   }
 
   override fun getDisplayName(): String {
-    return "Better Mnemonics"
+    return BMRes.get(javaClass, "title")
   }
 
   override fun getHelpTopic(): String? {
