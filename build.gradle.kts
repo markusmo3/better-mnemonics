@@ -13,6 +13,7 @@ plugins {
 }
 
 dependencies {
+    compileOnly(kotlin("stdlib-jdk8"))
     testImplementation("io.mockk:mockk:1.9.3")
 }
 
@@ -22,7 +23,7 @@ repositories {
 }
 
 intellij {
-    version = "2019.2"
+    version = "2020.1"
     pluginName = "BetterMnemonics"
     updateSinceUntilBuild = false
 //    setPlugins("IdeaVIM:0.57")
@@ -47,6 +48,9 @@ tasks {
         token(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
 //        channels("beta")
     }
+    runIde {
+        jvmArgs = listOf("-XX:+UnlockDiagnosticVMOptions")
+    }
     compileJava {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
@@ -58,6 +62,7 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjvm-default=enable")
         }
     }
     compileTestKotlin {

@@ -1,9 +1,9 @@
 package io.github.markusmo3.bm
 
-import com.intellij.AbstractBundle
+import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 
-class BMRes : AbstractBundle(BUNDLE) {
+class BMRes : DynamicBundle(BUNDLE) {
 
   companion object {
     const val BUNDLE = "BMResources"

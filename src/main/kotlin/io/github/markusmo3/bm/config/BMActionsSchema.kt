@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 
   private val keyboardChars: CharArray = "1234567890QWERTZUIOPASDFGHJKLYXCVBNM".toCharArray()
-  internal var bmManager: BMManager? = null
+  private val bmManager: BMManager by lazy { service<BMManager>() }
   private var state: BMActionsSchemaState = BMActionsSchemaState()
 
   override fun getState(): BMActionsSchemaState {
@@ -37,7 +37,7 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
   override fun loadState(state: BMActionsSchemaState) {
     validateState(state)
     this.state = state
-    bmManager?.reset()
+    bmManager.reset(state)
   }
 
   private fun validateState(state: BMActionsSchemaState) {
@@ -78,7 +78,7 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
       val document = DOMBuilder().build(w3cDocument)
       val rootBmNode = document.rootElement.getChild("component").getChild("BMNode")
       state.root = XmlSerializer.deserialize(rootBmNode, BMNode::class.java)
-      bmManager?.reset()
+      bmManager.reset(state)
 //      val mainMenuAction =
 //        CustomActionsSchema.getInstance().getCorrectedAction(IdeActions.GROUP_MAIN_MENU)
 //      if (mainMenuAction != null) {

@@ -9,8 +9,8 @@ import com.intellij.util.ui.EmptyIcon
 import com.intellij.util.ui.LafIconLookup
 import com.intellij.util.ui.LafIconLookup.getDisabledIcon
 import com.intellij.util.ui.LafIconLookup.getSelectedIcon
-import io.github.markusmo3.bm.config.BMNode
 import io.github.markusmo3.bm.BMUtils.toShortString
+import io.github.markusmo3.bm.config.BMNode
 import java.util.*
 import javax.swing.Icon
 import javax.swing.JComponent
@@ -98,26 +98,21 @@ class BMActionStepBuilder(
   private fun appendActionsFromGroup(bmNode: BMNode) {
     val actionGroup: ActionGroup =
       DefaultActionGroup(bmNode.children.mapNotNull { it.action })
-    val actionManager = ActionManager.getInstance()
-    val newVisibleActions = Utils.expandActionGroup(
-      false, actionGroup, this, myDataContext, myActionPlace
-    ).associateBy { actionManager.getId(it) }
+    Utils.expandActionGroup(false, actionGroup, this, myDataContext,
+      myActionPlace)
     for (bmChild in bmNode.children) {
       if (bmChild.isSeparator()) {
         myPrependWithSeparator = true
         mySeparatorText = bmChild.customText
       } else {
 
-        appendAction(bmChild, newVisibleActions[bmChild.actionId])
+        appendAction(bmChild)
       }
     }
   }
 
-  private fun appendAction(bmNode: BMNode, actionParam: AnAction?) {
-    var action: AnAction? = actionParam
-    if (action == null) {
-      action = bmNode.action ?: return
-    }
+  private fun appendAction(bmNode: BMNode) {
+    val action: AnAction = bmNode.action ?: return
     val presentation = getPresentation(action)
     val enabled = presentation.isEnabled
     if ((myShowDisabled || enabled) && presentation.isVisible) {

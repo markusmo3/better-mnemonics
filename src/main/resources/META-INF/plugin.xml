@@ -2,23 +2,26 @@
   <name>BetterMnemonics</name>
   <id>io.github.markusmo3.BetterMnemonics</id>
 
-  <description><![CDATA[Adds a fully configurable popup menu to provide better keyboard-only interaction in Jetbrains IDEs. Use your own custom mnemonics instead of hand-contorting shortcuts.]]>
+  <description><![CDATA[
+  Adds a fully configurable popup menu to provide better keyboard-only interaction in Jetbrains IDEs.
+  Use your own custom mnemonics instead of hand-contorting shortcuts.]]>
   </description>
 
   <depends>com.intellij.modules.platform</depends>
 
   <category>Navigation</category>
   <vendor url="https://github.com/markusmo3/better-mnemonics">better-mnemonics</vendor>
-  <idea-version since-build="192"/>
+  <idea-version since-build="201.3803.71"/>
   <resource-bundle>BMResources</resource-bundle>
 
   <application-components>
     <component>
-      <implementation-class>io.github.markusmo3.bm.BMManager</implementation-class>
+      <implementation-class>io.github.markusmo3.bm.EmptyApplicationComponent</implementation-class>
     </component>
   </application-components>
 
   <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="io.github.markusmo3.bm.BMManager"/>
     <applicationService serviceImplementation="io.github.markusmo3.bm.config.BMActionsSchema"/>
     <applicationConfigurable parentId="tools" displayName="Better Mnemonics"
       id="preferences.BMActionsConfigurable"
@@ -29,6 +32,10 @@
       implementationClass="com.intellij.application.options.schemes.SerializableSchemeExporter"/>
   </extensions>
 
+  <applicationListeners>
+    <listener class="io.github.markusmo3.bm.BMListener"
+      topic="com.intellij.ide.AppLifecycleListener"/>
+  </applicationListeners>
   <actions>
     <action id="io.github.markusmo3.bm.actions.OpenBMXmlAction"
       class="io.github.markusmo3.bm.actions.OpenBMXmlAction">

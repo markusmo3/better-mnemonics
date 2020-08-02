@@ -1,8 +1,6 @@
 package io.github.markusmo3.bm
 
-import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
-import com.intellij.openapi.keymap.impl.ui.ShortcutTextField
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
@@ -69,14 +67,6 @@ object BMUtils {
     return sj.toString()
   }
 
-  fun getPluginPath(): File? {
-    var path: File = PluginManager.getPlugin(BMManager.pluginId)!!.path
-    if (path.name.endsWith(".jar")) {
-      path = File(path.parentFile, path.name.substring(0, path.name.length - 4))
-    }
-    return File(path.parentFile, path.name + "_templates")
-  }
-
   fun openFileInEditor(project: Project, file: File) {
     var vFile = LocalFileSystem.getInstance().findFileByIoFile(file)
     if (vFile == null) {
@@ -91,25 +81,6 @@ object BMUtils {
   fun openFileInEditor(project: Project, vFile: VirtualFile) {
     val openFileDescriptor = OpenFileDescriptor(project, vFile)
     openFileDescriptor.navigate(true)
-  }
-
-  @JvmStatic
-  fun ShortcutTextField.getKeyStrokeKt(): KeyStroke? {
-    val getKeyStrokeMethod = ShortcutTextField::class.java.getDeclaredMethod("getKeyStroke")
-    if (!getKeyStrokeMethod.isAccessible) {
-      getKeyStrokeMethod.isAccessible = true
-    }
-    return getKeyStrokeMethod.invoke(this) as KeyStroke?
-  }
-
-  @JvmStatic
-  fun ShortcutTextField?.setKeyStrokeKt(keyStroke: KeyStroke?) {
-    val setKeyStrokeMethod =
-      ShortcutTextField::class.java.getDeclaredMethod("setKeyStroke", KeyStroke::class.java)
-    if (!setKeyStrokeMethod.isAccessible) {
-      setKeyStrokeMethod.isAccessible = true
-    }
-    setKeyStrokeMethod.invoke(this, keyStroke) as KeyStroke?
   }
 
   fun Color.blend(that: Color, ratio: Double = 0.5): Color {
