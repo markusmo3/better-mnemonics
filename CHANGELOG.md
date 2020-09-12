@@ -1,4 +1,11 @@
+<!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # Better Mnemonics
+
+## [Unreleased]
+
+## [1.0.2]
+- fixed a bug preventing some popup menus from opening
+- improved the default action schema
 
 ## [1.0.1]
 - added I18n Support
