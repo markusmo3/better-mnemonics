@@ -22,6 +22,7 @@ jobs:
       run: ./gradlew buildPlugin
 
     - name: IntelliJ Platform Plugin Verifier
+      id: verify
       uses: ChrisCarini/intellij-platform-plugin-verifier-action@v0.0.2
       with:
         ide-versions: |
