@@ -17,7 +17,7 @@ class OpenBMXmlAction : AnAction("Open BetterMnemonics xml", null, AllIcons.File
   override fun actionPerformed(e: AnActionEvent) {
     val storageManager: StateStorageManager =
       ApplicationManager.getApplication().stateStore.storageManager
-    val location = Paths.get(storageManager.expandMacros("betterMnemonicsSchema.xml"))
+    val location = storageManager.expandMacro("betterMnemonicsSchema.xml")
     BMUtils.openFileInEditor(e.project!!, location.toFile())
   }
 

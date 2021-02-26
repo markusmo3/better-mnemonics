@@ -187,7 +187,7 @@ class BMActionGroupPopup : ListPopupImpl {
   }
 
   private fun handleToggleAction() {
-    val selectedValues = list.selectedValues
+    val selectedValues = list.selectedValuesList
 
     val listStep = listStep
     val actionPopupStep = ObjectUtils.tryCast(listStep, BMActionPopupStep::class.java) ?: return

@@ -51,7 +51,7 @@ class BMManager : Disposable {
   }
 
   internal fun unregisterActions() {
-    for (oldId in ActionManager.getInstance().getActionIds(BMNode.bmActionIdForKeymapPrefix)) {
+    for (oldId in ActionManager.getInstance().getActionIdList(BMNode.bmActionIdForKeymapPrefix)) {
       ActionManager.getInstance().unregisterAction(oldId)
     }
   }

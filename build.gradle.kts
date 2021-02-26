@@ -1,18 +1,28 @@
-
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.changelog.closure
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.71")
+    }
+}
+
 plugins {
-    id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.4.0"
+    java
+    kotlin("jvm") version "1.4.0"
     // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-    id("org.jetbrains.intellij") version "0.4.22"
+    id("org.jetbrains.intellij") version "0.7.2"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-    id("org.jetbrains.changelog") version "0.5.0"
+    id("org.jetbrains.changelog") version "1.1.2"
     // detekt linter - read more: https://detekt.github.io/detekt/kotlindsl.html
-    id("io.gitlab.arturbosch.detekt") version "1.12.0"
+    id("io.gitlab.arturbosch.detekt") version "1.15.0"
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
 }
 
 repositories {
@@ -20,7 +30,7 @@ repositories {
     mavenCentral()
 }
 
-val pluginVersion = "1.0.2"
+val pluginVersion = "1.0.3"
 
 group = "io.github.markusmo3"
 version = pluginVersion
@@ -31,11 +41,10 @@ dependencies {
 }
 
 intellij {
-    version = "2020.1"
+    version = "2020.3"
     pluginName = "BetterMnemonics"
     downloadSources = true
     updateSinceUntilBuild = false
-//    setPlugins("IdeaVIM:0.57")
 }
 
 // Configure detekt plugin.
@@ -51,12 +60,17 @@ detekt {
     }
 }
 
+changelog {
+    version = pluginVersion
+    groups = listOf()
+}
+
 tasks {
     patchPluginXml {
-        changeNotes({ changelog.getLatest().toHTML() })
+        closure { changelog.has(pluginVersion) }
+        changeNotes(closure { changelog.get(pluginVersion).toHTML() })
     }
     publishPlugin {
-        dependsOn("patchChangelog")
         token(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
         channels(pluginVersion.split('-').getOrElse(1) { "default" }.split('.').first())
     }

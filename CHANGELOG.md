@@ -2,6 +2,11 @@
 # Better Mnemonics
 
 ## [Unreleased]
+## [1.0.3]
+- added support for dynamic loading/unloading of this plugin
+- added plugin icon
+- refactored newly deprecated methods to alternatives
+- updated gradle plugin versions and changelog behaviour
 
 ## [1.0.2]
 - fixed a bug preventing some popup menus from opening
