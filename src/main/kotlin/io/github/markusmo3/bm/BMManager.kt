@@ -3,8 +3,8 @@ package io.github.markusmo3.bm
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.KeyboardShortcut
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.keymap.Keymap
 import com.intellij.openapi.keymap.KeymapManager
@@ -38,7 +38,9 @@ class BMManager : Disposable {
 
       val actionId = bmNode.actionIdForKeymap
       if (registeredIds.add(actionId)) {
-        ActionManager.getInstance().registerAction(actionId, InvokeBMPopupAction(bmNode), pluginId)
+        if (ActionManager.getInstance().getAction(actionId) == null) {
+          ActionManager.getInstance().registerAction(actionId, InvokeBMPopupAction(bmNode), pluginId)
+        }
         val keymap: Keymap? = keymapManager.getKeymap("\$default")
         val keyStroke = bmNode.globalKeyStroke
         if (keymap != null && keyStroke != null) {
@@ -64,7 +66,7 @@ class BMManager : Disposable {
   companion object {
     val pluginId = PluginId.getId("io.github.markusmo3.bm.BetterMnemonics")
 
-    fun getInstance(): BMManager = ServiceManager.getService(BMManager::class.java)
+    fun getInstance(): BMManager = ApplicationManager.getApplication().getService(BMManager::class.java)
   }
 
   override fun dispose() {

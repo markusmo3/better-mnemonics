@@ -168,7 +168,7 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 
   companion object {
     @JvmStatic
-    fun getInstance(): BMActionsSchema = ServiceManager.getService(BMActionsSchema::class.java)
+    fun getInstance(): BMActionsSchema = ApplicationManager.getApplication().getService(BMActionsSchema::class.java)
   }
 }
 

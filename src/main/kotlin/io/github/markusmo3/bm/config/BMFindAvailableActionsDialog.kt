@@ -33,9 +33,9 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
     init()
   }
 
-  override fun createCenterPanel(): JComponent? {
+  override fun createCenterPanel(): JComponent {
     val rootGroup = ActionsTreeUtil.createMainGroup(
-      null, null, QuickListsManager.instance.allQuickLists
+      null, null, QuickListsManager.getInstance().allQuickLists
     )
     val root = ActionsTreeUtil.createNode(rootGroup)
     val model = DefaultTreeModel(root)
@@ -97,15 +97,7 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
       return actions
     }
 
-  fun getCustomText(): String? {
-    return myEditPanel.getCustomText()
-  }
-
-  fun getKeyStroke(): KeyStroke? {
-    return myEditPanel.getKeyStroke()
-  }
-
-  override fun getDimensionServiceKey(): String? {
+  override fun getDimensionServiceKey(): String {
     return "#io.github.markusmo3.bm.config.BMFindAvailableActionsDialog"
   }
 

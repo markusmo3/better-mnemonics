@@ -27,7 +27,7 @@ object BMUtils {
   fun KeyStroke?.toSortIndex(): Long {
     if (this == null) return -1
     val lowerSort = if (keyCode == 0) {
-      keyChar.toInt()
+      keyChar.code
     } else {
       keyCode
     }
@@ -38,16 +38,14 @@ object BMUtils {
     if (this == null) return "<null>"
     val sj = StringJoiner("-")
 
-    InputContext.getInstance().inputMethodControlObject
-
     val isAtoZ = keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z
     val isShiftPressed = modifiers and InputEvent.SHIFT_DOWN_MASK != 0
 
-    if (modifiers and InputEvent.ALT_DOWN_MASK != 0) sj.add("A")
-    if (modifiers and InputEvent.CTRL_DOWN_MASK != 0) sj.add("C")
-    if (modifiers and InputEvent.ALT_GRAPH_DOWN_MASK != 0) sj.add("G")
-    if (modifiers and InputEvent.META_DOWN_MASK != 0) sj.add("M")
-    if (isShiftPressed && !isAtoZ) sj.add("S")
+    if (modifiers and InputEvent.ALT_DOWN_MASK != 0) sj.add("\uD835\uDCD0")
+    if (modifiers and InputEvent.CTRL_DOWN_MASK != 0) sj.add("\uD835\uDCD2")
+    if (modifiers and InputEvent.ALT_GRAPH_DOWN_MASK != 0) sj.add("\uD835\uDCD6")
+    if (modifiers and InputEvent.META_DOWN_MASK != 0) sj.add("\uD835\uDCDC")
+    if (isShiftPressed && !isAtoZ) sj.add("\uD835\uDCE2")
     if (modifiers and InputEvent.BUTTON1_DOWN_MASK != 0) sj.add("m1")
     if (modifiers and InputEvent.BUTTON2_DOWN_MASK != 0) sj.add("m2")
     if (modifiers and InputEvent.BUTTON3_DOWN_MASK != 0) sj.add("m3")
@@ -55,9 +53,9 @@ object BMUtils {
       sj.add(keyChar.toString())
     } else if (isAtoZ) {
       if (isShiftPressed) {
-        sj.add(KeyEvent.getKeyText(keyCode).toUpperCase())
+        sj.add(KeyEvent.getKeyText(keyCode).uppercase(Locale.getDefault()))
       } else {
-        sj.add(KeyEvent.getKeyText(keyCode).toLowerCase())
+        sj.add(KeyEvent.getKeyText(keyCode).lowercase(Locale.getDefault()))
       }
     } else if (customKeyCodeToStringMap.containsKey(keyCode)) {
       sj.add(customKeyCodeToStringMap[keyCode])

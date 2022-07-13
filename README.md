@@ -3,7 +3,9 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/14653-bettermnemonics?style=flat-square)](https://plugins.jetbrains.com/plugin/14653-bettermnemonics)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
+<!-- Plugin description -->
 Adds a fully configurable popup menu to provide better keyboard-only interaction in Jetbrains IDEs. Use your own custom mnemonics instead of hand-contorting shortcuts.
+<!-- Plugin description end -->
 
 ## Screenshots
 

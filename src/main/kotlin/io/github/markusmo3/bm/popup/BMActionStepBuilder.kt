@@ -1,5 +1,6 @@
 package io.github.markusmo3.bm.popup
 
+import com.intellij.CommonBundle
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.impl.PresentationFactory
 import com.intellij.openapi.actionSystem.impl.Utils
@@ -34,6 +35,7 @@ class BMActionStepBuilder(
   val items: List<BMActionItem>
     get() = myListModel
 
+  @Suppress("UnstableApiUsage", "UnstableApiUsage")
   fun buildGroup(bmNode: BMNode) {
     myEmptyIcon = if (myMaxIconHeight != -1 && myMaxIconWidth != -1) EmptyIcon.create(
       myMaxIconWidth, myMaxIconHeight
@@ -44,7 +46,7 @@ class BMActionStepBuilder(
         BMActionItem(
           BMNode.newUndefined(),
           Utils.EMPTY_MENU_FILLER,
-          Utils.NOTHING_HERE,
+          CommonBundle.messagePointer("empty.menu.filler").get(),
           null,
           false,
           null,
@@ -54,31 +56,6 @@ class BMActionStepBuilder(
           null
         )
       )
-    }
-  }
-
-  private fun calcMaxIconSize(actionGroup: ActionGroup) {
-    val actions = actionGroup.getChildren(createActionEvent(actionGroup))
-    for (action in actions) {
-      if (action == null) continue
-      if (action is ActionGroup) {
-        if (!action.isPopup) {
-          calcMaxIconSize(action)
-          continue
-        }
-      }
-      var icon = action.templatePresentation.icon
-      if (icon == null && action is Toggleable) icon = EmptyIcon.ICON_16
-      if (icon != null) {
-        val width = icon.iconWidth
-        val height = icon.iconHeight
-        if (myMaxIconWidth < width) {
-          myMaxIconWidth = width
-        }
-        if (myMaxIconHeight < height) {
-          myMaxIconHeight = height
-        }
-      }
     }
   }
 
@@ -95,11 +72,11 @@ class BMActionStepBuilder(
     return actionEvent
   }
 
+  @Suppress("UnstableApiUsage")
   private fun appendActionsFromGroup(bmNode: BMNode) {
     val actionGroup: ActionGroup =
       DefaultActionGroup(bmNode.children.mapNotNull { it.action })
-    Utils.expandActionGroup(false, actionGroup, this, myDataContext,
-      myActionPlace)
+    Utils.expandActionGroup(actionGroup, this, myDataContext, myActionPlace)
     for (bmChild in bmNode.children) {
       if (bmChild.isSeparator()) {
         myPrependWithSeparator = true

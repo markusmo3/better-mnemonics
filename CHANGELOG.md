@@ -2,6 +2,9 @@
 # Better Mnemonics
 
 ## [Unreleased]
+- updated template and plugin to the newest versions
+- use different font for modifier keys
+
 ## [1.0.3]
 - added support for dynamic loading/unloading of this plugin
 - added plugin icon
