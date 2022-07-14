@@ -2,6 +2,8 @@
 # Better Mnemonics
 
 ## [Unreleased]
+
+## [1.0.4]
 - updated template and plugin to the newest versions
 - use different font for modifier keys
 
