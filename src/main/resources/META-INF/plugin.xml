@@ -23,6 +23,9 @@
   <applicationListeners>
     <listener class="io.github.markusmo3.bm.BMListener"
       topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+    <listener topic="com.intellij.openapi.project.ProjectManagerListener"
+      class="io.github.markusmo3.bm.BIProjectManagerListener"
+      activeInHeadlessMode="false"/>
   </applicationListeners>
   <actions>
     <action id="io.github.markusmo3.bm.actions.OpenBMXmlAction"
@@ -30,6 +33,9 @@
     </action>
     <action id="io.github.markusmo3.bm.actions.ReloadBMXmlAction"
       class="io.github.markusmo3.bm.actions.ReloadBMXmlAction">
+    </action>
+    <action id="io.github.markusmo3.bm.actions.ToggleUseBetterIconAction"
+      class="io.github.markusmo3.bm.actions.ToggleUseBetterIconAction">
     </action>
   </actions>
 </idea-plugin>

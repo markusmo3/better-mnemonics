@@ -8,7 +8,6 @@ import java.awt.Color
 import java.awt.color.ColorSpace
 import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
-import java.awt.im.InputContext
 import java.io.File
 import java.util.*
 import javax.swing.KeyStroke

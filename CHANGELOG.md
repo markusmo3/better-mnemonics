@@ -2,6 +2,7 @@
 # Better Mnemonics
 
 ## [Unreleased]
+- added feature BetterIcon for window
 
 ## [1.0.4]
 - updated template and plugin to the newest versions

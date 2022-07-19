@@ -179,6 +179,9 @@ class BMActionsSchemaState : SerializableScheme, Scheme {
   @get:Attribute
   var maxRowCount = 50
 
+  @get:Attribute
+  var useBetterIcon = false
+
   fun deepCopy(): BMActionsSchemaState {
     val that = BMActionsSchemaState()
     that.root = this.root.deepCopy()
