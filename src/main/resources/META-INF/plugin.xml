@@ -17,25 +17,25 @@
       name="Better Mnemonics XML"
       schemeClass="io.github.markusmo3.bm.config.BMActionsSchemaState"
       implementationClass="com.intellij.application.options.schemes.SerializableSchemeExporter"/>
-    <preloadingActivity implementation="io.github.markusmo3.bm.BMListener" />
+    <postStartupActivity implementation="io.github.markusmo3.bm.BMListener"/>
   </extensions>
 
   <applicationListeners>
     <listener class="io.github.markusmo3.bm.BMListener"
       topic="com.intellij.ide.plugins.DynamicPluginListener"/>
-    <listener topic="com.intellij.openapi.project.ProjectManagerListener"
-      class="io.github.markusmo3.bm.BIProjectManagerListener"
-      activeInHeadlessMode="false"/>
   </applicationListeners>
   <actions>
     <action id="io.github.markusmo3.bm.actions.OpenBMXmlAction"
-      class="io.github.markusmo3.bm.actions.OpenBMXmlAction">
+      class="io.github.markusmo3.bm.actions.OpenBMXmlAction"
+      text="Open BetterMnemonics XML"
+      description="Open BetterMnemonics XML"
+      icon="AllIcons.FileTypes.Xml">
     </action>
     <action id="io.github.markusmo3.bm.actions.ReloadBMXmlAction"
-      class="io.github.markusmo3.bm.actions.ReloadBMXmlAction">
-    </action>
-    <action id="io.github.markusmo3.bm.actions.ToggleUseBetterIconAction"
-      class="io.github.markusmo3.bm.actions.ToggleUseBetterIconAction">
+      class="io.github.markusmo3.bm.actions.ReloadBMXmlAction"
+      text="Reload BetterMnemonics XML"
+      description="Reload BetterMnemonics XML"
+      icon="AllIcons.Actions.ForceRefresh">
     </action>
   </actions>
 </idea-plugin>

@@ -180,6 +180,7 @@ class BMActionsSchemaState : SerializableScheme, Scheme {
   var maxRowCount = 50
 
   @get:Attribute
+  @Deprecated("Not included in this plugin anymore")
   var useBetterIcon = false
 
   fun deepCopy(): BMActionsSchemaState {

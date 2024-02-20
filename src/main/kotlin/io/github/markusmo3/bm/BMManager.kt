@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.KeyboardShortcut
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.keymap.Keymap
 import com.intellij.openapi.keymap.KeymapManager
@@ -14,10 +15,12 @@ import io.github.markusmo3.bm.config.BMNode
 
 @Service
 class BMManager : Disposable {
+  private val logger = Logger.getInstance("#io.github.markusmo3.bm.BMManager")
 
   private val keymapManager: KeymapManager by lazy { KeymapManager.getInstance() }
 
-  internal fun registerActions(actionSchemaState: BMActionsSchemaState = BMActionsSchema.getInstance().state) {
+  private fun registerActions(actionSchemaState: BMActionsSchemaState = BMActionsSchema.getInstance().state) {
+    logger.debug("Registering actions")
     InvokeBMPopupAction.setNodeKeyStroke = false
     val registeredIds = HashSet<String>()
     val parent = actionSchemaState.root
@@ -52,7 +55,8 @@ class BMManager : Disposable {
     }
   }
 
-  internal fun unregisterActions() {
+  private fun unregisterActions() {
+    logger.debug("Unregistering actions")
     for (oldId in ActionManager.getInstance().getActionIdList(BMNode.bmActionIdForKeymapPrefix)) {
       ActionManager.getInstance().unregisterAction(oldId)
     }

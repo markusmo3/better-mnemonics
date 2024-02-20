@@ -81,6 +81,7 @@ open class BMActionPopupStep(
     return onChosen(actionChoice, finalChoice, 0)
   }
 
+  @Deprecated("Deprecated in Java")
   override fun onChosen(
     actionChoice: BMActionItem,
     finalChoice: Boolean,

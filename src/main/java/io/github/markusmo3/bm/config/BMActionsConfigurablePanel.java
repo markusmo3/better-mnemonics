@@ -118,7 +118,7 @@ public class BMActionsConfigurablePanel {
   }
 
   private void initLeft() {
-    Group rootGroup = new Group("root", null, null);
+    Group rootGroup = new Group("root", null, (Icon) null);
     final BetterMutableTreeNode root = new BetterMutableTreeNode(rootGroup);
     DefaultTreeModel model = new DefaultTreeModel(root);
     myActionsTree.setModel(model);

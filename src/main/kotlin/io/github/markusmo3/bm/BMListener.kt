@@ -2,17 +2,10 @@ package io.github.markusmo3.bm
 
 import com.intellij.ide.plugins.DynamicPluginListener
 import com.intellij.ide.plugins.IdeaPluginDescriptor
-import com.intellij.openapi.application.PreloadingActivity
-import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.startup.ProjectActivity
 
-class BMListener : PreloadingActivity(), DynamicPluginListener {
-  private var firstInitializationOccurred = false
-
-  override fun preload(indicator: ProgressIndicator) {
-    if (firstInitializationOccurred) return
-    firstInitializationOccurred = true
-    BMManager.getInstance().registerActions()
-  }
+class BMListener : DynamicPluginListener, ProjectActivity {
 
   override fun pluginLoaded(pluginDescriptor: IdeaPluginDescriptor) {
     if (isMyPlugin(pluginDescriptor)) {
@@ -28,6 +21,10 @@ class BMListener : PreloadingActivity(), DynamicPluginListener {
 
   private fun isMyPlugin(pluginDescriptor: IdeaPluginDescriptor): Boolean {
     return pluginDescriptor.pluginId == BMManager.pluginId
+  }
+
+  override suspend fun execute(project: Project) {
+    BMManager.getInstance().reset()
   }
 
 }
