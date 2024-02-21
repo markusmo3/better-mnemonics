@@ -2,6 +2,9 @@
 # Better Mnemonics
 
 ## [Unreleased]
+- fixed compatability issues
+
+## [1.2.0]
 - updated everything to the newest version
 - fixed a bug where the shortcuts aren't registered on the initial start of the IDE
 - removed feature BetterIcon for windows again
