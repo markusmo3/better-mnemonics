@@ -2,6 +2,7 @@ package io.github.markusmo3.bm.config
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.IdeBundle
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
@@ -29,6 +30,10 @@ internal class RebuildActionsTreeAction(
 
   override fun update(e: AnActionEvent) {
     templatePresentation.isEnabled = true
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 }
 
@@ -59,6 +64,10 @@ internal abstract class TreeSelectionAction(
   protected fun isSingleSelection(): Boolean {
     val selectionPaths: Array<TreePath>? = myActionsTree.selectionPaths
     return selectionPaths != null && selectionPaths.size == 1
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 }
 
@@ -98,9 +107,13 @@ internal class SortNodesAction(myActionsTree: JTree) : TreeSelectionAction(
       }
     }
   }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
+  }
 }
 
-internal abstract class AddNodeAction constructor(
+internal abstract class AddNodeAction(
   myActionsTree: JTree, text: String? = null, description: String? = null, icon: Icon? = null
 ) : TreeSelectionAction(myActionsTree, text, description, icon) {
 
@@ -125,6 +138,10 @@ internal abstract class AddNodeAction constructor(
     if (e.presentation.isEnabled) {
       e.presentation.isEnabled = isSingleSelection()
     }
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 
   companion object {
@@ -159,7 +176,7 @@ internal abstract class AddNodeAction constructor(
 }
 
 internal class AddSeparatorAction(myActionsTree: JTree) : AddNodeAction(
-  myActionsTree, IdeBundle.message("button.add.separator"), null, AllIcons.General.SeparatorH
+  myActionsTree, "Add &Separator", null, AllIcons.General.SeparatorH
 ) {
   override fun getNewBmNode(): BMNode? {
     val dlg = BMEditDialog(isShortcutEditingEnabled = false, isGlobalShortcutEditingEnabled = false,
@@ -168,6 +185,10 @@ internal class AddSeparatorAction(myActionsTree: JTree) : AddNodeAction(
       return newSeparator(dlg.getCustomText())
     }
     return null
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 }
 
@@ -186,6 +207,10 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
   }
 
   override fun isRootSelectable(): Boolean = true
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
+  }
 }
 
 //internal class AddActionAction(myActionsTree: JTree) : AddNodeAction(
@@ -215,7 +240,7 @@ internal class AddGroupAction(myActionsTree: JTree) : AddNodeAction(
 //}
 
 internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
-  myActionsTree, IdeBundle.message("button.remove"), null, AllIcons.General.Remove
+  myActionsTree, "R&emove", null, AllIcons.General.Remove
 ) {
 
   override fun displayTextInToolbar(): Boolean = true
@@ -238,10 +263,14 @@ internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
     TreeUtil.restoreExpandedPaths(myActionsTree, expandedPaths)
     myActionsTree.setSelectionRow(selectedRowIndex)
   }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
+  }
 }
 
 internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
-  myActionsTree, IdeBundle.message("button.edit"), null, AllIcons.Actions.Edit
+  myActionsTree, "&Edit", null, AllIcons.Actions.Edit
 ) {
 
   override fun displayTextInToolbar(): Boolean = true
@@ -271,6 +300,10 @@ internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
         selectedBmNode.globalKeyStroke = dlg.getGlobalKeyStroke()
       }
     }
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 }
 
@@ -337,6 +370,10 @@ internal class MoveLevelAction(myActionsTree: JTree, private val dir: Int) : Tre
     } else {
       (node.parent?.parent as? DefaultMutableTreeNode) != null
     }
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 }
 
@@ -409,6 +446,10 @@ internal class MoveAction(myActionsTree: JTree, private val dir: Int) : TreeSele
       return true
     }
     return false
+  }
+
+  override fun getActionUpdateThread(): ActionUpdateThread {
+    return ActionUpdateThread.EDT
   }
 
 }

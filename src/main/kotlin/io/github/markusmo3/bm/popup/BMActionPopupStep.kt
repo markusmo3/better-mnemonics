@@ -78,19 +78,18 @@ open class BMActionPopupStep(
   }
 
   override fun onChosen(actionChoice: BMActionItem, finalChoice: Boolean): PopupStep<*>? {
-    return onChosen(actionChoice, finalChoice, 0)
+    return onChosen(actionChoice, finalChoice, null)
   }
 
-  @Deprecated("Deprecated in Java")
   override fun onChosen(
     actionChoice: BMActionItem,
     finalChoice: Boolean,
-    eventModifiers: Int
+    inputEvent: InputEvent?
   ): PopupStep<*>? {
     if (!actionChoice.isEnabled) return PopupStep.FINAL_CHOICE
     val action = actionChoice.action
     val dataContext = myContext.get()
-    return if (action is ActionGroup && (!finalChoice || !action.canBePerformed(dataContext))) {
+    return if (action is ActionGroup) {
       createActionsStep(
         actionChoice.bmNode,
         dataContext,
@@ -103,28 +102,23 @@ open class BMActionPopupStep(
         -1
       )
     } else {
-      myFinalRunnable = Runnable { performAction(action, eventModifiers) }
+      myFinalRunnable = Runnable { performAction(action, inputEvent) }
       PopupStep.FINAL_CHOICE
     }
   }
 
   @JvmOverloads
-  fun performAction(action: AnAction, modifiers: Int, inputEvent: InputEvent? = null) {
+  fun performAction(action: AnAction, inputEvent: InputEvent? = null) {
     // HACK: need to invoke the action later because otherwise the inputEvent gets passed to the
     //  next action and causes interference
+    inputEvent?.consume()
     ApplicationManager.getApplication().invokeLater({
       val dataContext = myContext.get()
-      val event = AnActionEvent(
-        inputEvent,
-        dataContext,
-        myActionPlace,
-        action.templatePresentation.clone(),
-        ActionManager.getInstance(),
-        modifiers
-      )
+      val event =
+        AnActionEvent.createFromInputEvent(inputEvent, myActionPlace, action.templatePresentation.clone(), dataContext)
       event.setInjectedContext(action.isInInjectedContext)
       if (ActionUtil.lastUpdateAndCheckDumb(action, event, false)) {
-        ActionUtil.performActionDumbAwareWithCallbacks(action, event, dataContext)
+        ActionUtil.performActionDumbAwareWithCallbacks(action, event)
       }
     }, ModalityState.defaultModalityState())
   }

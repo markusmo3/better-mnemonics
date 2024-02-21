@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.ex.ActionUtil
 import com.intellij.openapi.actionSystem.impl.ActionMenu
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.application.impl.LaterInvocator
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.ListPopupStep
@@ -144,12 +143,6 @@ class BMActionGroupPopup : ListPopupImpl {
 //    super.process(aEvent)
   }
 
-  fun handleFinalChoices(selectedValue: Any?, listStep: ListPopupStep<Any?>): Boolean {
-    return selectedValue == null || !listStep.hasSubstep(selectedValue) || !listStep.isSelectable(
-      selectedValue
-    )
-  }
-
   private fun updateActionItem(actionItem: BMActionItem): Presentation {
     val action: AnAction = actionItem.action
     val presentation = Presentation()
@@ -164,7 +157,7 @@ class BMActionGroupPopup : ListPopupImpl {
       0
     )
     actionEvent.setInjectedContext(action.isInInjectedContext)
-    ActionUtil.performDumbAwareUpdate(LaterInvocator.isInModalContext(), action, actionEvent, false)
+    ActionUtil.performDumbAwareUpdate(action, actionEvent, false)
     return presentation
   }
 
@@ -175,7 +168,7 @@ class BMActionGroupPopup : ListPopupImpl {
       val dontClosePopupAction =
         getActionByClass(selectedValue, actionPopupStep, KeepingPopupOpenAction::class.java)
       if (dontClosePopupAction != null) {
-        actionPopupStep.performAction((dontClosePopupAction as AnAction?)!!, e?.modifiers ?: 0, e)
+        actionPopupStep.performAction((dontClosePopupAction as AnAction?)!!, e)
         for (item in actionPopupStep.values) {
           updateActionItem(item)
         }
@@ -199,7 +192,7 @@ class BMActionGroupPopup : ListPopupImpl {
     }
 
     for (action in filtered) {
-      actionPopupStep.performAction(action!!, 0)
+      actionPopupStep.performAction(action)
     }
 
     for (item in actionPopupStep.values) {
