@@ -2,6 +2,11 @@
 # Better Mnemonics
 
 ## [Unreleased]
+
+## [1.2.2]
+- updated intellij compatibility
+
+## [1.2.1]
 - fixed compatability issues
 
 ## [1.2.0]
