@@ -4,7 +4,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.components.stateStore
+import com.intellij.openapi.components.impl.stores.stateStore
 import io.github.markusmo3.bm.config.BMActionsSchema
 
 class ReloadBMXmlAction : AnAction() {
