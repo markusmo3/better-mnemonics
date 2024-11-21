@@ -5,6 +5,7 @@ import com.intellij.ide.ui.customization.*;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.*;
 import com.intellij.openapi.actionSystem.impl.*;
+import com.intellij.openapi.actionSystem.toolbarLayout.ToolbarLayoutStrategy;
 import com.intellij.openapi.keymap.impl.ui.*;
 import com.intellij.openapi.project.*;
 import com.intellij.openapi.util.text.*;
@@ -164,7 +165,7 @@ public class BMActionsConfigurablePanel {
         .createActionToolbar(ActionPlaces.TOOLBAR, new DefaultActionGroup(toolbarActions),
             true);
     toolbar.setForceMinimumSize(true);
-    toolbar.setLayoutPolicy(ActionToolbar.NOWRAP_LAYOUT_POLICY);
+    toolbar.setLayoutStrategy(ToolbarLayoutStrategy.NOWRAP_STRATEGY);
     return toolbar;
   }
 

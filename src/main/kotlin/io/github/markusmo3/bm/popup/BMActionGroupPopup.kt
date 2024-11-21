@@ -1,7 +1,16 @@
 package io.github.markusmo3.bm.popup
 
 import com.intellij.ide.DataManager
-import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.actionSystem.KeepPopupOnPerform
+import com.intellij.openapi.actionSystem.PlatformDataKeys
+import com.intellij.openapi.actionSystem.Presentation
+import com.intellij.openapi.actionSystem.ToggleAction
 import com.intellij.openapi.actionSystem.ex.ActionUtil
 import com.intellij.openapi.actionSystem.impl.ActionMenu
 import com.intellij.openapi.application.ApplicationManager
@@ -10,7 +19,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.ListPopupStep
 import com.intellij.openapi.ui.popup.PopupStep
 import com.intellij.openapi.util.Condition
-import com.intellij.ui.popup.KeepingPopupOpenAction
 import com.intellij.ui.popup.WizardPopup
 import com.intellij.ui.popup.list.ListPopupImpl
 import com.intellij.util.ObjectUtils
@@ -165,10 +173,8 @@ class BMActionGroupPopup : ListPopupImpl {
     val selectedValue = list.selectedValue
     val actionPopupStep = ObjectUtils.tryCast(listStep, BMActionPopupStep::class.java)
     if (actionPopupStep != null) {
-      val dontClosePopupAction =
-        getActionByClass(selectedValue, actionPopupStep, KeepingPopupOpenAction::class.java)
-      if (dontClosePopupAction != null) {
-        actionPopupStep.performAction((dontClosePopupAction as AnAction?)!!, e)
+      if (isKeepOpenAction(selectedValue, actionPopupStep)) {
+        actionPopupStep.performAction(((selectedValue as BMActionItem).action as AnAction?)!!, e)
         for (item in actionPopupStep.values) {
           updateActionItem(item)
         }
@@ -279,6 +285,14 @@ class BMActionGroupPopup : ListPopupImpl {
       val item = (if (value is BMActionItem) value else null) ?: return null
       if (!actionPopupStep.isSelectable(item)) return null
       return if (actionClass.isInstance(item.action)) actionClass.cast(item.action) else null
+    }
+
+    private fun isKeepOpenAction(
+      value: Any?, actionPopupStep: BMActionPopupStep
+    ): Boolean {
+      val item = (if (value is BMActionItem) value else null) ?: return false
+      return item.isEnabled && item.action.templatePresentation.keepPopupOnPerform == KeepPopupOnPerform.Always
+
     }
   }
 }
