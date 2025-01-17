@@ -83,7 +83,9 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild").map { if (it == "") null else it }
+            untilBuild = providers.gradleProperty("pluginUntilBuild").takeIf {
+                !it.orNull.isNullOrBlank()
+            } ?: provider { null }
         }
     }
 
