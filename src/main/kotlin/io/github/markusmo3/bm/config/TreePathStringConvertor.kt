@@ -23,7 +23,7 @@ internal class TreePathStringConvertor : Convertor<TreePath, String> {
       }
       val action = ActionManager.getInstance().getAction(actionId)
       if (action != null) {
-        return action.templatePresentation.text
+        return action.templatePresentation.text ?: "unknown"
       }
     }
     return ""

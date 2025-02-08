@@ -3,21 +3,22 @@ package io.github.markusmo3.bm.config
 import com.intellij.ide.IdeBundle
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionManager
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.actionSystem.ex.QuickListsManager
 import com.intellij.openapi.keymap.impl.ui.ActionsTreeUtil
-import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.openapi.util.text.StringUtil
-import com.intellij.ui.*
+import com.intellij.ui.DoubleClickListener
+import com.intellij.ui.FilterComponent
+import com.intellij.ui.ScrollPaneFactory
+import com.intellij.ui.TreeUIHelper
 import com.intellij.ui.treeStructure.Tree
 import com.intellij.util.ui.tree.TreeUtil
 import java.awt.BorderLayout
-import java.awt.event.KeyEvent
 import java.awt.event.MouseEvent
-import java.util.*
-import javax.swing.*
+import javax.swing.BorderFactory
+import javax.swing.JComponent
+import javax.swing.JPanel
+import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreePath
@@ -50,8 +51,6 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
     myEditPanel.border = BorderFactory.createEmptyBorder(0, 0, 5, 0)
     val panel = JPanel(BorderLayout())
     panel.add(myEditPanel, BorderLayout.SOUTH)
-    myFilterComponent = setupFilterComponent(myTree)
-    panel.add(myFilterComponent, BorderLayout.NORTH)
     panel.add(ScrollPaneFactory.createScrollPane(myTree), BorderLayout.CENTER)
     object : DoubleClickListener() {
       override fun onDoubleClick(event: MouseEvent): Boolean {
@@ -99,48 +98,6 @@ internal class BMFindAvailableActionsDialog : DialogWrapper(false) {
 
   override fun getDimensionServiceKey(): String {
     return "#io.github.markusmo3.bm.config.BMFindAvailableActionsDialog"
-  }
-
-  private fun setupFilterComponent(tree: JTree): FilterComponent {
-    val mySpeedSearch: TreeSpeedSearch = object : TreeSpeedSearch(
-      tree, TreePathStringConvertor(), true
-    ) {
-      override fun isPopupActive(): Boolean {
-        return  /*super.isPopupActive()*/true
-      }
-
-      override fun showPopup(searchText: String) {
-        //super.showPopup(searchText);
-      }
-
-      override fun isSpeedSearchEnabled(): Boolean {
-        return  /*super.isSpeedSearchEnabled()*/false
-      }
-
-      override fun showPopup() {
-        //super.showPopup();
-      }
-    }
-    val filterComponent: FilterComponent = object : FilterComponent("CUSTOMIZE_ACTIONS", 5) {
-      override fun filter() {
-        if (filter.isNotBlank()) {
-          mySpeedSearch.findAndSelectElement(filter)
-        }
-      }
-    }
-    val textField = filterComponent.textEditor
-    val keyCodes = intArrayOf(KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN)
-    for (keyCode in keyCodes) {
-      object : DumbAwareAction() {
-        override fun actionPerformed(e: AnActionEvent) {
-          val filter = filterComponent.filter
-          if (!StringUtil.isEmpty(filter)) {
-            mySpeedSearch.adjustSelection(keyCode, filter)
-          }
-        }
-      }.registerCustomShortcutSet(keyCode, 0, textField)
-    }
-    return filterComponent
   }
 
   companion object {

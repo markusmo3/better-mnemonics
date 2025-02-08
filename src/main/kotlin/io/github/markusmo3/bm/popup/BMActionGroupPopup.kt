@@ -3,6 +3,7 @@ package io.github.markusmo3.bm.popup
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.ActionUiKind
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -32,10 +33,8 @@ import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
 import java.util.function.Supplier
 import javax.swing.AbstractAction
-import javax.swing.JList
 import javax.swing.KeyStroke
 import javax.swing.ListCellRenderer
-import javax.swing.event.ListSelectionEvent
 
 class BMActionGroupPopup : ListPopupImpl {
   private var myDisposeCallback: Runnable?
@@ -79,12 +78,12 @@ class BMActionGroupPopup : ListPopupImpl {
       }
     })
 
-    addListSelectionListener { e: ListSelectionEvent ->
-      val list = e.source as JList<*>
-      val actionItem = list.selectedValue as BMActionItem? ?: return@addListSelectionListener
-      val presentation: Presentation = updateActionItem(actionItem)
-      ActionMenu.showDescriptionInStatusBar(true, myComponent, presentation.description)
-    }
+//    addListSelectionListener { e: ListSelectionEvent ->
+//      val list = e.source as JList<*>
+//      val actionItem = list.selectedValue as BMActionItem? ?: return@addListSelectionListener
+//      val presentation: Presentation = updateActionItem(actionItem)
+//      ActionMenu.showDescriptionInStatusBar(true, myComponent, presentation.description)
+//    }
   }
 
   constructor(
@@ -157,12 +156,13 @@ class BMActionGroupPopup : ListPopupImpl {
     presentation.description = action.templatePresentation.description
 
     val actionEvent = AnActionEvent(
-      null,
       DataManager.getInstance().getDataContext(myComponent),
-      myActionPlace,
       presentation,
-      ActionManager.getInstance(),
-      0
+      myActionPlace,
+      ActionUiKind.POPUP,
+      null,
+      0,
+      ActionManager.getInstance()
     )
     actionEvent.setInjectedContext(action.isInInjectedContext)
     ActionUtil.performDumbAwareUpdate(action, actionEvent, false)
@@ -173,7 +173,7 @@ class BMActionGroupPopup : ListPopupImpl {
     val selectedValue = list.selectedValue
     val actionPopupStep = ObjectUtils.tryCast(listStep, BMActionPopupStep::class.java)
     if (actionPopupStep != null) {
-      if (isKeepOpenAction(selectedValue, actionPopupStep)) {
+      if (isKeepOpenAction(selectedValue)) {
         actionPopupStep.performAction(((selectedValue as BMActionItem).action as AnAction?)!!, e)
         for (item in actionPopupStep.values) {
           updateActionItem(item)
@@ -288,7 +288,7 @@ class BMActionGroupPopup : ListPopupImpl {
     }
 
     private fun isKeepOpenAction(
-      value: Any?, actionPopupStep: BMActionPopupStep
+      value: Any?
     ): Boolean {
       val item = (if (value is BMActionItem) value else null) ?: return false
       return item.isEnabled && item.action.templatePresentation.keepPopupOnPerform == KeepPopupOnPerform.Always

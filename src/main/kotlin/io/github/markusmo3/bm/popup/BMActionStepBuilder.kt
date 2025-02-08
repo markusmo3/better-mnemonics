@@ -1,10 +1,19 @@
 package io.github.markusmo3.bm.popup
 
 import com.intellij.CommonBundle
-import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.ActionUiKind
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.actionSystem.Toggleable
 import com.intellij.openapi.actionSystem.impl.PresentationFactory
 import com.intellij.openapi.actionSystem.impl.Utils
 import com.intellij.openapi.util.IconLoader
+import com.intellij.openapi.util.Key
 import com.intellij.ui.SizedIcon
 import com.intellij.util.ui.EmptyIcon
 import com.intellij.util.ui.LafIconLookup
@@ -12,13 +21,14 @@ import com.intellij.util.ui.LafIconLookup.getDisabledIcon
 import com.intellij.util.ui.LafIconLookup.getSelectedIcon
 import io.github.markusmo3.bm.BMUtils.toShortString
 import io.github.markusmo3.bm.config.BMNode
-import java.util.*
 import javax.swing.Icon
 import javax.swing.JComponent
 
 class BMActionStepBuilder(
   private val myDataContext: DataContext, private val myShowDisabled: Boolean
 ) : PresentationFactory() {
+
+  private val keyToolTipText: Key<String?> = Key.create("ToolTipText")
 
   private val myListModel: MutableList<BMActionItem> = ArrayList()
   private var myPrependWithSeparator: Boolean = false
@@ -61,12 +71,13 @@ class BMActionStepBuilder(
 
   private fun createActionEvent(actionGroup: AnAction): AnActionEvent {
     val actionEvent = AnActionEvent(
-      null,
       myDataContext,
-      myActionPlace,
       getPresentation(actionGroup),
-      ActionManager.getInstance(),
-      0
+      myActionPlace,
+      ActionUiKind.POPUP,
+      null,
+      0,
+      ActionManager.getInstance()
     )
     actionEvent.setInjectedContext(actionGroup.isInInjectedContext)
     return actionEvent
@@ -76,7 +87,7 @@ class BMActionStepBuilder(
   private fun appendActionsFromGroup(bmNode: BMNode) {
     val actionGroup: ActionGroup =
       DefaultActionGroup(bmNode.children.mapNotNull { it.action })
-    Utils.expandActionGroup(actionGroup, this, myDataContext, myActionPlace)
+    Utils.expandActionGroup(actionGroup, this, myDataContext, myActionPlace, ActionUiKind.POPUP)
     for (bmChild in bmNode.children) {
       if (bmChild.isSeparator()) {
         myPrependWithSeparator = true
@@ -88,6 +99,7 @@ class BMActionStepBuilder(
     }
   }
 
+  @Suppress("UnstableApiUsage")
   private fun appendAction(bmNode: BMNode) {
     val action: AnAction = bmNode.action ?: return
     val presentation = getPresentation(action)
@@ -103,7 +115,7 @@ class BMActionStepBuilder(
       var disabledIcon = presentation.disabledIcon
       if (icon == null && selectedIcon == null) {
         if (action is Toggleable && java.lang.Boolean.TRUE == presentation.getClientProperty(
-            Toggleable.SELECTED_PROPERTY
+            Toggleable.SELECTED_KEY
           )
         ) {
           icon = LafIconLookup.getIcon("checkmark")
@@ -129,7 +141,7 @@ class BMActionStepBuilder(
           bmNode,
           action,
           text!!,
-          presentation.getClientProperty(JComponent.TOOL_TIP_TEXT_KEY) as String?,
+          presentation.getClientProperty(keyToolTipText),
           enabled,
           icon,
           selectedIcon,

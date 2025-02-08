@@ -58,7 +58,7 @@ class BMKeyStrokeTextfield(isFocusTraversalKeysEnabled: Boolean = true) :
 
   override fun processKeyEvent(e: KeyEvent) {
     val keyCode = e.keyCode
-    if (focusTraversalKeysEnabled && e.modifiers == 0 && e.modifiersEx == 0) {
+    if (focusTraversalKeysEnabled && e.modifiersEx == 0) {
       if (keyCode == KeyEvent.VK_BACK_SPACE) {
         setKeyStroke(null)
         return

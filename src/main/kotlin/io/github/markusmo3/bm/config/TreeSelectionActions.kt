@@ -20,21 +20,18 @@ internal class RebuildActionsTreeAction(
   private val configurablePanel: BMActionsConfigurablePanel
 ) : AnAction("Rebuild BetterMnemonics Tree", null, AllIcons.Actions.Refresh) {
 
-  init {
-    templatePresentation.isEnabled = true
-  }
-
   override fun actionPerformed(e: AnActionEvent) {
     configurablePanel.reset(false)
   }
 
   override fun update(e: AnActionEvent) {
-    templatePresentation.isEnabled = true
+    e.presentation.isEnabled = true
   }
 
   override fun getActionUpdateThread(): ActionUpdateThread {
     return ActionUpdateThread.EDT
   }
+
 }
 
 internal abstract class TreeSelectionAction(
@@ -74,9 +71,6 @@ internal abstract class TreeSelectionAction(
 internal class SortNodesAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, "Sort Alphabetically by KeyStroke", null, AllIcons.ObjectBrowser.Sorted
 ) {
-  init {
-    templatePresentation.isEnabled = true
-  }
 
   override fun actionPerformed(e: AnActionEvent) {
     val expandedPaths = TreeUtil.collectExpandedPaths(myActionsTree)
@@ -243,8 +237,6 @@ internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, "R&emove", null, AllIcons.General.Remove
 ) {
 
-  override fun displayTextInToolbar(): Boolean = true
-
   override fun actionPerformed(e: AnActionEvent) {
     val selectedRowIndex = myActionsTree.minSelectionRow
     val expandedPaths = TreeUtil.collectExpandedPaths(myActionsTree)
@@ -272,8 +264,6 @@ internal class RemoveNodeAction(myActionsTree: JTree) : TreeSelectionAction(
 internal class EditNodeAction(myActionsTree: JTree) : TreeSelectionAction(
   myActionsTree, "&Edit", null, AllIcons.Actions.Edit
 ) {
-
-  override fun displayTextInToolbar(): Boolean = true
 
   override fun actionPerformed(e: AnActionEvent) {
     val selectedNode =

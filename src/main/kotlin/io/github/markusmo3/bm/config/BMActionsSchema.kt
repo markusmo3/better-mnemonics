@@ -1,11 +1,9 @@
 package io.github.markusmo3.bm.config
 
 import com.intellij.configurationStore.SerializableScheme
-import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.DefaultActionGroup
-import com.intellij.openapi.actionSystem.KeyboardShortcut
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
@@ -14,6 +12,7 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.impl.stores.stateStore
 import com.intellij.openapi.components.service
 import com.intellij.openapi.options.Scheme
+import com.intellij.openapi.util.JDOMUtil
 import com.intellij.util.xmlb.XmlSerializer
 import com.intellij.util.xmlb.annotations.Attribute
 import com.intellij.util.xmlb.annotations.Property
@@ -21,11 +20,7 @@ import com.intellij.util.xmlb.annotations.XCollection
 import io.github.markusmo3.bm.BMManager
 import org.jdom.Element
 import org.jdom.input.DOMBuilder
-import org.jdom.output.Format
-import org.jdom.output.XMLOutputter
 import org.w3c.dom.Document
-import java.io.ByteArrayInputStream
-import java.nio.charset.StandardCharsets
 import javax.swing.KeyStroke
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -126,54 +121,54 @@ class BMActionsSchema : PersistentStateComponent<BMActionsSchemaState> {
 //    }
 //  }
 
-  private fun AnAction.toBMNode(parent: BMNode? = null, index: IntArray = intArrayOf(0)): BMNode? {
-    val action = this
-    if (action is Separator) {
-      index[0]--
-      return BMNode.newSeparator(action.text)
-    } else if (action is ActionGroup) {
-      val children = action.getChildren(null)
-      if (!action.isPopup && parent != null) {
-        for (child in children) {
-          val childNode = child.toBMNode(parent, index) ?: continue
-          parent.add(childNode)
-          index[0]++
-        }
-        return null
-      } else {
-        val node = BMNode.newGroup(
-          KeyStroke.getKeyStroke(keyboardChars[index[0] % keyboardChars.size].toString()),
-          action.templateText ?: "group without a name"
-        )
-        val i = intArrayOf(0)
-        for (child in children) {
-          val childNode = child.toBMNode(node, i) ?: continue
-          node.add(childNode)
-          i[0]++
-        }
-        return node
-      }
-    } else {
-      val actionId = ActionManager.getInstance().getId(action) ?: return null
-      val keyStroke: KeyStroke? = action.shortcutSet.shortcuts.firstOrNull()?.let {
-        if (it.isKeyboard && it is KeyboardShortcut) {
-          it.firstKeyStroke
-        } else {
-          null
-        }
-      }
-      if (keyStroke != null) {
-        index[0]--
-        return BMNode.newAction(
-          actionId, keyStroke
-        )
-      } else {
-        return BMNode.newAction(
-          actionId, KeyStroke.getKeyStroke(keyboardChars[index[0] % keyboardChars.size].toString())
-        )
-      }
-    }
-  }
+//  private fun AnAction.toBMNode(parent: BMNode? = null, index: IntArray = intArrayOf(0)): BMNode? {
+//    val action = this
+//    if (action is Separator) {
+//      index[0]--
+//      return BMNode.newSeparator(action.text)
+//    } else if (action is ActionGroup) {
+//      val children = ActionWrapperUtil.getChildren(null, action, action)
+//      if (!action.isPopup && parent != null) {
+//        for (child in children) {
+//          val childNode = child.toBMNode(parent, index) ?: continue
+//          parent.add(childNode)
+//          index[0]++
+//        }
+//        return null
+//      } else {
+//        val node = BMNode.newGroup(
+//          KeyStroke.getKeyStroke(keyboardChars[index[0] % keyboardChars.size].toString()),
+//          action.templateText ?: "group without a name"
+//        )
+//        val i = intArrayOf(0)
+//        for (child in children) {
+//          val childNode = child.toBMNode(node, i) ?: continue
+//          node.add(childNode)
+//          i[0]++
+//        }
+//        return node
+//      }
+//    } else {
+//      val actionId = ActionManager.getInstance().getId(action) ?: return null
+//      val keyStroke: KeyStroke? = action.shortcutSet.shortcuts.firstOrNull()?.let {
+//        if (it.isKeyboard && it is KeyboardShortcut) {
+//          it.firstKeyStroke
+//        } else {
+//          null
+//        }
+//      }
+//      if (keyStroke != null) {
+//        index[0]--
+//        return BMNode.newAction(
+//          actionId, keyStroke
+//        )
+//      } else {
+//        return BMNode.newAction(
+//          actionId, KeyStroke.getKeyStroke(keyboardChars[index[0] % keyboardChars.size].toString())
+//        )
+//      }
+//    }
+//  }
 
   companion object {
     @JvmStatic
@@ -201,9 +196,7 @@ class BMActionsSchemaState : SerializableScheme, Scheme {
 
   fun getXmlString(): String {
     val serialized = XmlSerializer.serialize(this)
-    val xmlOutputter = XMLOutputter()
-    xmlOutputter.format = Format.getPrettyFormat().setEncoding("UTF-8")
-    return xmlOutputter.outputString(serialized)
+    return JDOMUtil.write(serialized)
   }
 
   override fun writeScheme(): Element {
@@ -270,19 +263,9 @@ data class BMNode internal constructor(
 
   fun deepCopy(): BMNode {
     val serialized = XmlSerializer.serialize(this)
-    val xmlOutputter = XMLOutputter()
-    xmlOutputter.format = Format.getPrettyFormat().setEncoding("UTF-8")
-    val schemaXmlString = xmlOutputter.outputString(serialized)
-
-    val factory = DocumentBuilderFactory.newInstance()
-    val documentBuilder = factory.newDocumentBuilder()
-    val w3cDocument: Document = documentBuilder.parse(
-      ByteArrayInputStream(
-        schemaXmlString.toByteArray(StandardCharsets.UTF_8)
-      )
-    )
-    val document = DOMBuilder().build(w3cDocument)
-    return XmlSerializer.deserialize(document.rootElement, BMNode::class.java)
+    val asString = JDOMUtil.write(serialized)
+    val asDomAgain = JDOMUtil.load(asString)
+    return XmlSerializer.deserialize(asDomAgain, BMNode::class.java)
   }
 
   companion object {

@@ -1,32 +1,38 @@
 package io.github.markusmo3.bm.config;
 
-import com.intellij.icons.AllIcons.*;
-import com.intellij.ide.ui.customization.*;
+import com.intellij.icons.AllIcons.Actions;
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.actionSystem.ex.*;
-import com.intellij.openapi.actionSystem.impl.*;
+import com.intellij.openapi.actionSystem.ex.QuickList;
+import com.intellij.openapi.actionSystem.ex.QuickListsManager;
 import com.intellij.openapi.actionSystem.toolbarLayout.ToolbarLayoutStrategy;
-import com.intellij.openapi.keymap.impl.ui.*;
-import com.intellij.openapi.project.*;
-import com.intellij.openapi.util.text.*;
-import com.intellij.packageDependencies.ui.*;
-import com.intellij.ui.*;
-import com.intellij.ui.treeStructure.*;
-import io.github.markusmo3.bm.actions.*;
+import com.intellij.openapi.keymap.impl.ui.ActionsTreeUtil;
+import com.intellij.openapi.keymap.impl.ui.Group;
+import com.intellij.packageDependencies.ui.TreeExpansionMonitor;
+import com.intellij.ui.DoubleClickListener;
+import com.intellij.ui.TreeUIHelper;
+import io.github.markusmo3.bm.actions.OpenBMXmlAction;
+import io.github.markusmo3.bm.actions.ReloadBMXmlAction;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.*;
-import java.util.stream.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import org.jetbrains.annotations.*;
+import java.util.stream.Collectors;
 
 /**
- * Copied from {@link CustomizableActionsPanel}. MUST be in java because
+ * Copied from CustomizableActionsPanel. MUST be in java because
  * <a href="https://youtrack.jetbrains.com/issue/KT-6660">IntelliJ GUI Form binding doesn't work
  * with kotlin</a>
  */
+@SuppressWarnings("unused")
 public class BMActionsConfigurablePanel {
 
   private JSplitPane myRoot;
@@ -37,27 +43,28 @@ public class BMActionsConfigurablePanel {
 
   private JPanel myRightRootPanel;
   private JPanel myTopRightPanel;
-  private Tree myChooserActionsTree;
+  private JTree myChooserActionsTree;
   private JTextField customTextTextfield;
   private JButton addToTheLeftButton;
   private BMKeyStrokeTextfield shortcutTextField;
 
   private BMActionsSchemaState mySelectedSchemaState;
 
+  @SuppressWarnings("DataFlowIssue")
   public BMActionsConfigurablePanel() {
     myRoot.setDividerLocation(1.0);
     myRoot.setBorder(BorderFactory.createEmptyBorder());
-//    BasicSplitPaneUI flatDividerSplitPaneUI = new BasicSplitPaneUI() {
-//      @Override
-//      public BasicSplitPaneDivider createDefaultDivider() {
-//        return new BasicSplitPaneDivider(this) {
-//          @Override
-//          public void setBorder(Border b) {
-//          }
-//        };
-//      }
-//    };
-//    myRoot.setUI(flatDividerSplitPaneUI);
+    BasicSplitPaneUI flatDividerSplitPaneUI = new BasicSplitPaneUI() {
+      @Override
+      public BasicSplitPaneDivider createDefaultDivider() {
+        return new BasicSplitPaneDivider(this) {
+          @Override
+          public void setBorder(Border b) {
+          }
+        };
+      }
+    };
+    myRoot.setUI(flatDividerSplitPaneUI);
     initLeft();
     initRight();
   }
@@ -69,13 +76,13 @@ public class BMActionsConfigurablePanel {
     DefaultMutableTreeNode rootNode = ActionsTreeUtil.createNode(rootGroup);
     DefaultTreeModel model = new DefaultTreeModel(rootNode);
     TreeUIHelper.getInstance().installTreeSpeedSearch(myChooserActionsTree, new TreePathStringConvertor(), true);
+    TreeExpansionMonitor.install(myChooserActionsTree);
     myChooserActionsTree.setModel(model);
     myChooserActionsTree.setRootVisible(false);
     myChooserActionsTree.setCellRenderer(new BMTreeCellRenderer());
     myTopRightPanel.setLayout(new BorderLayout());
-    myTopRightPanel.add(setupFilterComponent(myChooserActionsTree), BorderLayout.CENTER);
     new DoubleClickListener() {
-      public boolean onDoubleClick(MouseEvent event) {
+      public boolean onDoubleClick(@NotNull MouseEvent event) {
         doRightOKAction();
         return true;
       }
@@ -119,21 +126,23 @@ public class BMActionsConfigurablePanel {
   }
 
   private void initLeft() {
-    Group rootGroup = new Group("root", null, (Icon) null);
+    Group rootGroup = new Group("Root", null, (Icon) null);
     final BetterMutableTreeNode root = new BetterMutableTreeNode(rootGroup);
     DefaultTreeModel model = new DefaultTreeModel(root);
+    TreeUIHelper.getInstance().installTreeSpeedSearch(myActionsTree, new TreePathStringConvertor(), true);
+    TreeExpansionMonitor.install(myActionsTree);
     myActionsTree.setModel(model);
     myActionsTree.setRootVisible(true);
     myActionsTree.setShowsRootHandles(true);
     myActionsTree.setCellRenderer(new BMTreeCellRenderer());
     patchActionsTreeCorrespondingToSchema(root);
-    TreeExpansionMonitor.install(myActionsTree);
     myTopLeftPanel.setLayout(new BorderLayout());
-    myTopLeftPanel.add(setupFilterComponent(myActionsTree), BorderLayout.WEST);
-    myTopLeftPanel.add(createToolbar(), BorderLayout.CENTER);
+    ActionToolbar toolbar = createToolbar();
+    toolbar.setTargetComponent(myTopLeftPanel);
+    myTopLeftPanel.add(toolbar.getComponent(), BorderLayout.CENTER);
   }
 
-  private ActionToolbarImpl createToolbar() {
+  private ActionToolbar createToolbar() {
     DefaultActionGroup additional = new DefaultActionGroup("Additional Actions", true);
     additional.getTemplatePresentation().setIcon(Actions.More);
     additional.add(new OpenBMXmlAction());
@@ -161,58 +170,10 @@ public class BMActionsConfigurablePanel {
 //            }
     ));
 
-    ActionToolbarImpl toolbar = (ActionToolbarImpl) ActionManager.getInstance()
-        .createActionToolbar(ActionPlaces.TOOLBAR, new DefaultActionGroup(toolbarActions),
-            true);
-    toolbar.setForceMinimumSize(true);
+
+    ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, new DefaultActionGroup(toolbarActions), true);
     toolbar.setLayoutStrategy(ToolbarLayoutStrategy.NOWRAP_STRATEGY);
     return toolbar;
-  }
-
-  private static FilterComponent setupFilterComponent(JTree tree) {
-    final TreeSpeedSearch mySpeedSearch = new TreeSpeedSearch(tree, new TreePathStringConvertor(),
-        true) {
-      @Override
-      public boolean isPopupActive() {
-        return /*super.isPopupActive()*/true;
-      }
-
-      @Override
-      public void showPopup(String searchText) {
-        //super.showPopup(searchText);
-      }
-
-      @Override
-      protected boolean isSpeedSearchEnabled() {
-        return /*super.isSpeedSearchEnabled()*/false;
-      }
-
-      @Override
-      public void showPopup() {
-        //super.showPopup();
-      }
-    };
-    final FilterComponent filterComponent = new FilterComponent("CUSTOMIZE_ACTIONS", 5) {
-      @Override
-      public void filter() {
-        mySpeedSearch.findAndSelectElement(getFilter());
-      }
-    };
-    JTextField textField = filterComponent.getTextEditor();
-    int[] keyCodes = {KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN};
-    for (int keyCode : keyCodes) {
-      new DumbAwareAction() {
-        @Override
-        public void actionPerformed(@NotNull AnActionEvent e) {
-          String filter = filterComponent.getFilter();
-          if (!StringUtil.isEmpty(filter)) {
-            mySpeedSearch.adjustSelection(keyCode, filter);
-          }
-        }
-      }.registerCustomShortcutSet(keyCode, 0, textField);
-
-    }
-    return filterComponent;
   }
 
   public JComponent getPanel() {

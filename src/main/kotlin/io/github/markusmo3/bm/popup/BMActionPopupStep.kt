@@ -115,7 +115,7 @@ open class BMActionPopupStep(
     ApplicationManager.getApplication().invokeLater({
       val dataContext = myContext.get()
       val event =
-        AnActionEvent.createFromInputEvent(inputEvent, myActionPlace, action.templatePresentation.clone(), dataContext)
+        AnActionEvent.createEvent(dataContext, action.templatePresentation.clone(), myActionPlace, ActionUiKind.POPUP, inputEvent)
       event.setInjectedContext(action.isInInjectedContext)
       if (ActionUtil.lastUpdateAndCheckDumb(action, event, false)) {
         ActionUtil.performActionDumbAwareWithCallbacks(action, event)
